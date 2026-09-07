@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lernreise · Nationalsozialismus & Zweiter Weltkrieg</title>
+<style>
+:root{
+  /* Ruhige, zurückhaltende Apple-Palette: neutrale Flächen, ein Interaktions-Blau, gedämpfte Akzente */
+  --brand:#33415c; --brand2:#4a5a78;
+  --maroon:#33415c; --maroon2:#4a5a78; --pink:#eaeef4;   /* Aliase: alte Namen -> neue Töne */
+  --blue:#0071e3; --blue-l:#e7f1fd;
+  --green:#1f8a3b; --green-l:#e8f5ec;
+  --yellow:#b06a00; --yellow-l:#fbf1dd;
+  --purple:#6b4fa0; --teal:#0a7a68;
+  --ink:#1d1d1f; --muted:#6e6e73; --line:rgba(0,0,0,.10);
+  --paper:#f5f5f7; --card:#ffffff; --sand:#eef1f6;
+  --r:20px; --r-s:14px;
+  --sh:0 1px 1px rgba(0,0,0,.04),0 6px 20px rgba(0,0,0,.06);
+  --sh-h:0 6px 16px rgba(0,0,0,.08),0 24px 60px rgba(0,0,0,.12);
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --maxw:1060px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",system-ui,sans-serif;
+  color:var(--ink); background:var(--paper); font-size:17px; line-height:1.5;
+  letter-spacing:-.003em; -webkit-font-smoothing:antialiased; font-optical-sizing:auto;
+}
+h1,h2,h3{line-height:1.06; margin:0; letter-spacing:-.021em}
+h1{letter-spacing:-.03em}
+a{color:var(--blue)}
+button{font-family:inherit}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 20px}
+
+/* ---------- Header ---------- */
+header.top{
+  position:sticky; top:0; z-index:50;
+  background:rgba(28,32,44,.68);
+  backdrop-filter:blur(22px) saturate(180%); -webkit-backdrop-filter:blur(22px) saturate(180%);
+  color:#fff; border-bottom:1px solid rgba(255,255,255,.12);
+}
+.top .wrap{display:flex; align-items:center; gap:16px; padding-top:12px; padding-bottom:12px}
+.brand{display:flex; flex-direction:column; min-width:0}
+.brand b{font-weight:650; font-size:1.02rem; letter-spacing:-.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.brand span{font-size:.78rem; opacity:.85}
+.progress{flex:1; min-width:80px}
+.progress .bar{height:9px; background:rgba(255,255,255,.25); border-radius:99px; overflow:hidden}
+.progress .fill{height:100%; width:0%; background:linear-gradient(90deg,#ffd27a,#ffe8b0); border-radius:99px; transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.progress small{opacity:.9; font-size:.72rem}
+.btn-home{background:rgba(255,255,255,.16); color:#fff; border:1px solid rgba(255,255,255,.3); border-radius:99px; padding:9px 16px; font-size:.9rem; cursor:pointer; white-space:nowrap; transition:transform .12s ease, background .2s}
+.btn-home:active{transform:scale(.96)}
+.btn-home:hover{background:rgba(255,255,255,.28)}
+
+/* ---------- Hero ---------- */
+.hero{padding:56px 0 30px; text-align:center}
+.hero .kicker{color:var(--maroon2); font-weight:650; letter-spacing:.02em; text-transform:uppercase; font-size:.8rem}
+.hero h1{font-size:clamp(2.1rem,6vw,3.6rem); margin:10px 0 14px}
+.hero .lead{max-width:640px; margin:0 auto; color:var(--muted); font-size:1.12rem}
+.legend{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:24px 0 4px}
+.legend .tag{background:var(--card); border:1px solid var(--line); border-radius:99px; padding:7px 14px; font-size:.85rem; box-shadow:var(--sh)}
+.legend .tag b{font-weight:650}
+
+/* ---------- Einstufungstest (Station 0) ---------- */
+.est-btn{display:flex; align-items:center; gap:18px; width:100%; text-align:left; cursor:pointer;
+  background:linear-gradient(135deg,#33415c,#4a5a78); color:#fff; border:none; border-radius:var(--r);
+  padding:22px 26px; box-shadow:var(--sh); transition:transform .18s var(--ease), box-shadow .18s var(--ease); margin:6px 0 4px}
+.est-btn:hover{transform:translateY(-3px); box-shadow:var(--sh-h)}
+.est-btn:active{transform:translateY(-1px) scale(.995)}
+.est-btn .ic{font-size:2.2rem; flex:none}
+.est-btn h3{font-size:1.28rem; margin:0 0 3px; color:#fff}
+.est-btn p{margin:0; opacity:.9; font-size:.95rem}
+.est-btn .go{margin-left:auto; flex:none; background:rgba(255,255,255,.18); border-radius:99px; padding:10px 16px; font-size:.9rem; white-space:nowrap}
+.est-btn .done-badge{margin-left:auto; flex:none; background:#1f8a3b; border-radius:99px; padding:8px 15px; font-size:.88rem; font-weight:600; white-space:nowrap}
+.est-wrap{padding:26px 0 90px; animation:fade .35s ease}
+.est-q{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:20px 22px; box-shadow:var(--sh); margin:14px 0}
+.est-q .qh{font-weight:600; margin-bottom:12px}
+.est-opts{display:grid; gap:10px}
+.est-opt{border:1.5px solid var(--line); background:#fff; border-radius:12px; padding:12px 15px; cursor:pointer; font-size:1rem; transition:transform .1s var(--ease), border-color .2s, background .2s; text-align:left}
+.est-opt:hover{border-color:var(--brand2)}
+.est-opt:active{transform:scale(.99)}
+.est-opt.sel{border-color:var(--brand); background:var(--sand)}
+.est-result{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:26px; box-shadow:var(--sh); margin-top:16px; text-align:center; display:none}
+.est-result.show{display:block; animation:fade .3s ease}
+.est-result .badge{display:inline-block; font-size:1.05rem; font-weight:700; padding:10px 20px; border-radius:99px; margin:10px 0}
+.est-result .b1{background:var(--green-l); color:var(--green)}
+.est-result .b2{background:var(--yellow-l); color:var(--yellow)}
+.est-result .b3{background:var(--blue-l); color:var(--blue)}
+
+/* ---------- Map grid ---------- */
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:20px; padding:20px 0 60px}
+.tile{position:relative; background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:22px; cursor:pointer; box-shadow:var(--sh); transition:transform .18s cubic-bezier(.2,.8,.2,1), box-shadow .18s; overflow:hidden; text-align:left}
+.tile:hover{transform:translateY(-4px); box-shadow:var(--sh-h)}
+.tile:active{transform:translateY(-1px) scale(.995)}
+.tile .accent{position:absolute; inset:0 auto 0 0; width:6px}
+.tile .ic{font-size:2rem}
+.tile .nr{font-size:.78rem; color:var(--muted); font-weight:650; letter-spacing:.03em}
+.tile h3{font-size:1.14rem; margin:8px 0 6px}
+.tile .meta{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:10px}
+.chip{font-size:.72rem; padding:4px 10px; border-radius:99px; font-weight:600}
+.chip.pflicht{background:var(--pink); color:var(--maroon)}
+.chip.wahl{background:var(--yellow-l); color:var(--yellow)}
+.chip.arbeit{background:var(--blue-l); color:var(--blue)}
+.tile .doneflag{position:absolute; top:14px; right:14px; font-size:1.1rem; opacity:0; transform:scale(.5); transition:.25s cubic-bezier(.2,.9,.3,1.3)}
+.tile.done .doneflag{opacity:1; transform:scale(1)}
+.tile.done{border-color:#bfe3c0}
+.section-title{font-size:1.5rem; margin:36px 0 4px; font-weight:680}
+.section-sub{color:var(--muted); margin:0 0 8px}
+
+/* ---------- Station view ---------- */
+.station{display:none; padding:26px 0 90px}
+.station.active{display:block; animation:fade .35s ease}
+@keyframes fade{from{opacity:0; transform:translateY(8px)}to{opacity:1; transform:none}}
+.st-head{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:24px; box-shadow:var(--sh); position:relative; overflow:hidden}
+.st-head .bar{position:absolute; inset:0 0 auto 0; height:6px}
+.st-head .row1{display:flex; align-items:center; gap:14px}
+.st-head .ic{font-size:2.4rem}
+.st-head .nr{color:var(--muted); font-weight:650; font-size:.82rem}
+.st-head h2{font-size:1.7rem; margin:2px 0}
+.st-head .leit{margin:14px 0 0; font-size:1.06rem}
+.st-head .leit b{color:var(--maroon)}
+.kann{margin:14px 0 0; padding:14px 16px; background:var(--sand); border-radius:var(--r-s)}
+.kann b{display:block; margin-bottom:6px; font-size:.9rem}
+.kann ul{margin:0; padding-left:20px}
+.kann li{margin:3px 0}
+.komp{display:flex; gap:6px; flex-wrap:wrap; margin-top:12px}
+.komp .k{font-size:.7rem; background:#efe9e0; color:#7a6a55; border-radius:6px; padding:3px 8px; font-weight:600}
+
+/* ---------- Tabs ---------- */
+.tabs{display:flex; gap:8px; flex-wrap:wrap; margin:20px 0 14px; position:sticky; top:64px; z-index:20; background:linear-gradient(180deg,var(--paper) 70%,transparent); padding:8px 0}
+.tab{border:1px solid var(--line); background:var(--card); border-radius:99px; padding:9px 16px; font-size:.92rem; cursor:pointer; transition:transform .12s, background .2s, color .2s; white-space:nowrap}
+.tab:active{transform:scale(.96)}
+.tab.active{background:var(--maroon); color:#fff; border-color:var(--maroon)}
+.panel{display:none}
+.panel.active{display:block; animation:fade .3s ease}
+.card{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:22px; box-shadow:var(--sh); margin-bottom:18px}
+.card h3{font-size:1.15rem; margin-bottom:8px}
+.instruction{background:var(--blue-l); border-left:5px solid var(--blue); border-radius:12px; padding:12px 16px; margin-bottom:16px; font-size:.98rem}
+.instruction b{color:var(--blue)}
+
+/* ---------- Level switch ---------- */
+.levels{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:6px}
+.lvl{border:2px solid transparent; border-radius:99px; padding:8px 16px; font-weight:600; cursor:pointer; font-size:.9rem; transition:transform .12s, background .2s}
+.lvl:active{transform:scale(.96)}
+.lvl[data-l="basis"]{background:var(--green-l); color:var(--green)}
+.lvl[data-l="mittel"]{background:var(--yellow-l); color:var(--yellow)}
+.lvl[data-l="erweitert"]{background:var(--blue-l); color:var(--blue)}
+.lvl.active[data-l="basis"]{border-color:var(--green)}
+.lvl.active[data-l="mittel"]{border-color:var(--yellow)}
+.lvl.active[data-l="erweitert"]{border-color:var(--blue)}
+.reading-aids{display:flex; gap:14px; flex-wrap:wrap; align-items:center; margin:8px 0 16px; font-size:.9rem; color:var(--muted)}
+.switch{display:inline-flex; align-items:center; gap:8px; cursor:pointer; user-select:none}
+.switch input{display:none}
+.switch .track{width:42px; height:24px; background:#d7d0c6; border-radius:99px; position:relative; transition:background .2s}
+.switch .track::after{content:""; position:absolute; top:2px; left:2px; width:20px; height:20px; background:#fff; border-radius:50%; box-shadow:0 1px 3px rgba(0,0,0,.25); transition:transform .22s cubic-bezier(.2,.9,.3,1.3)}
+.switch input:checked + .track{background:var(--green)}
+.switch input:checked + .track::after{transform:translateX(18px)}
+
+.textbody{font-size:1.06rem}
+.textbody p{margin:0 0 12px}
+.bold-keys .fach{font-weight:800; color:#000}
+.show-verbs .vb{border-bottom:2px dotted #b9b2a6}
+.fach{border-bottom:1px dashed var(--purple); cursor:help; position:relative; color:inherit}
+.fach:hover, .fach:focus{background:#f3ecf7; outline:none}
+.fach::after{content:attr(data-def); position:absolute; left:50%; bottom:135%; transform:translateX(-50%) translateY(6px); background:#2b2140; color:#fff; padding:9px 12px; border-radius:10px; width:max-content; max-width:260px; font-size:.82rem; line-height:1.35; font-weight:400; opacity:0; pointer-events:none; transition:opacity .18s, transform .18s; box-shadow:var(--sh-h); z-index:30; white-space:normal}
+.fach::before{content:""; position:absolute; left:50%; bottom:135%; transform:translateX(-50%) translateY(6px); border:7px solid transparent; border-top-color:#2b2140; opacity:0; transition:opacity .18s, transform .18s; z-index:30}
+.fach:hover::after,.fach:focus::after,.fach:hover::before,.fach:focus::before{opacity:1; transform:translateX(-50%) translateY(0)}
+
+.wortspeicher{background:var(--green-l); border-radius:14px; padding:12px 14px; margin:14px 0}
+.wortspeicher b{font-size:.85rem; color:var(--green)}
+.pills{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
+.pill{background:#fff; border:1px solid #bfe0c0; color:#215a24; border-radius:99px; padding:5px 12px; font-size:.86rem; cursor:default}
+
+/* ---------- Task list ---------- */
+.task{border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin:10px 0; background:#fff}
+.task .op{display:inline-block; font-size:.7rem; font-weight:700; letter-spacing:.03em; padding:2px 8px; border-radius:6px; background:#efe9e0; color:#7a6a55; margin-right:8px; text-transform:uppercase}
+.task .afb{background:var(--blue-l); color:var(--blue)}
+.heft{display:inline-flex; align-items:center; gap:4px; font-size:.72rem; background:#fff4d6; color:#8a6a12; border:1px solid #f0dca0; border-radius:8px; padding:2px 8px; margin-left:6px; vertical-align:middle}
+.reveal-btn{margin-top:10px; border:1px dashed var(--maroon2); background:#fff; color:var(--maroon); border-radius:10px; padding:7px 14px; font-size:.85rem; cursor:pointer; transition:transform .12s}
+.reveal-btn:active{transform:scale(.97)}
+.muster{margin-top:10px; background:var(--pink); border-left:4px solid var(--maroon2); border-radius:10px; padding:12px 14px; font-size:.95rem; display:none}
+.muster.show{display:block; animation:fade .25s ease}
+.muster b{color:var(--maroon)}
+.mappe{margin-top:14px; background:#fbfaf7; border:1px dashed #cfc6b6; border-radius:12px; padding:14px 16px}
+.mappe .m-h{font-weight:650; margin-bottom:6px; display:flex; align-items:center; gap:8px}
+
+/* ---------- Quellenanalyse ---------- */
+.qtable{width:100%; border-collapse:collapse; margin-top:6px}
+.qtable td{border:1px solid var(--line); padding:10px 12px; vertical-align:top}
+.qtable td.q{width:34%; font-weight:600; background:#faf7f2}
+.qtable textarea, .qa-q textarea{width:100%; border:1px solid var(--line); border-radius:10px; padding:8px 10px; font-family:inherit; font-size:.95rem; resize:vertical; min-height:44px; background:#fff}
+.qsrc{background:#f5eef8; border-left:5px solid var(--purple); border-radius:12px; padding:14px 16px; margin:6px 0 16px}
+.qsrc p{margin:0 0 10px}
+.qsrc .angabe{font-size:.8rem; color:var(--muted)}
+.dropwrap{display:flex; gap:10px; flex-wrap:wrap}
+.dropwrap select{border:1px solid var(--line); border-radius:10px; padding:8px 10px; font-family:inherit; font-size:.92rem; background:#fff}
+.mini-muster{font-size:.86rem; color:var(--maroon); margin-top:6px; display:none}
+.mini-muster.show{display:block}
+.qa-q{margin:12px 0}
+.qa-q .qh{font-weight:600; margin-bottom:6px}
+
+/* ---------- Simulation ---------- */
+.sim-hint{color:var(--muted); font-size:.92rem; margin-bottom:12px}
+.baskets{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:12px}
+.basket{border:2px dashed var(--line); border-radius:14px; padding:12px; min-height:120px; background:#fff}
+.basket h4{margin:0 0 8px; font-size:.95rem}
+.basket.ok{border-color:var(--green)}
+.movable{display:flex; gap:8px; flex-wrap:wrap; margin:12px 0}
+.token{background:#fff; border:1px solid var(--line); border-radius:10px; padding:8px 12px; cursor:grab; font-size:.9rem; box-shadow:var(--sh); transition:transform .12s}
+.token:active{cursor:grabbing; transform:scale(1.04)}
+.token.placed{background:var(--sand)}
+.slotline{display:flex; flex-direction:column; gap:8px; margin-top:10px}
+.slot{display:flex; align-items:center; gap:10px; border:1px solid var(--line); border-radius:10px; padding:8px 10px; background:#fff}
+.slot .num{width:26px; height:26px; border-radius:50%; background:var(--maroon); color:#fff; display:grid; place-items:center; font-size:.8rem; font-weight:700; flex:none}
+.slot select{flex:1; border:1px solid var(--line); border-radius:8px; padding:7px; font-family:inherit}
+.wf-item{display:flex; align-items:center; justify-content:space-between; gap:10px; border:1px solid var(--line); border-radius:12px; padding:10px 12px; margin:8px 0; background:#fff}
+.wf-btns{display:flex; gap:6px; flex:none}
+.wf-btns button{border:1px solid var(--line); background:#fff; border-radius:8px; padding:6px 12px; cursor:pointer; font-size:.85rem}
+.wf-btns button.sel{background:var(--maroon); color:#fff; border-color:var(--maroon)}
+.match-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px}
+.check-btn{margin-top:14px; background:var(--maroon); color:#fff; border:none; border-radius:12px; padding:11px 20px; font-size:.95rem; cursor:pointer; transition:transform .12s, filter .2s}
+.check-btn:active{transform:scale(.97)}
+.check-btn:hover{filter:brightness(1.06)}
+.sim-result{margin-top:12px; font-weight:600}
+.ok-txt{color:var(--green)} .no-txt{color:#b03a2e}
+
+/* ---------- Quiz ---------- */
+.qq{border:1px solid var(--line); border-radius:16px; padding:16px 18px; margin:12px 0; background:#fff}
+.qq .qtxt{font-weight:650; margin-bottom:10px}
+.opt{display:block; width:100%; text-align:left; border:1px solid var(--line); background:#fff; border-radius:12px; padding:12px 14px; margin:8px 0; cursor:pointer; font-size:.98rem; transition:transform .1s, border-color .2s, background .2s}
+.opt:hover{border-color:var(--maroon2)}
+.opt:active{transform:scale(.99)}
+.opt.correct{background:var(--green-l); border-color:var(--green)}
+.opt.wrong{background:#fbe9e7; border-color:#e0897c}
+.opt .fb{display:block; font-size:.85rem; margin-top:6px; color:var(--muted)}
+.lw{margin-top:16px; text-align:center; padding:18px; border-radius:16px; background:var(--sand); border:1px dashed #c9bfae}
+.lw.locked{opacity:.65}
+.lw .word{font-size:1.5rem; font-weight:750; letter-spacing:.08em; color:var(--maroon); filter:blur(7px); transition:filter .5s}
+.lw.solved .word{filter:none}
+.lw small{display:block; color:var(--muted); margin-top:6px}
+.quiz-tools{display:flex; gap:10px; align-items:center; margin-bottom:10px}
+.ghost{border:1px solid var(--line); background:#fff; border-radius:10px; padding:8px 14px; cursor:pointer; font-size:.85rem}
+
+/* ---------- Glossar / videos ---------- */
+.gloss-item{display:flex; gap:12px; align-items:flex-start; border-bottom:1px solid var(--line); padding:12px 0}
+.gloss-item input{margin-top:5px; width:18px; height:18px}
+.gloss-item .term{font-weight:650}
+.gloss-item .src{font-size:.75rem; color:var(--muted)}
+.vid{display:flex; gap:14px; align-items:center; border:1px solid var(--line); border-radius:14px; padding:14px; margin:10px 0; background:#fff}
+.vid .play{font-size:1.6rem}
+.vid .info{flex:1}
+.vid .info b{display:block}
+.vid .info small{color:var(--muted)}
+.vid a{white-space:nowrap; background:var(--teal); color:#fff; text-decoration:none; padding:9px 14px; border-radius:10px; font-size:.85rem}
+
+/* ---------- Station foot ---------- */
+.st-foot{display:flex; gap:12px; align-items:center; justify-content:space-between; margin-top:20px; flex-wrap:wrap}
+.mark-done{background:var(--green); color:#fff; border:none; border-radius:12px; padding:12px 22px; font-size:1rem; cursor:pointer; transition:transform .12s, filter .2s}
+.mark-done:active{transform:scale(.97)}
+.mark-done.is-done{background:#8a8a8a}
+.nav-lr{display:flex; gap:10px}
+.nav-lr button{border:1px solid var(--line); background:#fff; border-radius:12px; padding:11px 18px; cursor:pointer}
+.tipbox .reveal-btn{border-style:solid}
+
+/* ---------- Toast ---------- */
+#toast{position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(30px); background:#1d1d1f; color:#fff; padding:13px 22px; border-radius:14px; box-shadow:var(--sh-h); opacity:0; pointer-events:none; transition:opacity .3s, transform .3s cubic-bezier(.2,.9,.3,1.3); z-index:100; font-size:.95rem}
+#toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+
+/* ---------- Laufzettel modal ---------- */
+.modal{position:fixed; inset:0; background:rgba(20,15,15,.45); backdrop-filter:blur(6px); display:none; z-index:80; align-items:flex-start; justify-content:center; padding:40px 16px; overflow:auto}
+.modal.show{display:flex; animation:fade .25s ease}
+.sheet{background:var(--card); border-radius:22px; max-width:760px; width:100%; padding:26px; box-shadow:var(--sh-h)}
+.sheet h2{margin-bottom:12px}
+.sheet table{width:100%; border-collapse:collapse; font-size:.9rem}
+.sheet th,.sheet td{border-bottom:1px solid var(--line); text-align:left; padding:8px 6px; vertical-align:top}
+.sheet .x{float:right; cursor:pointer; border:none; background:var(--sand); border-radius:10px; padding:6px 12px}
+
+@media(max-width:640px){
+  body{font-size:16px}
+  .progress{display:none}
+  .tabs{top:60px}
+  .baskets{grid-template-columns:1fr}
+  .match-grid{grid-template-columns:1fr}
+  .qtable td.q{width:42%}
+}
+@media (prefers-reduced-motion: reduce){
+  *{transition:none !important; animation:none !important; scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand"><b id="brandTitle">Lernreise</b><span id="brandSub">Geschichte · Klasse 10</span></div>
+    <div class="progress"><div class="bar"><div class="fill" id="pfill"></div></div><small id="ptext">0 %</small></div>
+    <button class="btn-home" onclick="openLauf()">📋 Laufzettel</button>
+    <button class="btn-home" onclick="goHome()">🏠 Übersicht</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="home"></section>
+  <section id="stationView" class="station"></section>
+</main>
+
+<div id="toast"></div>
+<div class="modal" id="laufModal"><div class="sheet" id="laufSheet"></div></div>
+
+<script>
+/* =====================================================================
+   DATEN: Begriffs-Wörterbuch (Tooltips) + Stationen
+   ===================================================================== */
+const TERM_DEFS = {
+  "Reichskanzler":"Chef der Regierung im Deutschen Reich.",
+  "Ermächtigungsgesetz":"Gesetz von 1933, das der Regierung erlaubte, Gesetze ohne das Parlament zu machen.",
+  "Reichstagsbrandverordnung":"Notverordnung vom 28.2.1933, die wichtige Grundrechte außer Kraft setzte.",
+  "Grundrechte":"Wichtige Rechte für alle Menschen, z. B. Meinungs- und Versammlungsfreiheit.",
+  "Gleichschaltung":"Erzwungene Anpassung von Parteien, Ämtern und Vereinen an die NS-Herrschaft.",
+  "Einparteienstaat":"Staat, in dem nur eine einzige Partei erlaubt ist.",
+  "Pseudolegalität":"Ein nur scheinbar rechtmäßiges Vorgehen.",
+  "Schutzhaft":"Verhaftung ohne Gericht und ohne feste Frist.",
+  "Notverordnung":"Anordnung des Reichspräsidenten am Parlament vorbei (Art. 48).",
+  "Machtübertragung":"Fachlich genauer Begriff dafür, dass Eliten Hitler an die Macht brachten.",
+  "Reichspräsident":"Das Staatsoberhaupt der Weimarer Republik.",
+  "Propaganda":"Gezielte Beeinflussung der öffentlichen Meinung.",
+  "Antisemitismus":"Feindschaft und Hass gegen Juden.",
+  "Rassismus":"Die falsche Idee, Menschen seien nach „Rasse“ mehr oder weniger wert.",
+  "Volksgemeinschaft":"NS-Idee einer nach „Rasse“ bestimmten Gemeinschaft, die viele ausschloss.",
+  "Führerprinzip":"Herrschaft durch Befehl und Gehorsam mit Hitler an der Spitze.",
+  "Führerkult":"Die inszenierte, übertriebene Verehrung Hitlers.",
+  "Hitler-Mythos":"Das von Propaganda erzeugte Bild eines unfehlbaren Führers (Kershaw).",
+  "Volksempfänger":"Billiges Radio, mit dem Propaganda in viele Haushalte kam.",
+  "Reichskulturkammer":"Behörde zur Kontrolle von Kunst und Medien.",
+  "Hitlerjugend":"NS-Jugendorganisation für Jungen (HJ).",
+  "BDM":"Bund Deutscher Mädel – NS-Organisation für Mädchen.",
+  "Jugenddienstpflicht":"Gesetzliche Pflicht zur Mitgliedschaft in HJ/BDM (ab 1939).",
+  "Wehrpflicht":"Die Pflicht, Soldat zu werden.",
+  "Aufrüstung":"Der Aufbau von immer mehr Waffen und Militär.",
+  "Vierjahresplan":"Plan von 1936: die Wirtschaft in vier Jahren „kriegsfähig“ machen.",
+  "Autarkie":"Wirtschaftliche Unabhängigkeit vom Ausland.",
+  "Versailler Vertrag":"Friedensvertrag von 1919, den das NS-Regime brach.",
+  "Ausgrenzung":"Menschen aus der Gemeinschaft ausschließen.",
+  "Boykott":"Etwas absichtlich meiden oder nicht kaufen.",
+  "Nürnberger Gesetze":"Gesetze von 1935, die Juden entrechteten und Ehen verboten.",
+  "Novemberpogrom":"Gewalt gegen Juden am 9./10. November 1938 (brennende Synagogen).",
+  "Arisierung":"Erzwungene Enteignung jüdischen Eigentums.",
+  "Einsatzgruppen":"Mordkommandos, die im besetzten Osten Hunderttausende erschossen.",
+  "Wannsee-Konferenz":"Treffen 1942 zur Organisation des Massenmords.",
+  "Vernichtungslager":"Lager, die allein dem Töten dienten (z. B. Auschwitz-Birkenau).",
+  "Holocaust":"Der Massenmord an etwa sechs Millionen europäischen Juden.",
+  "Endlösung":"NS-Tarnbegriff für den geplanten Völkermord an den Juden.",
+  "Auschwitz-Birkenau":"Größtes Lager, Ort des industriellen Massenmords.",
+  "Radikalisierung":"Schrittweise Verschärfung bis zum Mord.",
+  "Porajmos":"Der Völkermord an den Sinti und Roma.",
+  "Euthanasie":"Beschönigender NS-Begriff für den Mord an kranken/behinderten Menschen.",
+  "Aktion T4":"Deckname für den systematischen Krankenmord ab 1939.",
+  "Kommissarbefehl":"Befehl von 1941 zur sofortigen Ermordung sowjetischer Kommissare.",
+  "Vernichtungskrieg":"Krieg im Osten, der auf Ausbeutung und Auslöschung angelegt war.",
+  "Generalplan Ost":"Plan zur Vertreibung und Vernichtung von Millionen Menschen.",
+  "Widerstand":"Das Sich-Wehren gegen die NS-Herrschaft in vielen Formen.",
+  "Weiße Rose":"Studentische Widerstandsgruppe um die Geschwister Scholl.",
+  "Gestapo":"Geheime Staatspolizei; verfolgte Gegner und Widerstand.",
+  "Edelweißpiraten":"Jugendliche, die sich der HJ verweigerten.",
+  "Resistenz":"Begriff (Broszat) für teilweise Verweigerung im Alltag.",
+  "Denunziation":"Das Anzeigen anderer bei den Behörden.",
+  "Kapitulation":"Die Aufgabe im Krieg.",
+  "bedingungslose Kapitulation":"Aufgabe ohne jede Bedingung; für die Wehrmacht am 8./9. Mai 1945.",
+  "Flucht":"Schnelles Weglaufen vor Gefahr.",
+  "Vertreibung":"Menschen werden aus ihrer Heimat weggejagt.",
+  "Befreiung":"Frei werden von Unterdrückung.",
+  "Kollektivschuld":"Die (abgelehnte) Idee, ein ganzes Volk sei schuldig.",
+  "Erinnerungskultur":"Wie eine Gesellschaft an die Vergangenheit erinnert.",
+  "Gedenkstätte":"Ein Ort des Erinnerns, oft am authentischen Ort.",
+  "Mahnmal":"Ein Denkmal, das mahnen soll.",
+  "Stolpersteine":"Kleine Gedenksteine vor Wohnhäusern von NS-Opfern.",
+  "Historikerstreit":"Debatte über die Einzigartigkeit des Holocaust.",
+  "Blitzkrieg":"Schnelle Kriegsführung mit Panzern und Luftwaffe (1939–41).",
+  "Barbarossa":"Deckname für den Überfall auf die Sowjetunion 1941.",
+  "Zwangsarbeit":"Erzwungene Arbeit ohne Lohn und Freiheit.",
+  "Heimatfront":"Das Leben der Zivilbevölkerung in Deutschland während des Krieges.",
+  "Rationierung":"Geregelte Zuteilung knapper Güter (Lebensmittelkarten).",
+  "Bombenkrieg":"Angriffe mit Bomben aus der Luft auf Städte.",
+  "Feuersturm":"Ein durch Bomben ausgelöster großer Brand.",
+  "D-Day":"Landung der Alliierten in der Normandie am 6. Juni 1944.",
+  "Operation Bagration":"Sowjetische Offensive 1944, Zusammenbruch der Heeresgruppe Mitte.",
+  "Reichsfluchtsteuer":"Hohe Sonderabgabe, die Auswanderer fast ihr ganzes Vermögen kostete.",
+  "Évian-Konferenz":"Konferenz 1938; kaum ein Land war bereit, jüdische Flüchtlinge aufzunehmen.",
+  "Arierparagraph":"NS-Regel von 1933, die „Nichtarier“ aus Berufen ausschloss.",
+  "Autobahn":"Reichsautobahn – von der Propaganda als „Arbeit für alle“ gefeiert, tatsächlich mit geringem Job-Effekt.",
+  "Arbeitsbeschaffung":"Maßnahmen gegen Arbeitslosigkeit – im NS eng mit der Aufrüstung verbunden.",
+  "Reichsarbeitsdienst":"Pflichtdienst, in dem junge Menschen körperlich arbeiten mussten.",
+  "Anschluss":"Die Angliederung Österreichs an das Deutsche Reich 1938.",
+  "Volksabstimmung":"Abstimmung des Volkes – 1938 unfrei und propagandistisch inszeniert.",
+  "Großdeutschland":"NS-Ziel, alle „Deutschen“ in einem Reich zu vereinen.",
+  "Appeasement":"Nachgiebige Politik der Westmächte, die Hitler gewähren ließ.",
+  "Achse Berlin–Rom":"Das Bündnis zwischen NS-Deutschland und dem faschistischen Italien (1936).",
+  "Stahlpakt":"Festes Militärbündnis zwischen Deutschland und Italien (1939).",
+  "Hitler-Stalin-Pakt":"Nichtangriffsvertrag Deutschland–Sowjetunion (23.8.1939) mit geheimer Aufteilung Osteuropas.",
+  "Nichtangriffspakt":"Vertrag, sich gegenseitig nicht anzugreifen.",
+  "Expansion":"Die Ausdehnung des eigenen Herrschaftsgebiets.",
+  "Wehrmacht":"Die Armee des NS-Staates."
+};
+
+const QUELLENARTEN = ["– bitte wählen –","Textquelle","Bildquelle","Gegenstand","Filmquelle","Audioquelle"];
+const QUELLENTYP = ["– bitte wählen –","Primärquelle (Verfasser war dabei)","Sekundärquelle (von Anderen gehört)","Darstellung (später geschrieben)"];
+
+const STATIONS = [];
+function addStation(o){ STATIONS.push(o); }
+const KOMP_LABEL={SK:"Sachkompetenz",MK:"Methodenkompetenz",UK:"Urteilskompetenz",HK:"Handlungskompetenz"};
+
+/* =====================================================================
+   STATE
+   ===================================================================== */
+const LS="ns2wk_lernreise_v1";
+let state={done:{},solved:{},level:{},gloss:{}};
+try{ const s=localStorage.getItem(LS); if(s) state=Object.assign(state,JSON.parse(s)); }catch(e){}
+function save(){ try{ localStorage.setItem(LS,JSON.stringify(state)); }catch(e){} }
+
+/* =====================================================================
+   HELFER
+   ===================================================================== */
+function HEFT(nr){ return '<span class="heft">📓 ins Heft · Aufg. '+nr+'</span>'; }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escAttr(s){ return esc(s).replace(/"/g,'&quot;'); }
+function escRe(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+const VERBS=["ist","sind","war","waren","wurde","wurden","hat","hatte","hatten","beschloss","verbot","verboten","zerstörten","zerstörte","begann","begannen","führte","führten","ernannte","nutzten","setzte","durfte","durften","stimmte","kämpften","starben","ermordeten","erschossen","überfiel","besetzte","besetzten","kapitulierte","verfolgte","verfolgten","floh","flohen","erinnert","warfen","brannte","brannten","glaubten","riefen","verteilte","versuchten","wehrten","halfen","versteckten","leisteten","gehört","erklärt","zeigt","stieg","stiegen","lernten","sollten","kamen","machten","mussten","arbeiteten","wollten","gewinnen","töten","töteten","plante","planten","gab","raubte"];
+
+function annotate(raw){
+  let s=esc(raw);
+  s=s.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+  // Verben (dezent) – vor den Fachbegriffen, damit keine Verschachtelung entsteht
+  for(const v of VERBS){
+    const re=new RegExp('(?![^<]*>)(?<![\\wäöüßÄÖÜ])('+escRe(v)+')(?![\\wäöüßÄÖÜ])');
+    s=s.replace(re,'<span class="vb">$1</span>');
+  }
+  // Fachbegriffe (längste zuerst), jeweils erstes Vorkommen
+  const terms=Object.keys(TERM_DEFS).sort((a,b)=>b.length-a.length);
+  for(const t of terms){
+    const re=new RegExp('(?![^<]*>)(?<![\\wäöüßÄÖÜ-])('+escRe(t)+')(?![\\wäöüßÄÖÜ])');
+    if(re.test(s)) s=s.replace(re,'<span class="fach" tabindex="0" data-def="'+escAttr(TERM_DEFS[t])+'">$1</span>');
+  }
+  return s;
+}
+function paras(arr){ return arr.map(p=>'<p>'+annotate(p)+'</p>').join(''); }
+
+function toast(msg){
+  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2200);
+}
+function updateProgress(){
+  const total=STATIONS.filter(s=>s.status!=='arbeit'||s.id!=='glossar').length;
+  const done=STATIONS.filter(s=>state.done[s.id]).length;
+  const pct=total?Math.round(done/STATIONS.length*100):0;
+  document.getElementById('pfill').style.width=pct+'%';
+  document.getElementById('ptext').textContent=pct+' %';
+}
+
+/* =====================================================================
+   HOME / LERNLANDKARTE
+   ===================================================================== */
+function goHome(){
+  document.getElementById('stationView').classList.remove('active');
+  document.getElementById('home').style.display='block';
+  window.scrollTo({top:0});
+}
+function renderHome(){
+  const h=document.getElementById('home');
+  const tiles=STATIONS.map(s=>{
+    const done=state.done[s.id]?'done':'';
+    return `<button class="tile ${done}" style="--c:${s.color}" onclick="openStation('${s.id}')">
+      <div class="accent" style="background:${s.color}"></div>
+      <div class="doneflag">✅</div>
+      <div class="ic">${s.ic}</div>
+      <div class="nr">STATION ${s.nr}</div>
+      <h3>${esc(s.title)}</h3>
+      <div class="meta">
+        <span class="chip ${s.status}">${s.status==='pflicht'?'Pflicht':s.status==='wahl'?'Wahl':'Arbeit'}</span>
+        <span style="font-size:.75rem;color:var(--muted)">${esc(s.buch)}</span>
+      </div>
+    </button>`;
+  }).join('');
+  const nSt=STATIONS.filter(s=>s.id!=='glossar').length;
+  h.innerHTML=`
+    <div class="hero">
+      <div class="kicker">Geschichte · Klasse 10 · Realschule</div>
+      <h1>Nationalsozialismus</h1>
+      <p class="lead">Eine Lernreise in ${nSt} Stationen und einem Glossar. Leitfrage: <b>Wie wurde aus einer Demokratie eine Diktatur – und wie erinnern wir uns heute daran?</b></p>
+      <div class="legend">
+        <span class="tag"><b>🟢 Stufe 1</b> leicht</span>
+        <span class="tag"><b>🟡 Stufe 2</b> mittel</span>
+        <span class="tag"><b>🔵 Stufe 3</b> anspruchsvoll (AFB I→II→III)</span>
+      </div>
+    </div>
+    ${einstufungButton()}
+    <h2 class="section-title">Lernlandkarte</h2>
+    <p class="section-sub">Wähle eine Station. Bei jeder Station kannst du deine Stufe selbst einstellen. Dein Fortschritt wird automatisch gespeichert.</p>
+    <div class="grid">${tiles}</div>`;
+  updateProgress();
+}
+
+/* =====================================================================
+   STATION
+   ===================================================================== */
+let cur=null;
+function openStation(id){
+  cur=STATIONS.find(s=>s.id===id); if(!cur) return;
+  if(!state.level[id]) state.level[id]=state.recommendedLevel||'mittel';
+  document.getElementById('home').style.display='none';
+  const v=document.getElementById('stationView'); v.classList.add('active');
+  const tabs=[['text','📖 Text & Auftrag']];
+  if(cur.quelle) tabs.push(['quelle','🔎 Quellenanalyse']);
+  if(cur.sim) tabs.push(['sim','🧩 '+(cur.simTitle||'Übung')]);
+  if(cur.quiz) tabs.push(['quiz','❓ Quiz']);
+  tabs.push(['glossar','📚 Glossar']);
+  if(cur.medien&&cur.medien.length) tabs.push(['zusatz','🎬 Zusatz']);
+  v.innerHTML=`
+    <div class="st-head"><div class="bar" style="background:${cur.color}"></div>
+      <div class="row1"><div class="ic">${cur.ic}</div>
+        <div><div class="nr">STATION ${cur.nr} · ${esc(cur.buch)}</div><h2>${esc(cur.title)}</h2></div></div>
+      <p class="leit">🧭 <b>Leitfrage:</b> ${esc(cur.leit)}</p>
+      <div class="kann"><b>Das kann ich am Ende:</b><ul>${cur.kann.map(k=>'<li>'+esc(k)+'</li>').join('')}</ul></div>
+      <div class="komp">${(cur.komp||[]).map(k=>'<span class="k" title="'+KOMP_LABEL[k]+'">'+k+'</span>').join('')}</div>
+    </div>
+    <div class="tabs">${tabs.map((t,i)=>`<button class="tab ${i===0?'active':''}" data-tab="${t[0]}" onclick="switchTab('${t[0]}')">${t[1]}</button>`).join('')}</div>
+    <div id="panels"></div>
+    <div class="st-foot">
+      <button class="mark-done ${state.done[cur.id]?'is-done':''}" id="markBtn" onclick="toggleDone()">${state.done[cur.id]?'✓ erledigt (klicken zum Zurücksetzen)':'Station als erledigt markieren'}</button>
+      <div class="nav-lr">${prevNextBtns()}</div>
+    </div>`;
+  const p=document.getElementById('panels');
+  p.innerHTML=tabs.map((t,i)=>`<div class="panel ${i===0?'active':''}" id="p-${t[0]}">${renderPanel(t[0])}</div>`).join('');
+  afterPanelRender();
+  window.scrollTo({top:0});
+}
+function prevNextBtns(){
+  const i=STATIONS.indexOf(cur); let out='';
+  if(i>0) out+=`<button onclick="openStation('${STATIONS[i-1].id}')">← ${esc(STATIONS[i-1].title.slice(0,18))}…</button>`;
+  if(i<STATIONS.length-1) out+=`<button onclick="openStation('${STATIONS[i+1].id}')">${esc(STATIONS[i+1].title.slice(0,18))}… →</button>`;
+  return out;
+}
+function switchTab(id){
+  document.querySelectorAll('#stationView .tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===id));
+  document.querySelectorAll('#panels .panel').forEach(p=>p.classList.toggle('active',p.id==='p-'+id));
+  if(id==='quiz') renderQuiz();
+}
+function toggleDone(){
+  state.done[cur.id]=!state.done[cur.id]; save();
+  document.getElementById('markBtn').classList.toggle('is-done',state.done[cur.id]);
+  document.getElementById('markBtn').textContent=state.done[cur.id]?'✓ erledigt (klicken zum Zurücksetzen)':'Station als erledigt markieren';
+  if(state.done[cur.id]) toast('Station als erledigt markiert 🎉');
+  updateProgress();
+}
+
+/* ---------- Panels ---------- */
+function renderPanel(id){
+  if(id==='text') return renderText();
+  if(id==='quelle') return renderQuelle();
+  if(id==='sim') return `<div class="card"><h3>🧩 ${esc(cur.simTitle||'Übung')}</h3><div id="simHost"></div></div>`;
+  if(id==='quiz') return `<div class="card" id="quizHost"></div>`;
+  if(id==='glossar') return renderGlossar();
+  if(id==='zusatz') return renderZusatz();
+  return '';
+}
+function afterPanelRender(){
+  setLevel(state.level[cur.id]||'mittel', true);
+  if(cur.sim) renderSim();
+}
+
+/* ---------- TEXT & Auftrag ---------- */
+function renderText(){
+  return `
+  <div class="instruction">📌 <b>So arbeitest du:</b> ${esc(cur.leseanleitung||'Lies den Text aufmerksam, tippe die unterstrichenen Fachbegriffe für die Erklärung an und markiere sie mit der Lesehilfe.')}</div>
+  <div class="card">
+    <div class="levels">
+      <button class="lvl" data-l="basis" onclick="setLevel('basis')">🟢 Stufe 1 · leicht</button>
+      <button class="lvl" data-l="mittel" onclick="setLevel('mittel')">🟡 Stufe 2 · mittel</button>
+      <button class="lvl" data-l="erweitert" onclick="setLevel('erweitert')">🔵 Stufe 3 · AFB I→II→III</button>
+    </div>
+    <div class="reading-aids">
+      <label class="switch"><input type="checkbox" id="boldKeys" onchange="document.getElementById('textbody').classList.toggle('bold-keys',this.checked)"><span class="track"></span> Lesehilfe: Schlüsselwörter fett</label>
+      <label class="switch"><input type="checkbox" id="showVerbs" onchange="document.getElementById('textbody').classList.toggle('show-verbs',this.checked)"><span class="track"></span> Verben zeigen</label>
+    </div>
+    <div class="textbody" id="textbody"></div>
+    <div id="wsHost"></div>
+  </div>
+  <div class="card" id="auftragHost"></div>`;
+}
+function setLevel(l, silent){
+  if(!cur) return;
+  state.level[cur.id]=l; if(!silent) save();
+  document.querySelectorAll('#p-text .lvl').forEach(b=>b.classList.toggle('active',b.dataset.l===l));
+  const tb=document.getElementById('textbody'); if(!tb) return;
+  const key=l==='basis'?'n1':l==='mittel'?'n2':'n3';
+  tb.innerHTML=paras(cur.texte[key]);
+  // Wortspeicher nur Stufe 1
+  const ws=document.getElementById('wsHost');
+  if(l==='basis'&&cur.wortspeicher){
+    ws.innerHTML=`<div class="wortspeicher"><b>🗝️ Wortspeicher – nutze diese Wörter:</b><div class="pills">${cur.wortspeicher.map(w=>'<span class="pill">'+esc(w)+'</span>').join('')}</div></div>`;
+  } else ws.innerHTML='';
+  renderAuftrag(l);
+}
+function renderAuftrag(l){
+  const host=document.getElementById('auftragHost'); if(!host) return;
+  const tasks=cur.levels[l]||[];
+  const rows=tasks.map((t,i)=>{
+    const afb=t.stufe?`<span class="op afb">${t.stufe}</span>`:'';
+    const op=t.op?`<span class="op">${esc(t.op)}</span>`:'';
+    const heft=t.heft?HEFT(t.heftNr||(i+1)):'';
+    return `<div class="task">${afb}${op}${annotate(t.txt)} ${heft}
+      ${t.muster?`<div><button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">💡 Musterlösung anzeigen/verbergen</button>
+      <div class="muster"><b>Gesichertes Ergebnis:</b> ${annotate(t.muster)}</div></div>`:''}</div>`;
+  }).join('');
+  const consolidated=tasks.filter(t=>t.muster).map((t,i)=>'• '+t.muster).join('<br>');
+  host.innerHTML=`<h3>✍️ Arbeitsauftrag – ${l==='basis'?'🟢 Stufe 1':l==='mittel'?'🟡 Stufe 2':'🔵 Stufe 3'}</h3>
+    ${rows}
+    <div class="mappe"><div class="m-h">📓 In die Mappe abschreiben</div>
+      <p style="margin:0 0 8px;color:var(--muted);font-size:.9rem">Vergleiche deine Antworten mit der Musterlösung. Schreibe anschließend das gesicherte Ergebnis sauber in deine Mappe.</p>
+      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">📄 Gesichertes Gesamtergebnis einblenden</button>
+      <div class="muster">${consolidated||'—'}</div>
+    </div>`;
+}
+
+/* ---------- QUELLENANALYSE ---------- */
+function renderQuelle(){
+  const q=cur.quelle;
+  const felder=[['wer','Wer schreibt den Text?'],['wann','Wann wurde der Text geschrieben?'],['wo','Wo passierten die Ereignisse?'],['fuerwen','Wer sollte/soll diesen Text lesen?'],['warum','Warum schreibt der Autor über die Ereignisse?']];
+  const felderRows=felder.map(f=>`<tr><td class="q">${f[1]}</td><td>
+      <textarea placeholder="Deine Antwort …"></textarea>
+      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">💡 Musterlösung</button>
+      <div class="muster">${esc(q.felder[f[0]]||'—')}</div></td></tr>`).join('');
+  const fragen=(q.fragen||[]).map((fr,i)=>`<div class="qa-q"><div class="qh">${i+1}) ${annotate(fr.q)} ${HEFT('Q'+(i+1))}</div>
+      <textarea placeholder="Deine Antwort …"></textarea>
+      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">💡 Musterlösung</button>
+      <div class="muster">${annotate(fr.muster)}</div></div>`).join('');
+  return `
+  <div class="instruction">🔎 <b>Quellenanalyse.</b> Lies zuerst die Quelle. Fülle dann das Analyse-Schema aus und beantworte die Fragen. Prüfe mit „Musterlösung“ und <b>schreibe das Ergebnis in deine Mappe</b>.</div>
+  <div class="card">
+    <h3>${esc(q.titel)}</h3>
+    <div class="qsrc">${q.einleitung?'<p style="color:var(--muted);font-style:italic">'+esc(q.einleitung)+'</p>':''}${q.text.map(p=>'<p>'+annotate(p)+'</p>').join('')}<p class="angabe">Quelle: ${esc(q.angabe)}</p></div>
+    <table class="qtable"><tbody>
+      ${felderRows}
+      <tr><td class="q">Um welche Quellenart handelt es sich? <br><small>(Gattung + Nähe zum Ereignis)</small></td>
+        <td><div class="dropwrap">
+          <select id="qa-art">${QUELLENARTEN.map(o=>'<option>'+o+'</option>').join('')}</select>
+          <select id="qa-typ">${QUELLENTYP.map(o=>'<option>'+o+'</option>').join('')}</select>
+          <button class="ghost" onclick="checkArt()">prüfen</button>
+        </div><div class="mini-muster" id="artFb"></div>
+        <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">💡 Musterlösung</button>
+        <div class="muster">${esc(q.art)}</div></td></tr>
+    </tbody></table>
+    <h3 style="margin-top:22px">Fragen zur Quelle</h3>
+    ${fragen}
+  </div>`;
+}
+function checkArt(){
+  const a=document.getElementById('qa-art').value, t=document.getElementById('qa-typ').value;
+  const fb=document.getElementById('artFb'); fb.classList.add('show');
+  const ok=cur.quelle.artCheck && cur.quelle.artCheck(a,t);
+  fb.innerHTML=ok?'<span class="ok-txt">✅ Richtig zugeordnet!</span>':'<span class="no-txt">❌ Schau noch einmal genau: Textsorte und Nähe zum Ereignis (siehe Musterlösung).</span>';
+}
+
+/* ---------- GLOSSAR (Station-Tab) ---------- */
+function renderGlossar(){
+  const items=(cur.begriffe||[]).map(b=>{
+    const def=TERM_DEFS[b]||cur.begriffeDefs&&cur.begriffeDefs[b]||'';
+    const gid=cur.id+'::'+b; const ck=state.gloss[gid]?'checked':'';
+    return `<div class="gloss-item"><input type="checkbox" ${ck} onchange="state.gloss['${escAttr(gid)}']=this.checked;save()">
+      <div><span class="term fach" tabindex="0" data-def="${escAttr(def)}">${esc(b)}</span> – ${esc(def)}<div class="src">Fundstelle: Station ${cur.nr} · ${esc(cur.buch)}</div></div></div>`;
+  }).join('');
+  return `<div class="instruction">📚 Hake ab, welche Begriffe du in dein Heft übertragen hast.</div>
+    <div class="card"><h3>Fachbegriffe dieser Station</h3>${items||'<p>Keine Begriffe.</p>'}
+    <p style="margin-top:14px"><button class="ghost" onclick="openStation('glossar')">→ Zum Gesamt-Glossar aller Stationen</button></p></div>`;
+}
+
+/* ---------- ZUSATZ (Videos) ---------- */
+function renderZusatz(){
+  const vids=(cur.medien||[]).map(m=>`<div class="vid"><div class="play">🎬</div>
+    <div class="info"><b>${esc(m[0])}</b><small>${esc(m[2])}${m[3]?' · ⏱ '+esc(m[3]):''}</small>${m[4]?'<div style="font-size:.85rem;margin-top:4px">'+annotate(m[4])+'</div>':''}</div>
+    <a href="${escAttr(m[1])}" target="_blank" rel="noopener">öffnen ↗</a></div>`).join('');
+  return `<div class="instruction">🎬 <b>Regel:</b> Erst Schulbuch/Material bearbeiten, dann Video prüfen. Notiere <b>Titel und Anbieter</b> und die genannten Zeitmarken in dein Heft.</div>
+    <div class="card"><h3>Geprüfte Videos (öffentlich-rechtlich / seriös)</h3>${vids||'<p>Für diese Station kein Video.</p>'}</div>`;
+}
+
+/* =====================================================================
+   QUIZ
+   ===================================================================== */
+let quizState={};
+function renderQuiz(){
+  const host=document.getElementById('quizHost'); if(!host||!cur.quiz) return;
+  quizState={answered:{},correct:{}};
+  const fragen=cur.quiz.fragen;
+  const body=fragen.map((f,qi)=>{
+    const opts=shuffle(f.opt);
+    return `<div class="qq" id="qq-${qi}"><div class="qtxt">${qi+1}. ${annotate(f.frage)}</div>
+      ${opts.map(o=>`<button class="opt" onclick="answer(${qi},this,${o.c?1:0},'${escAttr(o.fb||'')}')">${esc(o.t)}<span class="fb"></span></button>`).join('')}</div>`;
+  }).join('');
+  const solved=state.solved[cur.id];
+  host.innerHTML=`<div class="instruction">❓ Beantworte alle Fragen. Bei jedem Aufruf werden die Antworten neu gemischt. Erst wenn <b>alles richtig</b> ist, erscheint das Lösungswort für den Laufzettel.</div>
+    <div class="quiz-tools"><button class="ghost" onclick="renderQuiz()">🔀 Neu mischen</button><small style="color:var(--muted)">${fragen.length} Fragen</small></div>
+    ${body}
+    <div class="lw ${solved?'solved':'locked'}" id="lwbox"><div>🔑 Lösungswort</div><div class="word">${esc(cur.quiz.lw)}</div><small>${solved?'Freigeschaltet – ab in den Laufzettel!':'Noch gesperrt: beantworte alle Fragen richtig.'}</small></div>`;
+}
+function answer(qi,btn,correct,fb){
+  const box=document.getElementById('qq-'+qi);
+  box.querySelectorAll('.opt').forEach(b=>{b.disabled=false;});
+  // reset styles in this question
+  box.querySelectorAll('.opt').forEach(b=>{b.classList.remove('correct','wrong'); b.querySelector('.fb').textContent='';});
+  btn.classList.add(correct?'correct':'wrong');
+  btn.querySelector('.fb').textContent=(correct?'✅ ':'❌ ')+fb;
+  quizState.answered[qi]=true; quizState.correct[qi]=!!correct;
+  const total=cur.quiz.fragen.length;
+  const allCorrect=Object.keys(quizState.correct).length===total && Object.values(quizState.correct).every(Boolean);
+  if(allCorrect){
+    state.solved[cur.id]=true; save();
+    const lw=document.getElementById('lwbox'); lw.classList.remove('locked'); lw.classList.add('solved');
+    lw.querySelector('small').textContent='Freigeschaltet – ab in den Laufzettel!';
+    toast('Alles richtig! Lösungswort freigeschaltet 🔑');
+  }
+}
+
+/* =====================================================================
+   SIMULATIONEN
+   ===================================================================== */
+function renderSim(){
+  const host=document.getElementById('simHost'); if(!host||!cur.sim) return;
+  const s=cur.sim;
+  host.innerHTML='<p class="sim-hint">'+esc(s.hint||'')+'</p><div id="simBody"></div><button class="check-btn" onclick="checkSim()">Prüfen</button><div class="sim-result" id="simRes"></div>';
+  const b=document.getElementById('simBody');
+  if(s.type==='sortier') simSortier(b,s);
+  else if(s.type==='ordnen') simOrdnen(b,s);
+  else if(s.type==='stufen') simStufen(b,s);
+  else if(s.type==='wahrfalsch') simWF(b,s);
+  else if(s.type==='zuordnen') simZuordnen(b,s);
+  else if(s.type==='glossaralle') { b.innerHTML=glossarAlleHTML(); host.querySelector('.check-btn').style.display='none'; }
+}
+function simSortier(b,s){
+  b.innerHTML=`<div class="movable" id="pool">${s.items.map((it,i)=>`<span class="token" draggable="true" data-i="${i}" ondragstart="dragTok(event)">${esc(it.t)}</span>`).join('')}</div>
+    <div class="baskets">
+      <div class="basket" data-b="0" ondragover="event.preventDefault()" ondrop="dropTok(event,0)"><h4>${esc(s.b0)}</h4></div>
+      <div class="basket" data-b="1" ondragover="event.preventDefault()" ondrop="dropTok(event,1)"><h4>${esc(s.b1)}</h4></div>
+    </div>`;
+}
+let dragI=null;
+function dragTok(e){ dragI=e.target.dataset.i; e.dataTransfer.setData('text',dragI); }
+function dropTok(e,basket){ e.preventDefault(); const i=e.dataTransfer.getData('text'); const tok=document.querySelector('#simBody .token[data-i="'+i+'"]'); if(tok){ tok.classList.add('placed'); tok.dataset.b=basket; e.currentTarget.appendChild(tok);} }
+function simOrdnen(b,s){
+  const sh=shuffle(s.items.map((t,i)=>({t,i})));
+  b.innerHTML=`<div class="slotline">${s.items.map((_,pos)=>`<div class="slot"><div class="num">${pos+1}</div>
+    <select data-pos="${pos}">${['<option value="">– wählen –</option>'].concat(sh.map(o=>'<option value="'+o.i+'">'+esc(o.t)+'</option>')).join('')}</select></div>`).join('')}</div>`;
+}
+function simStufen(b,s){
+  b.innerHTML=`<div class="slotline">${s.items.map((it,i)=>`<div class="slot"><div class="num">${i+1}</div><span style="flex:1">${esc(it.t)}</span>
+    <select data-i="${i}"><option value="">– Stufe wählen –</option>${s.stufen.map((st,si)=>'<option value="'+si+'">'+esc(st)+'</option>').join('')}</select></div>`).join('')}</div>`;
+}
+function simWF(b,s){
+  b.innerHTML=s.items.map((it,i)=>`<div class="wf-item"><span>${annotate(it.t)}</span>
+    <div class="wf-btns"><button data-i="${i}" data-v="1" onclick="wfSel(this)">wahr</button><button data-i="${i}" data-v="0" onclick="wfSel(this)">falsch</button></div></div>`).join('');
+}
+function wfSel(btn){ btn.parentElement.querySelectorAll('button').forEach(x=>x.classList.remove('sel')); btn.classList.add('sel'); }
+function simZuordnen(b,s){
+  const defs=shuffle(s.pairs.map((p,i)=>({d:p.d,i})));
+  b.innerHTML=`<div class="match-grid">${s.pairs.map((p,i)=>`<div class="slot"><span style="flex:1"><b>${esc(p.t)}</b></span>
+    <select data-i="${i}"><option value="">– Erklärung –</option>${defs.map(o=>'<option value="'+o.i+'">'+esc(o.d)+'</option>').join('')}</select></div>`).join('')}</div>`;
+}
+function checkSim(){
+  const s=cur.sim, res=document.getElementById('simRes'); let ok=false,msg='';
+  if(s.type==='sortier'){
+    let right=0,tot=s.items.length,placed=0;
+    document.querySelectorAll('#simBody .token').forEach(t=>{ if(t.dataset.b!==undefined){placed++; if(+t.dataset.b===s.items[+t.dataset.i].b) right++;} });
+    ok=right===tot&&placed===tot; msg=ok?'✅ Alles richtig einsortiert!':`Noch nicht ganz: ${right} von ${tot} richtig${placed<tot?' (nicht alle eingeordnet)':''}.`;
+  } else if(s.type==='ordnen'){
+    const sel=[...document.querySelectorAll('#simBody select')]; let right=0;
+    sel.forEach((se,pos)=>{ if(se.value!==''&&+se.value===pos) right++; });
+    ok=right===s.items.length; msg=ok?'✅ Reihenfolge korrekt!':`${right} von ${s.items.length} an der richtigen Stelle.`;
+  } else if(s.type==='stufen'){
+    const sel=[...document.querySelectorAll('#simBody select')]; let right=0;
+    sel.forEach(se=>{ const i=+se.dataset.i; if(se.value!==''&&+se.value===s.items[i].s) right++; });
+    ok=right===s.items.length; msg=ok?'✅ Alle richtig zugeordnet!':`${right} von ${s.items.length} richtig.`;
+  } else if(s.type==='wahrfalsch'){
+    let right=0; s.items.forEach((it,i)=>{ const sel=document.querySelector('#simBody button.sel[data-i="'+i+'"]'); if(sel&&+sel.dataset.v===(it.w?1:0)) right++; });
+    ok=right===s.items.length; msg=ok?'✅ Alles richtig beurteilt!':`${right} von ${s.items.length} richtig.`;
+  } else if(s.type==='zuordnen'){
+    const sel=[...document.querySelectorAll('#simBody select')]; let right=0;
+    sel.forEach(se=>{ const i=+se.dataset.i; if(se.value!==''&&+se.value===i) right++; });
+    ok=right===s.pairs.length; msg=ok?'✅ Alle Paare stimmen!':`${right} von ${s.pairs.length} richtig zugeordnet.`;
+  }
+  res.innerHTML='<span class="'+(ok?'ok-txt':'no-txt')+'">'+msg+'</span>';
+  if(ok) toast('Übung gelöst 👍');
+}
+
+/* ---------- Gesamt-Glossar ---------- */
+function glossarAlleHTML(){
+  const map={};
+  STATIONS.forEach(s=>(s.begriffe||[]).forEach(b=>{ if(!map[b]) map[b]={def:TERM_DEFS[b]||'',src:[]}; map[b].src.push('Station '+s.nr); }));
+  const keys=Object.keys(map).sort((a,b)=>a.localeCompare(b,'de'));
+  return `<div class="instruction">📚 Alle Fachbegriffe der Lernreise mit Fundstelle. Hover/Tap zeigt die Erklärung.</div>`+
+    keys.map(k=>`<div class="gloss-item"><input type="checkbox" onchange="state.gloss['ALL::${escAttr(k)}']=this.checked;save()" ${state.gloss['ALL::'+k]?'checked':''}>
+      <div><span class="term">${esc(k)}</span> – ${esc(map[k].def)}<div class="src">${map[k].src.join(' · ')}</div></div></div>`).join('');
+}
+
+/* =====================================================================
+   LAUFZETTEL
+   ===================================================================== */
+function openLauf(){
+  const rows=STATIONS.map(s=>`<tr><td>${s.nr}</td><td>${s.ic} ${esc(s.title)}</td>
+    <td>${s.status==='pflicht'?'Pflicht':s.status==='wahl'?'Wahl':'Arbeit'}</td>
+    <td>${state.done[s.id]?'✅':'—'}</td>
+    <td>${s.quiz?(state.solved[s.id]?'<b>'+esc(s.quiz.lw)+'</b>':'🔒'):'–'}</td>
+    <td>${(s.medien||[]).map(m=>esc(m[0])).join('<br>')||'–'}</td></tr>`).join('');
+  document.getElementById('laufSheet').innerHTML=`<button class="x" onclick="document.getElementById('laufModal').classList.remove('show')">Schließen ✕</button>
+    <h2>📋 Laufzettel / Stationenpass</h2>
+    <p style="color:var(--muted)">Name: ______________________  Klasse: ______</p>
+    <table><thead><tr><th>Nr.</th><th>Station</th><th>Typ</th><th>erledigt</th><th>Lösungswort</th><th>Videos</th></tr></thead><tbody>${rows}</tbody></table>`;
+  document.getElementById('laufModal').classList.add('show');
+}
+document.getElementById('laufModal').addEventListener('click',e=>{ if(e.target.id==='laufModal') e.target.classList.remove('show'); });
+
+/* =====================================================================
+   EINSTUFUNGSTEST (Station 0)
+   ===================================================================== */
+const EINSTUFUNG=[
+  {f:"Lange Sachtexte lese und verstehe ich …",o:[["nur mit Hilfe / kurzen Sätzen",1],["meistens gut",2],["sicher und schnell",3]]},
+  {f:"Mit Fachbegriffen komme ich …",o:[["schwer zurecht",1],["teilweise zurecht",2],["gut zurecht",3]]},
+  {f:"Eine Quelle in eigenen Worten zusammenfassen …",o:[["fällt mir schwer",1],["gelingt mir meistens",2],["kann ich sicher",3]]},
+  {f:"Begründen und beurteilen (eigene Meinung mit Argumenten) …",o:[["übe ich noch",1],["gelingt mir teilweise",2],["kann ich gut",3]]},
+  {f:"Am liebsten arbeite ich mit …",o:[["Wortspeicher und kurzen Sätzen",1],["normalem Schulbuchtext",2],["anspruchsvollen Texten",3]]},
+  {f:"Zusätzliche Hilfen brauche ich …",o:[["oft",1],["manchmal",2],["selten",3]]}
+];
+let estAnswers={};
+function einstufungButton(){
+  const rl=state.recommendedLevel;
+  const label=rl?({basis:"🟢 Stufe 1",mittel:"🟡 Stufe 2",erweitert:"🔵 Stufe 3"})[rl]:null;
+  return `<button class="est-btn" onclick="openEinstufung()">
+    <span class="ic">🎯</span>
+    <span><h3>Einstufungstest – finde deine Stufe</h3>
+      <p>Fülle den kurzen Einschätzungsbogen aus. Wir empfehlen dir danach Stufe 1, 2 oder 3.</p></span>
+    ${label?`<span class="done-badge">✓ Empfehlung: ${label}</span>`:`<span class="go">Los geht’s →</span>`}
+  </button>`;
+}
+function openEinstufung(){
+  estAnswers={};
+  document.getElementById('home').style.display='none';
+  const v=document.getElementById('stationView'); v.classList.add('active');
+  v.innerHTML=`<div class="est-wrap">
+    <div class="st-head"><div class="bar" style="background:var(--brand)"></div>
+      <div class="row1"><div class="ic">🎯</div><div><div class="nr">STATION 0</div><h2>Einstufungstest</h2></div></div>
+      <p class="leit">Kreuze ehrlich an, was am besten zu dir passt. Es gibt kein „richtig“ oder „falsch“ – der Bogen hilft dir nur, die passende Stufe zu finden. Du kannst die Stufe an jeder Station später selbst ändern.</p>
+    </div>
+    <div id="estQs">${EINSTUFUNG.map((q,i)=>`<div class="est-q"><div class="qh">${i+1}. ${esc(q.f)}</div>
+      <div class="est-opts">${q.o.map((o,k)=>`<button class="est-opt" data-q="${i}" data-p="${o[1]}" onclick="estPick(${i},${o[1]},this)">${esc(o[0])}</button>`).join('')}</div></div>`).join('')}</div>
+    <button class="check-btn" style="background:var(--brand)" onclick="estAuswerten()">Auswerten &amp; Empfehlung anzeigen</button>
+    <div class="est-result" id="estResult"></div>
+  </div>`;
+  window.scrollTo({top:0});
+}
+function estPick(i,p,btn){
+  estAnswers[i]=p;
+  [...btn.parentElement.children].forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+}
+function estAuswerten(){
+  const keys=Object.keys(estAnswers);
+  if(keys.length<EINSTUFUNG.length){ toast('Bitte beantworte zuerst alle Fragen.'); return; }
+  let sum=0; keys.forEach(k=>sum+=estAnswers[k]);
+  const avg=sum/EINSTUFUNG.length;
+  let lvl,badge,txt;
+  if(avg<1.7){ lvl='basis'; badge='b1'; txt='🟢 Stufe 1 (leicht)'; }
+  else if(avg<2.4){ lvl='mittel'; badge='b2'; txt='🟡 Stufe 2 (mittel)'; }
+  else { lvl='erweitert'; badge='b3'; txt='🔵 Stufe 3 (anspruchsvoll)'; }
+  const tips={basis:'Du startest mit kurzen Texten, Wortspeicher und klaren Schritten. Trau dich, zwischendurch auch Stufe 2 zu testen!',
+    mittel:'Du arbeitest auf Schulbuch-Niveau. Wenn dir etwas leichtfällt, probiere ruhig Stufe 3.',
+    erweitert:'Du begründest, vergleichst und beurteilst. Nutze die Musterlösungen zum Vergleichen.'};
+  const r=document.getElementById('estResult');
+  r.className='est-result show';
+  r.innerHTML=`<p style="margin:0 0 4px;color:var(--muted)">Deine Empfehlung</p>
+    <div class="badge ${badge}">${txt}</div>
+    <p>${tips[lvl]}</p>
+    <button class="mark-done" style="background:var(--brand)" onclick="applyRecommendation('${lvl}')">Empfehlung übernehmen &amp; starten</button>
+    <p style="margin-top:12px;font-size:.85rem;color:var(--muted)">Du bleibst frei: An jeder Station kannst du die Stufe jederzeit umschalten.</p>`;
+  if(r.scrollIntoView) r.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function applyRecommendation(lvl){
+  state.recommendedLevel=lvl;
+  STATIONS.forEach(s=>{ if(!state.done[s.id]) state.level[s.id]=lvl; });
+  save();
+  toast('Empfehlung übernommen: '+({basis:'Stufe 1',mittel:'Stufe 2',erweitert:'Stufe 3'})[lvl]);
+  goHome();
+}
+
+/* =====================================================================
+   BOOT
+   ===================================================================== */
+/* ===================== STATION A1 ===================== */
+addStation({
+ id:"a1", nr:"1", ic:"⚖️", color:"#3d5a80", status:"pflicht",
+ title:"Zerschlagung der Demokratie 1933",
+ buch:"KONTEXT S.1 · Ermächtigungsgesetz",
+ komp:["SK","MK"],
+ leit:"Wie wurde aus der Demokratie in nur einem halben Jahr eine Diktatur?",
+ kann:["Ich kann die Schritte von 1933 in der richtigen Reihenfolge nennen.","Ich kann erklären, wie „Recht“ und Gewalt zusammenwirkten.","Ich kann das Ermächtigungsgesetz als Quelle einordnen."],
+ begriffe:["Reichskanzler","Reichstagsbrandverordnung","Grundrechte","Ermächtigungsgesetz","Gleichschaltung","Einparteienstaat","Pseudolegalität","Machtübertragung"],
+ leseanleitung:"Lies den Text deiner Stufe. Tippe die unterstrichenen Fachbegriffe an. Markiere anschließend mit der Lesehilfe die Schlüsselwörter.",
+ texte:{
+  n1:["Am 30. Januar 1933 **ernannte** **Hindenburg** **Hitler** zum **Reichskanzler**. Manche **Politiker** **glaubten**: „Wir können **Hitler** **kontrollieren**.\" Das war ein **Irrtum**.", "In nur einem halben **Jahr** **zerstörten** die **Nationalsozialisten** die **Demokratie**. Sie **benutzten** zwei **Mittel**: den **Schein** von **Recht** und **Gewalt** durch **SA** und **SS**.", "Am 27. Februar 1933 **brannte** der **Reichstag**. Danach **nahm** eine **Verordnung** wichtige **Grundrechte** weg. Die **Polizei** **verhaftete** nun **Gegner** ohne **Gericht**.", "Am 24. März 1933 **beschloss** der **Reichstag** das **Ermächtigungsgesetz**. Jetzt **durfte** die **Regierung** **Gesetze** allein **machen**. Nur die **SPD** **stimmte** dagegen. Dann **verbot** das **Regime** alle anderen **Parteien**. **Deutschland** **wurde** ein **Einparteienstaat**. 1934 **wurde** **Hitler** „**Führer** und **Reichskanzler**\"."],
+  n2:["Am 30. Januar 1933 ernannte Reichspräsident Hindenburg Adolf Hitler zum Reichskanzler. Konservative Politiker glaubten, sie könnten Hitler kontrollieren. Das war ein Irrtum.", "In nur einem halben Jahr beseitigten die Nationalsozialisten die Demokratie. Sie nutzten dazu zwei Mittel: den Anschein von Legalität und offenen Terror durch SA und SS.", "Nach dem Reichstagsbrand am 27. Februar 1933 setzte die Reichstagsbrandverordnung wichtige Grundrechte außer Kraft. Die Polizei konnte nun Gegner ohne Gericht verhaften.", "Am 24. März 1933 beschloss der Reichstag das Ermächtigungsgesetz. Damit durfte die Regierung Gesetze ohne das Parlament und gegen die Verfassung erlassen; nur die SPD stimmte dagegen. In der Gleichschaltung wurden Parteien und Gewerkschaften verboten – Deutschland wurde ein Einparteienstaat. 1934 vereinigte Hitler nach Hindenburgs Tod die höchsten Ämter und ließ die Reichswehr auf sich vereidigen."],
+  n3:["Die Ernennung Hitlers zum Reichskanzler am 30. Januar 1933 beruhte auf einer Fehlkalkulation der konservativen Eliten, die den „Trommler\" einzurahmen hofften. Innerhalb weniger Monate verband das Regime Pseudolegalität – die Ausnutzung bestehender Notverordnungen nach Art. 48 der Weimarer Verfassung – mit offenem Terror.", "Die Reichstagsbrandverordnung vom 28. Februar 1933 suspendierte zentrale Grundrechte und schuf die Grundlage für die „Schutzhaft\". Das Ermächtigungsgesetz vom 24. März 1933 entmachtete das Parlament faktisch selbst, indem es der Regierung erlaubte, Gesetze auch abweichend von der Verfassung zu erlassen.", "Die anschließende Gleichschaltung – Parteiverbote, Zerschlagung der Gewerkschaften, „Gesetz gegen die Neubildung von Parteien\" – errichtete den Einparteienstaat. Der „Röhm-Putsch\" 1934 band die Reichswehr an Hitler; nach Hindenburgs Tod vereinigte er die Staatsämter. Die Forschung diskutiert das Verhältnis von Terror und Zustimmung: Neben Gewalt trug auch die „Selbstgleichschaltung\" vieler Verbände zum raschen Erfolg bei."]},
+ wortspeicher:["Reichskanzler","Ermächtigungsgesetz","Grundrechte","Gleichschaltung","Einparteienstaat","Terror"],
+ levels:{
+  basis:[
+   {op:"Nennen",txt:"**Nenne** das Datum, an dem Hitler Reichskanzler wurde.",heft:true,heftNr:"1a",muster:"Am 30. Januar 1933."},
+   {op:"Beschreiben",txt:"**Beschreibe** mit dem Wortspeicher in zwei Sätzen, was „Gleichschaltung“ bedeutet.",heft:true,heftNr:"1b",muster:"Gleichschaltung heißt: Das Regime passte alle Bereiche mit Zwang an. Parteien und Gewerkschaften wurden verboten."}],
+  mittel:[
+   {op:"Erklären",txt:"**Erkläre**, warum das Ermächtigungsgesetz so wichtig für das Ende der Demokratie war.",heft:true,heftNr:"1",muster:"Weil die Regierung nun ohne Reichstag und gegen die Verfassung Gesetze machen durfte – die Gewaltenteilung war damit beseitigt."},
+   {op:"Erläutern",txt:"**Erläutere** am Beispiel der Reichstagsbrandverordnung das Zusammenspiel von „Recht“ und Gewalt.",heft:true,heftNr:"2",muster:"Die Verordnung lieferte die scheinbar „legale“ Grundlage (Aufhebung der Grundrechte), SA und SS setzten den Terror gegen Gegner um – beides griff ineinander."}],
+  erweitert:[
+   {stufe:"AFB I",op:"Nennen",txt:"**Nenne** drei Schritte, mit denen das Regime 1933 die Demokratie beseitigte.",heft:true,heftNr:"1",muster:"z. B. Reichstagsbrandverordnung, Ermächtigungsgesetz, Verbot der Parteien/Gewerkschaften (Gleichschaltung)."},
+   {stufe:"AFB II",op:"Erklären",txt:"**Erkläre**, wie Pseudolegalität und Terror zusammenwirkten.",heft:true,heftNr:"2",muster:"Bestehende Gesetze/Notverordnungen wurden ausgenutzt (Schein von Recht), gleichzeitig schüchterten SA/SS Gegner mit Gewalt ein. So wirkte die Machtübernahme „legal“ und war doch erzwungen."},
+   {stufe:"AFB III",op:"Beurteilen",txt:"**Beurteile**, ob „Machtergreifung“ oder „Machtübertragung“ der bessere Begriff ist. **Begründe**.",heft:true,heftNr:"3",muster:"„Machtübertragung“ ist genauer, weil die Eliten Hitler ins Amt hoben und Terror mitwirkte; „Machtergreifung“ verschleiert dies. Ein begründetes Urteil nennt beide Sichtweisen."}]},
+ sim:{type:"ordnen",hint:"Bringe die Ereignisse von 1933 in die richtige zeitliche Reihenfolge.",items:["Hitler wird Reichskanzler (30.1.1933)","Reichstagsbrand & Verordnung (27./28.2.1933)","Ermächtigungsgesetz (24.3.1933)","Verbot der Parteien / Einparteienstaat (Sommer 1933)"]},
+ simTitle:"Zeitstrahl 1933",
+ quiz:{lw:"DIKTATUR",fragen:[
+  {frage:"Wann wurde Hitler Reichskanzler?",opt:[{t:"30. Januar 1933",c:true,fb:"Genau, an diesem Tag begann die NS-Herrschaft."},{t:"8. Mai 1945",c:false,fb:"Das ist das Kriegsende."},{t:"1. September 1939",c:false,fb:"Das ist der Beginn des Zweiten Weltkriegs."}]},
+  {frage:"Was erlaubte das Ermächtigungsgesetz der Regierung?",opt:[{t:"Gesetze ohne Parlament und gegen die Verfassung zu erlassen",c:true,fb:"Richtig – das war das Ende der Gewaltenteilung."},{t:"freie Wahlen abzuhalten",c:false,fb:"Nein, das Gegenteil war der Fall."},{t:"den Reichstag zu vergrößern",c:false,fb:"Nein, der Reichstag wurde entmachtet."}]},
+  {frage:"Welche Partei stimmte gegen das Ermächtigungsgesetz?",opt:[{t:"die SPD",c:true,fb:"Ja, die SPD als einzige Fraktion (Otto Wels)."},{t:"die NSDAP",c:false,fb:"Nein, die NSDAP wollte das Gesetz."},{t:"das Zentrum",c:false,fb:"Nein, das Zentrum stimmte zu."}]},
+  {frage:"Was bedeutet „Gleichschaltung“?",opt:[{t:"die erzwungene Anpassung aller Bereiche an die NS-Herrschaft",c:true,fb:"Richtig."},{t:"die Stärkung der Länderrechte",c:false,fb:"Nein, die Länder verloren ihre Rechte."},{t:"die Einführung freier Medien",c:false,fb:"Nein, die Medien wurden kontrolliert."}]},
+  {frage:"Warum ist „Machtergreifung“ umstritten?",opt:[{t:"weil er die Rolle der Eliten und den Terror verdeckt",c:true,fb:"Richtig, deshalb „Machtübertragung“."},{t:"weil ihn die Alliierten erfanden",c:false,fb:"Nein."},{t:"weil er zu neutral klingt",c:false,fb:"Nein, das Problem ist die Verschleierung."}]}]},
+ quelle:{
+  titel:"Ermächtigungsgesetz, 24. März 1933",
+  einleitung:"Der rechtliche Kern der Diktatur. Lies die Artikel genau.",
+  text:["Artikel 1. Reichsgesetze können außer in dem in der Reichsverfassung vorgesehenen Verfahren auch durch die Reichsregierung beschlossen werden. […]",
+   "Artikel 2. Die von der Reichsregierung beschlossenen Reichsgesetze können von der Reichsverfassung abweichen, soweit sie nicht die Einrichtung des Reichstags und des Reichsrats als solche zum Gegenstand haben. Die Rechte des Reichspräsidenten bleiben unberührt.",
+   "Artikel 5. Dieses Gesetz tritt mit dem Tage seiner Verkündung in Kraft. Es tritt ferner außer Kraft, wenn die gegenwärtige Reichsregierung durch eine andere abgelöst wird."],
+  angabe:"Gesetz zur Behebung der Not von Volk und Reich, 24.3.1933 (Auszug). RGBl. 1933 I, S. 141.",
+  art:"Textquelle · Primärquelle (der Gesetzestext stammt direkt aus der Zeit der Ereignisse).",
+  artCheck:(a,t)=>a==="Textquelle"&&t.indexOf("Primär")===0,
+  felder:{wer:"Der Reichstag / die NS-geführte Reichsregierung (amtlicher Gesetzestext).",wann:"24. März 1933.",wo:"Im Deutschen Reich (Reichstag, Berlin).",fuerwen:"Für alle staatlichen Stellen und die Bevölkerung – rechtlich verbindlich.",warum:"Um der Regierung die Gesetzgebung zu übertragen und die Diktatur „legal“ abzusichern."},
+  fragen:[
+   {q:"**Fasse** die Quelle in zwei Sätzen zusammen.",muster:"Das Gesetz erlaubt der Regierung, Gesetze ohne den Reichstag und sogar gegen die Verfassung zu beschließen. Nur Reichstag/Reichsrat und die Rechte des Reichspräsidenten bleiben formal ausgenommen."},
+   {q:"**Benenne**, wer durch dieses Gesetz die Macht bekommt (Akteur).",muster:"Die Reichsregierung (mit Hitler an der Spitze) – sie erhält die Gesetzgebung."},
+   {q:"**Erläutere**, aus welchem Motiv das Gesetz beschlossen wurde.",muster:"Ziel war, die Diktatur mit einem Schein von Recht abzusichern und das Parlament auszuschalten (Pseudolegalität)."},
+   {q:"**Charakterisiere**, wer der „Verlierer“ dieses Gesetzes ist. Warum wird er entmachtet?",muster:"Verlierer sind der Reichstag und die Demokratie: Ihre Kontrolle über die Regierung entfällt, weil die Gewaltenteilung aufgehoben wird."}]},
+ medien:[
+  ["Errichtung der NS-Diktatur","https://www.youtube.com/watch?v=CB7kYw60M1M","musstewissen Geschichte · ca. 10 Min.","0:00–5:00","**Arbeitsauftrag:** Notiere von 0:00 bis 5:00 drei Schritte der Machtsicherung."],
+  ["Hitlers Aufstieg zur Macht","https://www.youtube.com/watch?v=bCmnrIiVq6g","Terra X (ZDF) · ca. 8 Min.","","Wie aus einem „Niemand“ ein Diktator wurde."]],
+ lauf:"Zeitstrahl 1933 legen, Ermächtigungsgesetz analysieren."
+});
+
+/* ===================== STATION A2 ===================== */
+addStation({
+ id:"a2", nr:"2", ic:"📣", color:"#7a5a86", status:"pflicht",
+ title:"Führerkult, Propaganda & Ideologie",
+ buch:"KONTEXT S.2 · Sportpalastrede",
+ komp:["SK","MK","UK"],
+ leit:"Wie brachte das Regime so viele Menschen dazu, mitzumachen?",
+ kann:["Ich kann Propagandamittel an Beispielen beschreiben.","Ich kann die Formel „Volksgemeinschaft“ erklären.","Ich kann eine Propagandarede analysieren."],
+ begriffe:["Propaganda","Antisemitismus","Rassismus","Volksgemeinschaft","Führerprinzip","Führerkult","Hitler-Mythos","Volksempfänger","Reichskulturkammer"],
+ texte:{
+  n1:["Die **Nationalsozialisten** **hatten** ein festes **Weltbild**. Im **Mittelpunkt** **standen** **Rassismus** und **Antisemitismus**. Sie **teilten** die **Menschen** in „bessere\" und „schlechtere Rassen\" ein. Das war falsch und **gefährlich**.", "Ihr **Ziel** war die „**Volksgemeinschaft**\". Manche **gehörten** dazu – andere **schlossen** sie **aus**. Nach dem **Führerprinzip** **galt**: **befehlen** und **gehorchen**. Viele **verehrten** **Hitler** wie einen **Retter** (**Führerkult**).", "**Joseph Goebbels** **leitete** die **Propaganda**. Er **steuerte** **Zeitung**, **Radio** und **Film**. Die **Botschaften** waren **einfach** und **wiederholten** sich oft. Ein billiges **Radio**, der **Volksempfänger**, **brachte** sie in viele **Haushalte**. Große **Aufmärsche** **machten** **Politik** zum **Erlebnis**."],
+  n2:["Die NS-Herrschaft stützte sich auf ein geschlossenes Weltbild und auf Propaganda. Im Zentrum standen Rassismus und Antisemitismus: Die Nationalsozialisten teilten die Menschen in angeblich „höher-\" und „minderwertige Rassen\" ein.", "Das Ziel war eine „Volksgemeinschaft\", die nach „Rasse\" bestimmt war. Sie schloss „Volksgenossen\" ein und „Gemeinschaftsfremde\" aus. Nach dem Führerprinzip galten Befehl und Gehorsam; Hitler wurde als „Retter\" verehrt (Führerkult).", "Für die Verbreitung sorgte das Propagandaministerium unter Joseph Goebbels. Es steuerte Presse, Rundfunk und Film. Wichtige Techniken waren einfache, ständig wiederholte Botschaften, starke Gefühle und klare Feindbilder. Der billige „Volksempfänger\" brachte die Botschaften in viele Haushalte, Massenaufmärsche wie die Reichsparteitage machten Politik zum Erlebnis. Am besten wirkte die Propaganda dort, wo sie an vorhandene Meinungen anknüpfte."],
+  n3:["Das nationalsozialistische Weltbild war geschlossen, aber in sich widersprüchlich. Rassismus und ein als „Erlösungsantisemitismus\" (Saul Friedländer) radikalisierter Judenhass bildeten sein Zentrum.", "Die „Volksgemeinschaft\" fungierte zugleich als Integrations- und Ausgrenzungsformel: Sie versprach klassenübergreifende Zugehörigkeit für „Volksgenossen\" und definierte „Gemeinschaftsfremde\" heraus. Das Führerprinzip organisierte Herrschaft als Hierarchie von Befehl und Gehorsam.", "Das Propagandaministerium unter Goebbels und die Reichskulturkammer steuerten die gleichgeschalteten Medien. Ian Kershaw fasst die inszenierte Verehrung Hitlers als „Hitler-Mythos\", der Zustimmung erzeugte, ohne dass alle die Ideologie teilten. Die neuere Forschung betont, dass Propaganda selten allmächtig war: Sie verstärkte vorhandene Einstellungen und wirkte besonders bei außenpolitischen „Erfolgen\". Die Ästhetisierung der Politik – Massenaufmärsche, Filme wie „Triumph des Willens\" – verband Emotion und Herrschaft."]},
+ wortspeicher:["Propaganda","Volksgemeinschaft","Führerkult","Volksempfänger","Feindbild"],
+ levels:{
+  basis:[
+   {op:"Nennen",txt:"**Nenne** drei Medien, die die Propaganda nutzte.",heft:true,heftNr:"1a",muster:"z. B. Radio (Volksempfänger), Zeitung, Film."},
+   {op:"Beschreiben",txt:"**Beschreibe** mit dem Wortspeicher, was „Führerkult“ bedeutet.",heft:true,heftNr:"1b",muster:"Führerkult heißt: Hitler wurde übertrieben wie ein Retter verehrt."}],
+  mittel:[
+   {op:"Erklären",txt:"**Erkläre** an einem Beispiel, wie Propaganda Gefühle und Feindbilder erzeugt.",heft:true,heftNr:"1",muster:"z. B. Massenaufmärsche und einfache, wiederholte Parolen erzeugen Begeisterung und ein klares Feindbild („die Anderen sind schuld“)."},
+   {op:"Erläutern",txt:"**Erläutere**, warum die „Volksgemeinschaft“ zugleich einbezog und ausschloss.",heft:true,heftNr:"2",muster:"„Volksgenossen“ fühlten sich zugehörig; „Gemeinschaftsfremde“ (z. B. Juden) wurden bewusst ausgeschlossen – Einschluss und Ausschluss gehören zusammen."}],
+  erweitert:[
+   {stufe:"AFB I",op:"Nennen",txt:"**Nenne** zwei Techniken der NS-Propaganda.",heft:true,heftNr:"1",muster:"z. B. Wiederholung einfacher Botschaften, Emotionalisierung, Feindbilder."},
+   {stufe:"AFB II",op:"Analysieren",txt:"**Analysiere** die Sportpalastrede (Quellen-Tab): Welche sprachlichen Mittel nutzt Goebbels?",heft:true,heftNr:"2",muster:"Rhetorische Fragen („Ich frage euch …“), Wiederholung, direkte Anrede „euch“, Steigerung – so wird Zustimmung erzeugt."},
+   {stufe:"AFB III",op:"Beurteilen",txt:"**Beurteile** die These, Propaganda habe die Menschen völlig „umerzogen“.",heft:true,heftNr:"3",muster:"Kritisch: Propaganda wirkte v. a. dort, wo sie an vorhandene Meinungen anknüpfte (Kershaw). Sie erzwang Zustimmung nicht allein, sondern verstärkte sie."}]},
+ sim:{type:"sortier",hint:"Ordne zu: Was ist ein Propagandamittel des Regimes – was nicht?",b0:"Propagandamittel des NS",b1:"KEIN Propagandamittel",items:[
+  {t:"Volksempfänger (Radio)",b:0},{t:"Reichsparteitag / Massenaufmarsch",b:0},{t:"Propagandafilm",b:0},{t:"Plakate mit Parolen",b:0},{t:"freie, kritische Zeitungen",b:1},{t:"geheime Wahlen mit mehreren Parteien",b:1}]},
+ simTitle:"Propaganda erkennen",
+ quiz:{lw:"PROPAGANDA",fragen:[
+  {frage:"Wer leitete das Propagandaministerium?",opt:[{t:"Joseph Goebbels",c:true,fb:"Richtig."},{t:"Otto Wels",c:false,fb:"Nein, das war ein SPD-Politiker."},{t:"Paul von Hindenburg",c:false,fb:"Nein, das war der Reichspräsident."}]},
+  {frage:"Was war der „Volksempfänger“?",opt:[{t:"ein billiges Radio für Propaganda",c:true,fb:"Ja."},{t:"ein Fernseher",c:false,fb:"Nein, Fernsehen war noch kaum verbreitet."},{t:"eine Zeitung",c:false,fb:"Nein."}]},
+  {frage:"Was bedeutet „Volksgemeinschaft“?",opt:[{t:"Zugehörigkeit für die einen, Ausschluss für die anderen",c:true,fb:"Genau, sie schloss ein und aus."},{t:"gleiche Rechte für alle Menschen",c:false,fb:"Nein, viele wurden ausgeschlossen."},{t:"ein Sportverein",c:false,fb:"Nein."}]},
+  {frage:"Was meint der „Hitler-Mythos“ (Kershaw)?",opt:[{t:"das inszenierte Bild eines unfehlbaren Führers",c:true,fb:"Richtig."},{t:"ein Roman über Hitler",c:false,fb:"Nein."},{t:"ein Gesetz von 1934",c:false,fb:"Nein."}]},
+  {frage:"Wann wirkte Propaganda besonders gut?",opt:[{t:"wenn sie an vorhandene Meinungen anknüpfte",c:true,fb:"Richtig."},{t:"wenn sie sehr kompliziert war",c:false,fb:"Nein, sie war bewusst einfach."},{t:"wenn sie selten wiederholt wurde",c:false,fb:"Nein, Wiederholung war zentral."}]}]},
+ quelle:{
+  titel:"Goebbels, Sportpalastrede „Wollt ihr den totalen Krieg?“, 18.2.1943",
+  einleitung:"Kurz nach der Niederlage von Stalingrad. Musterbeispiel der NS-Propaganda – kritisch zu lesen.",
+  text:["Ich frage euch: Glaubt ihr mit dem Führer und mit uns an den endgültigen totalen Sieg des deutschen Volkes? […]",
+   "Ich frage euch: Wollt ihr den totalen Krieg? Wollt ihr ihn, wenn nötig, totaler und radikaler, als wir ihn uns heute überhaupt noch vorstellen können?",
+   "Ich frage euch: Seid ihr bereit, wenn der Führer es befiehlt, zehn, zwölf und, wenn nötig, vierzehn und sechzehn Stunden täglich zu arbeiten und das Letzte herzugeben für den Sieg? […] Nun, Volk, steh auf, und Sturm, brich los!"],
+  angabe:"Joseph Goebbels, Rede im Berliner Sportpalast, 18.2.1943 (Auszüge).",
+  art:"Textquelle (Rede) · Primärquelle (aus der Zeit selbst).",
+  artCheck:(a,t)=>a==="Textquelle"&&t.indexOf("Primär")===0,
+  felder:{wer:"Joseph Goebbels, NS-Propagandaminister.",wann:"18. Februar 1943 (nach Stalingrad).",wo:"Berliner Sportpalast, vor ausgewähltem Publikum.",fuerwen:"An das deutsche Volk (über Radio) – zur Mobilisierung.",warum:"Um trotz der Niederlage Durchhaltewillen und Zustimmung zum „totalen Krieg“ zu erzeugen."},
+  fragen:[
+   {q:"**Fasse** die Rede in zwei Sätzen zusammen.",muster:"Goebbels fragt das Publikum, ob es den „totalen Krieg“ und härteste Anstrengungen will. Er will damit trotz Stalingrad den Durchhaltewillen stärken."},
+   {q:"**Benenne**, wer hier spricht und wen er beeinflussen will.",muster:"Goebbels spricht; er will das deutsche Volk zur Kriegsbereitschaft bewegen."},
+   {q:"**Erläutere**, mit welchen Mitteln (Motiv/Absicht) die Rede wirkt.",muster:"Rhetorische Fragen, Wiederholung und die Anrede „euch“ erzeugen ein Gemeinschaftsgefühl und ein erwartetes „Ja“ – Ziel ist Manipulation zur Zustimmung."},
+   {q:"**Beurteile**: Warum antwortete das Publikum mit „Ja“?",muster:"Das Publikum war ausgewählt und aufgeheizt; die Fragen ließen kaum ein „Nein“ zu. Zustimmung wurde inszeniert, nicht frei gebildet."}]},
+ medien:[
+  ["Wie die NS-Zeit die Medien verändert hat","https://www.youtube.com/watch?v=lUZm2OFGaq4","Terra X (ZDF) · ca. 12 Min.","","**Arbeitsauftrag:** Notiere drei Medien/Techniken der Propaganda."],
+  ["Psychologie der Nazi-Mitläufer","https://www.youtube.com/watch?v=6sg5k08vCU0","Terra X (ZDF) · ca. 9 Min.","","Warum Menschen mitmachten – Bezug zum „Hitler-Mythos“."]],
+ lauf:"Propagandamittel sortieren, Sportpalastrede analysieren."
+});
+
+/* ===================== STATION 3 – Jugend ===================== */
+addStation({
+ id:"a3", nr:"3", ic:"🎽", color:"#a5713a", status:"pflicht",
+ title:"Formierung der Jugend (HJ & BDM)",
+ buch:"KONTEXT · Gesetz über die HJ",
+ komp:["SK","MK"],
+ leit:"Wie wollte das Regime schon die Jugend an sich binden?",
+ kann:["Ich kann HJ und BDM und ihre Ziele beschreiben.","Ich kann erklären, wozu die Jugend erzogen wurde.","Ich kann das HJ-Gesetz als Quelle auswerten."],
+ begriffe:["Hitlerjugend","BDM","Jugenddienstpflicht","Volksgemeinschaft","Führerprinzip"],
+ texte:{
+  n1:["Die **Nationalsozialisten** **wollten** schon die **Jugend** für sich **gewinnen**. Fast alle **Jungen** **kamen** in die **Hitlerjugend** (**HJ**). Fast alle **Mädchen** **kamen** in den **Bund Deutscher Mädel** (**BDM**).",
+      "In der **HJ** **lernten** **Jungen** **Gehorsam**. Sie **übten** schon für den **Krieg**: **Marschieren**, **Geländespiele**, **Schießen**. **Mädchen** im **BDM** **sollten** vor allem gute **Mütter** werden.",
+      "Ab 1936 war die **HJ** die einzige **Jugendorganisation**. Ab 1939 war die **Mitgliedschaft** **Pflicht**. Viele **fanden** **Uniform**, **Fahrten** und **Gemeinschaft** toll – dahinter **stand** aber immer die **Erziehung** zum **Gehorsam**."],
+  n2:["Die Nationalsozialisten wollten schon die Jugend für sich gewinnen. Fast alle Jungen kamen in die Hitlerjugend (HJ), fast alle Mädchen in den Bund Deutscher Mädel (BDM).",
+      "In der HJ lernten Jungen Gehorsam und wurden vormilitärisch geschult: Marschieren, Geländespiele, Schießen. Mädchen im BDM wurden auf die „Mutterrolle\" und den Dienst an der „Volksgemeinschaft\" ausgerichtet.",
+      "1936 wurde die HJ zur Staatsjugend, 1939 galt die Jugenddienstpflicht – die Mitgliedschaft war nun faktisch Zwang. Viele Jugendliche fanden Uniform, Fahrten und Gemeinschaft anziehend; zugleich verdrängte die HJ den Einfluss von Elternhaus und Schule und erzog zu Gehorsam und Opferbereitschaft."],
+  n3:["Die NS-Jugendpolitik zielte auf die lückenlose Erfassung und ideologische Formung der Jugend in HJ und BDM. Das „Gesetz über die Hitlerjugend\" (1936) und die Jugenddienstpflicht (1939) machten die Mitgliedschaft zur Zwangsmitgliedschaft.",
+      "Erziehung bedeutete Gehorsam und – für Jungen – vormilitärische Ausbildung, während Mädchen auf die „Mutterrolle\" ausgerichtet wurden; Eliteschulen (Napola, Adolf-Hitler-Schulen) ergänzten das System.",
+      "Zwischen Faszination (Uniform, Gemeinschaft, Aufwertung der Jugend) und Zwang bestand ein Spannungsfeld. Die HJ verdrängte konkurrierende Bindungen (Elternhaus, Kirche, Schule) und bereitete die Jugend gezielt auf Krieg und „Volksgemeinschaft\" vor."]},
+ wortspeicher:["Hitlerjugend","BDM","Gehorsam","Uniform","Pflicht","Gemeinschaft"],
+ levels:{
+  basis:[
+   {op:"Nennen",txt:"**Nenne** die beiden großen NS-Jugendorganisationen.",heft:true,heftNr:"1a",muster:"Hitlerjugend (HJ) für Jungen, BDM für Mädchen."},
+   {op:"Beschreiben",txt:"**Beschreibe** mit dem Wortspeicher, was Jungen in der HJ lernten.",heft:true,heftNr:"1b",muster:"Gehorsam und vormilitärische Übungen wie Marschieren, Geländespiele und Schießen."}],
+  mittel:[
+   {op:"Erklären",txt:"**Erkläre**, wie HJ und BDM Jungen und Mädchen unterschiedlich prägten.",heft:true,heftNr:"1",muster:"Jungen: Gehorsam und vormilitärische Ausbildung; Mädchen: Ausrichtung auf die „Mutterrolle\" und die „Volksgemeinschaft\"."},
+   {op:"Erläutern",txt:"**Erläutere**, warum man ab 1936/39 von Zwang sprechen kann.",heft:true,heftNr:"2",muster:"1936 wurde die HJ Staatsjugend, 1939 galt die Jugenddienstpflicht – die Mitgliedschaft war Pflicht; Elternhaus und Schule wurden zurückgedrängt."}],
+  erweitert:[
+   {stufe:"AFB I",op:"Nennen",txt:"**Nenne**, wer nach dem HJ-Gesetz zur Hitler-Jugend gehören soll.",heft:true,heftNr:"1",muster:"Die „gesamte deutsche Jugend\"."},
+   {stufe:"AFB II",op:"Erklären",txt:"**Erkläre** am Gesetz (Quellen-Tab), wie Elternhaus und Schule zurückgedrängt werden.",heft:true,heftNr:"2",muster:"Laut § 2 wird die Jugend „außer in Elternhaus und Schule\" in der HJ im NS-Geist erzogen – die HJ übernimmt die entscheidende Erziehung."},
+   {stufe:"AFB III",op:"Beurteilen",txt:"**Beurteile** die Aussage, die HJ sei „nur Zwang\" gewesen.",heft:true,heftNr:"3",muster:"Differenziert: Es gab Zwang (Pflicht), aber auch Faszination (Uniform, Gemeinschaft, Abenteuer). Beides erklärt den Erfolg der HJ."}]},
+ sim:{type:"sortier",hint:"Wozu wurden Jungen (HJ) und Mädchen (BDM) vor allem erzogen? Ordne zu.",b0:"eher HJ (Jungen)",b1:"eher BDM (Mädchen)",items:[
+  {t:"Geländespiele & Schießen",b:0},{t:"vormilitärische Ausbildung",b:0},{t:"Vorbereitung auf die „Mutterrolle\"",b:1},{t:"Haushalt & Kindererziehung",b:1},{t:"Gehorsam gegenüber Vorgesetzten",b:0},{t:"Gemeinschaftserlebnis (beide)",b:1}]},
+ simTitle:"HJ & BDM zuordnen",
+ quiz:{lw:"GEHORSAM",fragen:[
+  {frage:"Wie hieß die NS-Organisation für Jungen?",opt:[{t:"Hitlerjugend (HJ)",c:true,fb:"Richtig."},{t:"BDM",c:false,fb:"Nein, der BDM war für Mädchen."},{t:"Bundeswehr",c:false,fb:"Nein, die gibt es erst nach 1955."}]},
+  {frage:"Worauf wurden Mädchen im BDM vor allem ausgerichtet?",opt:[{t:"auf die „Mutterrolle\"",c:true,fb:"Ja, so das NS-Frauenbild."},{t:"auf den Panzerbau",c:false,fb:"Nein."},{t:"auf das Fliegen",c:false,fb:"Nein."}]},
+  {frage:"Was änderte sich 1939 für die HJ-Mitgliedschaft?",opt:[{t:"sie wurde durch die Jugenddienstpflicht zur Pflicht",c:true,fb:"Ja."},{t:"sie wurde freiwillig",c:false,fb:"Nein, das Gegenteil."},{t:"sie wurde verboten",c:false,fb:"Nein."}]},
+  {frage:"Was übten Jungen in der HJ?",opt:[{t:"Marschieren, Geländespiele, Schießen",c:true,fb:"Richtig – vormilitärische Erziehung."},{t:"nur Kochen",c:false,fb:"Nein."},{t:"Programmieren",c:false,fb:"Nein."}]},
+  {frage:"Was machte die HJ für viele Jugendliche attraktiv?",opt:[{t:"Uniform, Fahrten und Gemeinschaft",c:true,fb:"Richtig – trotz des Zwangs dahinter."},{t:"hohe Löhne",c:false,fb:"Nein."},{t:"freie Meinung",c:false,fb:"Nein."}]}]},
+ quelle:{
+  titel:"Gesetz über die Hitlerjugend, 1. Dezember 1936",
+  einleitung:"Das Gesetz macht die HJ zur Staatsjugend.",
+  text:["§ 1. Die gesamte deutsche Jugend innerhalb des Reichsgebietes ist in der Hitler-Jugend zusammengefaßt.",
+   "§ 2. Die gesamte deutsche Jugend ist außer in Elternhaus und Schule in der Hitler-Jugend körperlich, geistig und sittlich im Geiste des Nationalsozialismus zum Dienst am Volk und zur Volksgemeinschaft zu erziehen.",
+   "§ 3. Die Erziehung wird dem Reichsjugendführer der NSDAP übertragen. Er ist dem Führer und Reichskanzler unmittelbar unterstellt."],
+  angabe:"Gesetz über die Hitlerjugend, 1.12.1936 (§ 1–3). RGBl. 1936 I, S. 993.",
+  art:"Textquelle · Primärquelle (Gesetzestext aus der Zeit).",
+  artCheck:(a,t)=>a==="Textquelle"&&t.indexOf("Primär")===0,
+  felder:{wer:"Die NS-Reichsregierung (amtliches Gesetz).",wann:"1. Dezember 1936.",wo:"Deutsches Reich.",fuerwen:"Für die gesamte Jugend, Eltern, Schulen, Behörden.",warum:"Um die Jugend vollständig zu erfassen und im NS-Geist zu erziehen."},
+  fragen:[
+   {q:"**Fasse** das Gesetz in zwei Sätzen zusammen.",muster:"Das Gesetz fasst die gesamte deutsche Jugend in der HJ zusammen. Sie soll außerhalb von Elternhaus und Schule im Geiste des Nationalsozialismus erzogen werden."},
+   {q:"**Benenne**, wer für die Erziehung der Jugend zuständig wird.",muster:"Der Reichsjugendführer der NSDAP, direkt Hitler unterstellt."},
+   {q:"**Erläutere** das Motiv: Warum will das Regime „die gesamte Jugend\"?",muster:"Um alle Jugendlichen ideologisch zu formen, für Gehorsam und Krieg – ohne Ausnahmen durch Elternhaus oder Schule."},
+   {q:"**Charakterisiere**, welche Rolle Elternhaus und Schule laut § 2 noch spielen.",muster:"Sie werden zurückgedrängt: Die HJ tritt „außer\" Elternhaus und Schule und übernimmt die entscheidende Erziehung."}]},
+ medien:[
+  ["Hitlerjugend & BDM einfach erklärt","https://www.youtube.com/watch?v=Du7T6VDTJ_8","Erklärvideo · ca. 8 Min.","","**Arbeitsauftrag:** Nenne zwei Ziele der HJ und ein Ziel des BDM."]],
+ lauf:"HJ/BDM zuordnen, HJ-Gesetz auswerten."
+});
+
+/* ===================== STATION 4 – Aufrüstung ===================== */
+addStation({
+ id:"aufruestung", nr:"4", ic:"🏭", color:"#8a5a2b", status:"pflicht",
+ title:"Aufrüstung für den Krieg",
+ buch:"KONTEXT · Vierjahresplan · Haushalts-Diagramm",
+ komp:["SK","MK","UK"],
+ leit:"War die „Arbeit für alle\" wirklich das Ziel – oder ging es um den Krieg?",
+ kann:["Ich kann erklären, wie das Regime die Arbeitslosigkeit „bekämpfte\".","Ich kann den Autobahn-Mythos von der Rüstung unterscheiden.","Ich kann eine Quelle (Vierjahresplan) auswerten."],
+ begriffe:["Aufrüstung","Vierjahresplan","Autarkie","Wehrpflicht","Versailler Vertrag","Arbeitsbeschaffung"],
+ texte:{
+  n1:["Das **Regime** **brauchte** **Arbeit** für die **Menschen** – und **Waffen** für den **Krieg**. Beides **verband** es geschickt.",
+      "Ein berühmtes **Beispiel** ist der **Autobahnbau**. Die **Nazis** **zeigten** ihn als „**Arbeit für alle**\". In Wahrheit **schuf** die **Autobahn** nur **wenige Arbeitsplätze**. Sie war vor allem **Werbung** (**Propaganda**).",
+      "Das meiste **Geld** **floss** in die **Rüstung**: **Panzer**, **Flugzeuge**, **Soldaten**. 1935 **kam** die **Wehrpflicht** zurück. Der **Vierjahresplan** von 1936 **sollte** die **Wirtschaft** in vier **Jahren** **kriegsbereit** machen."],
+  n2:["Nach 1933 sank die Arbeitslosigkeit – das Regime feierte das als seinen Erfolg. Ein bekanntes Beispiel war der Bau der Reichsautobahn, den die Propaganda als „Arbeit für alle\" zeigte.",
+      "Tatsächlich schuf der Autobahnbau nur relativ wenige Arbeitsplätze; er diente vor allem der Propaganda und dem Prestige. Der eigentliche Motor gegen die Arbeitslosigkeit – und das große Ziel – war die Aufrüstung.",
+      "1935 führte das Regime die Wehrpflicht wieder ein (Bruch des Versailler Vertrags). Der Vierjahresplan (1936) richtete die Wirtschaft auf Autarkie und Krieg aus: „in vier Jahren kriegsfähig\". Ein immer größerer Teil der Staatsausgaben floss in Panzer, Flugzeuge und die Wehrmacht – die „Arbeitsbeschaffung\" war zugleich Kriegsvorbereitung."],
+  n3:["Die wirtschaftliche „Erholung\" nach 1933 war eng mit der Aufrüstung verbunden. Prestigeprojekte wie die Reichsautobahn wurden propagandistisch als „Arbeit für alle\" inszeniert, obwohl ihr Beschäftigungseffekt begrenzt blieb und ihr wirtschaftlicher wie militärischer Nutzen umstritten ist.",
+      "Der eigentliche Beschäftigungs- und Ausgabenschub kam aus der Rüstung: Wiedereinführung der Wehrpflicht (1935), Rheinlandbesetzung (1936) und der Vierjahresplan (1936) mit dem Ziel, Wirtschaft und Armee binnen vier Jahren kriegsfähig zu machen (Autarkie).",
+      "Der wachsende Anteil der Rüstungsausgaben am Reichshaushalt zeigt: Die „Arbeitsbeschaffung\" war kein Selbstzweck, sondern Teil einer auf Krieg ausgerichteten Politik. Historiker diskutieren, ob die Überhitzung der Rüstungswirtschaft den Weg in den Krieg zusätzlich beschleunigte (Tim Mason)."]},
+ wortspeicher:["Autobahn","Arbeitsbeschaffung","Propaganda","Rüstung","Wehrpflicht","Vierjahresplan"],
+ levels:{
+  basis:[
+   {op:"Nennen",txt:"**Nenne**, wofür das meiste Geld ausgegeben wurde.",heft:true,heftNr:"1a",muster:"Für die Aufrüstung: Panzer, Flugzeuge, Soldaten (Wehrmacht)."},
+   {op:"Beschreiben",txt:"**Beschreibe** mit dem Wortspeicher, warum der Autobahnbau vor allem Propaganda war.",heft:true,heftNr:"1b",muster:"Die Nazis zeigten ihn als „Arbeit für alle\", doch er schuf nur wenige Arbeitsplätze – es war vor allem Werbung."}],
+  mittel:[
+   {op:"Erklären",txt:"**Erkläre**, warum die Arbeitslosigkeit vor allem durch die Aufrüstung sank.",heft:true,heftNr:"1",muster:"Die Rüstung (Wehrmacht, Waffenfabriken, Wehrpflicht) schuf sehr viele Arbeitsplätze und verschlang das meiste Geld – die Autobahn nur wenige."},
+   {op:"Erläutern",txt:"**Erläutere** am Diagramm und am Vierjahresplan, dass das eigentliche Ziel der Krieg war.",heft:true,heftNr:"2",muster:"Die Wehrmachtausgaben stiegen stark; der Vierjahresplan forderte „in vier Jahren kriegsfähig\" – Wirtschaftspolitik war Kriegsvorbereitung."}],
+  erweitert:[
+   {stufe:"AFB I",op:"Nennen",txt:"**Nenne**, was der Vierjahresplan (Quellen-Tab) in vier Jahren erreichen sollte.",heft:true,heftNr:"1",muster:"Die Armee sollte einsatzfähig, die Wirtschaft kriegsfähig sein."},
+   {stufe:"AFB II",op:"Erklären",txt:"**Erkläre** am Diagramm, wie sich die Wehrmachtausgaben entwickelten und was das bedeutet.",heft:true,heftNr:"2",muster:"Sie stiegen ab 1933 stark an – ein immer größerer Teil des Haushalts floss in die Rüstung, also in die Kriegsvorbereitung."},
+   {stufe:"AFB III",op:"Beurteilen",txt:"**Beurteile** die NS-Behauptung „Wir haben mit der Autobahn Arbeit für alle geschaffen\".",heft:true,heftNr:"3",muster:"Kritisch: Die Autobahn war v. a. Propaganda mit wenigen Jobs. Der große Beschäftigungs- und Ausgabenschub kam aus der Rüstung – die „Erfolge\" dienten dem Krieg, nicht dem Wohlstand."}]},
+ sim:{type:"wahrfalsch",hint:"Wahr oder falsch? Beurteile die Aussagen zur Wirtschaft und Aufrüstung.",items:[
+  {t:"Der Autobahnbau schuf die meisten Arbeitsplätze im NS-Staat.",w:false},
+  {t:"Der größte Teil der Staatsausgaben floss in die Aufrüstung.",w:true},
+  {t:"Mit dem Vierjahresplan sollte die Wirtschaft kriegsfähig werden.",w:true},
+  {t:"Die Wehrpflicht 1935 war ein Bruch des Versailler Vertrags.",w:true},
+  {t:"Die Reichsautobahn diente vor allem der Propaganda.",w:true}]},
+ simTitle:"Mythos Autobahn – wahr oder falsch?",
+ quiz:{lw:"RUESTUNG",fragen:[
+  {frage:"Wofür gab das Regime das meiste Geld aus?",opt:[{t:"für die Aufrüstung (Wehrmacht, Waffen)",c:true,fb:"Richtig."},{t:"für Schulen und Krankenhäuser",c:false,fb:"Nein."},{t:"für die Autobahn",c:false,fb:"Nein, die verschlang vergleichsweise wenig."}]},
+  {frage:"Wie ist der Autobahnbau vor allem zu bewerten?",opt:[{t:"als Propaganda mit wenigen Arbeitsplätzen",c:true,fb:"Richtig."},{t:"als größter Jobmotor",c:false,fb:"Nein, das war die Rüstung."},{t:"als Umweltprojekt",c:false,fb:"Nein."}]},
+  {frage:"Welches Ziel hatte der Vierjahresplan 1936?",opt:[{t:"die Wirtschaft in vier Jahren kriegsfähig zu machen",c:true,fb:"Richtig."},{t:"mehr Urlaub für Arbeiter",c:false,fb:"Nein."},{t:"die Abrüstung",c:false,fb:"Nein, das Gegenteil."}]},
+  {frage:"Was bedeutet „Autarkie\"?",opt:[{t:"wirtschaftliche Unabhängigkeit vom Ausland",c:true,fb:"Richtig."},{t:"freier Welthandel",c:false,fb:"Nein."},{t:"eine Jugendorganisation",c:false,fb:"Nein."}]},
+  {frage:"Welchen Vertrag brach die Wehrpflicht 1935?",opt:[{t:"den Versailler Vertrag",c:true,fb:"Richtig."},{t:"das Grundgesetz",c:false,fb:"Nein, das gab es noch nicht."},{t:"den Hitler-Stalin-Pakt",c:false,fb:"Nein, der war erst 1939."}]}]},
+ quelle:{
+  titel:"Denkschrift Hitlers zum Vierjahresplan, 1936",
+  einleitung:"Ein geheimes Papier Hitlers. Es zeigt das eigentliche Ziel hinter „Arbeitsbeschaffung\" und Wirtschaftspolitik.",
+  text:["„I. Die deutsche Armee muß in vier Jahren einsatzfähig sein.",
+   "II. Die deutsche Wirtschaft muß in vier Jahren kriegsfähig sein.\"",
+   "(Hitler ordnet alle anderen Ziele der Aufrüstung unter und begründet dies mit einer angeblichen Bedrohung.)"],
+  angabe:"Denkschrift Adolf Hitlers zum Vierjahresplan, 1936 (Auszug). Edition: IfZ / VfZ 1955.",
+  art:"Textquelle (Denkschrift) · Primärquelle (geheimes Papier aus der Zeit).",
+  artCheck:(a,t)=>a==="Textquelle"&&t.indexOf("Primär")===0,
+  felder:{wer:"Adolf Hitler (geheime Denkschrift).",wann:"1936.",wo:"Deutsches Reich (interne Regierungsplanung).",fuerwen:"Für Göring und die Wirtschaftsführung – nicht für die Öffentlichkeit.",warum:"Um Wirtschaft und Armee gezielt auf einen Krieg vorzubereiten."},
+  fragen:[
+   {q:"**Fasse** die Kernforderung in zwei Sätzen zusammen.",muster:"Armee und Wirtschaft sollen in vier Jahren kriegsfähig sein. Alles andere wird der Aufrüstung untergeordnet."},
+   {q:"**Benenne**, wer das Papier verfasst und für wen es bestimmt ist.",muster:"Hitler; bestimmt für die Wirtschaftsführung (Göring), geheim – nicht für die Öffentlichkeit."},
+   {q:"**Erläutere**, was das Ziel „in vier Jahren kriegsfähig\" über die Wirtschaftspolitik verrät.",muster:"Die Wirtschaft – auch die „Arbeitsbeschaffung\" – diente vor allem der Kriegsvorbereitung, nicht dem Wohlstand."},
+   {q:"**Beurteile** mithilfe von Diagramm und Quelle: War der Autobahnbau der eigentliche Grund für weniger Arbeitslosigkeit?",muster:"Nein. Die Autobahn war v. a. Propaganda mit wenigen Jobs; der große Ausgaben- und Beschäftigungsschub kam aus der Rüstung (Vierjahresplan)."}]},
+ bild:{ img:"a3_chart.png", w:470, h:242, unterschrift:"Ausgaben im Staatshaushalt 1928–1938: die Wehrmachtausgaben steigen ab 1933 stark.", quelle:"Schaubild nach Haushaltsdaten (Projektmaterial).", auftrag:"Beschreibe die Entwicklung der Wehrmachtausgaben und erkläre, was sie über das eigentliche Ziel verrät." },
+ bild2:{ img:"a3_rad.jpg", w:250, h:355, unterschrift:"Plakat „Der Reichsarbeitsdienst ruft!\" – Arbeit als NS-Propaganda.", quelle:"NS-Werbeplakat (Projektmaterial)." },
+ lauf:"Autobahn-Mythos prüfen, Vierjahresplan auswerten."
+});
+
+/* ===================== STATION 5 – Judenverfolgung 1933–1939 ===================== */
+addStation({
+ id:"a4", nr:"5", ic:"🕯️", color:"#4a4e57", status:"pflicht",
+ title:"Judenverfolgung 1933–1939",
+ buch:"KONTEXT · Nürnberger Gesetze",
+ komp:["SK","MK","UK"],
+ leit:"Wie wurden Juden bis 1939 ausgegrenzt – und warum konnten viele nicht entkommen?",
+ kann:["Ich kann Stufen der Ausgrenzung bis 1939 nennen.","Ich kann erklären, warum Auswanderung fast unmöglich war.","Ich kann NS-Gesetze kritisch lesen."],
+ begriffe:["Ausgrenzung","Boykott","Nürnberger Gesetze","Novemberpogrom","Arisierung","Reichsfluchtsteuer","Évian-Konferenz"],
+ leseanleitung:"Achtung: sensibles Thema. Lies aufmerksam und respektvoll. Sprich mit deiner Lehrkraft, wenn dich etwas beschäftigt.",
+ texte:{
+  n1:["Ab 1933 **wurde** das **Leben** der **Juden** in **Deutschland** immer **schwerer**. Der **Staat** **grenzte** sie **aus**.",
+      "1933: **Boykott** jüdischer **Geschäfte** und **Berufsverbote**. 1935: Die **Nürnberger Gesetze** **nahmen** den **Juden** viele **Rechte**. 1938: Beim **Novemberpogrom** **brannten** die **Synagogen**.",
+      "Viele **Juden** **wollten** **auswandern**. Doch das war **schwer**: Der **Staat** **nahm** ihnen fast ihr ganzes **Geld**, und andere **Länder** **nahmen** kaum jemanden **auf**. So **saßen** viele in der **Falle**."],
+  n2:["Ab 1933 grenzte der NS-Staat die jüdische Bevölkerung Schritt für Schritt aus. Zuerst folgten der Boykott (1. April 1933) und der „Arierparagraph\" (Berufsverbote).",
+      "1935 machten die Nürnberger Gesetze Juden zu Menschen „zweiter Klasse\" (kein volles Bürgerrecht, Eheverbote). Beim Novemberpogrom 1938 zerstörten die Nationalsozialisten Synagogen und Geschäfte, viele Menschen wurden verhaftet; danach wurden Juden aus dem Wirtschaftsleben gedrängt („Arisierung\").",
+      "Das Regime wollte die Juden zur Auswanderung zwingen. Doch die Ausreise war fast unmöglich: Hohe Sonderabgaben (u. a. „Reichsfluchtsteuer\") plünderten die Auswanderer aus, und kaum ein Land nahm Flüchtlinge auf (Évian-Konferenz 1938). Bis 1939 war die jüdische Bevölkerung entrechtet und beraubt – und konnte doch kaum entkommen."],
+  n3:["Zwischen 1933 und 1939 radikalisierte sich die Judenverfolgung in Stufen: Ausgrenzung und Entrechtung (Boykott 1933, „Arierparagraph\"), die pseudobiologische Entrechtung durch die Nürnberger Gesetze (1935) sowie Pogrom und „Arisierung\" (1938).",
+      "Die NS-Politik zielte zunächst auf die erzwungene Auswanderung. Diese wurde jedoch systematisch erschwert: Vermögensabgaben (Reichsfluchtsteuer, „Judenvermögensabgabe\" nach 1938) beraubten die Ausreisenden, während die internationale Aufnahmebereitschaft gering blieb (Évian-Konferenz 1938).",
+      "So entstand die paradoxe Lage, dass Menschen zur Ausreise gedrängt, zugleich aber ausgeplündert und kaum aufgenommen wurden – viele saßen in der Falle. (Mit Kriegsbeginn kippte die Politik: 1941 folgte das generelle Ausreiseverbot – der Übergang zur Deportation.)"]},
+ wortspeicher:["Ausgrenzung","Boykott","Nürnberger Gesetze","Novemberpogrom","Auswanderung","Reichsfluchtsteuer"],
+ levels:{
+  basis:[
+   {op:"Nennen",txt:"**Nenne** drei Schritte der Ausgrenzung von 1933 bis 1938.",heft:true,heftNr:"1a",muster:"z. B. Boykott 1933, Nürnberger Gesetze 1935, Novemberpogrom 1938."},
+   {op:"Beschreiben",txt:"**Beschreibe** mit dem Wortspeicher, warum viele Juden nicht auswandern konnten.",heft:true,heftNr:"1b",muster:"Der Staat nahm ihnen fast ihr Geld (Reichsfluchtsteuer), und kaum ein Land nahm sie auf."}],
+  mittel:[
+   {op:"Erklären",txt:"**Erkläre**, warum der Novemberpogrom 1938 eine Verschärfung war.",heft:true,heftNr:"1",muster:"Erstmals offene, staatlich gelenkte Gewalt gegen Leben und Eigentum – ein Bruch mit der bis dahin v. a. rechtlichen Ausgrenzung."},
+   {op:"Erläutern",txt:"**Erläutere** den Widerspruch: Man wollte Juden loswerden, machte die Ausreise aber fast unmöglich.",heft:true,heftNr:"2",muster:"Das Regime drängte zur Auswanderung, beraubte die Ausreisenden aber (Reichsfluchtsteuer) und kaum ein Land nahm sie auf (Évian) – viele saßen in der Falle."}],
+  erweitert:[
+   {stufe:"AFB I",op:"Nennen",txt:"**Nenne**, was die Nürnberger Gesetze 1935 bewirkten.",heft:true,heftNr:"1",muster:"Sie entrechteten Juden (kein volles Bürgerrecht) und verboten Ehen zwischen Juden und „Deutschblütigen\"."},
+   {stufe:"AFB II",op:"Erklären",txt:"**Erkläre** an der Quelle, warum die Einteilung nach „Blut\" unwissenschaftlich ist.",heft:true,heftNr:"2",muster:"„Rasse/Blut\" ist keine biologische Kategorie; die Gesetze erfanden eine pseudobiologische Einteilung, um Menschen willkürlich zu entrechten."},
+   {stufe:"AFB III",op:"Beurteilen",txt:"**Beurteile** die Aussage: „Wer verfolgt wurde, hätte doch einfach auswandern können.\"",heft:true,heftNr:"3",muster:"Kritisch: Auswanderung war gewollt, aber fast unmöglich gemacht (Beraubung, kaum Aufnahmeländer, Bürokratie). Der Vorwurf verkennt die Falle, in der die Menschen saßen."}]},
+ sim:{type:"ordnen",hint:"Bringe die Ereignisse der Ausgrenzung 1933–1939 in die richtige Reihenfolge.",items:["Boykott jüdischer Geschäfte (April 1933)","Nürnberger Gesetze (1935)","Évian-Konferenz – kaum Aufnahme (Juli 1938)","Novemberpogrom (November 1938)","„Arisierung\" – Enteignung (ab Ende 1938)"]},
+ simTitle:"Ausgrenzung 1933–1939 ordnen",
+ quiz:{lw:"AUSGRENZUNG",fragen:[
+  {frage:"Was geschah 1933 als erster Schritt?",opt:[{t:"Boykott jüdischer Geschäfte und Berufsverbote",c:true,fb:"Richtig."},{t:"der Novemberpogrom",c:false,fb:"Nein, das war 1938."},{t:"die Deportation in Lager",c:false,fb:"Nein, das gehört nicht in diese Zeit (bis 1939)."}]},
+  {frage:"Was bewirkten die Nürnberger Gesetze 1935?",opt:[{t:"sie entrechteten Juden und verboten Ehen",c:true,fb:"Richtig."},{t:"sie gaben Juden mehr Rechte",c:false,fb:"Nein, das Gegenteil."},{t:"sie beendeten die Verfolgung",c:false,fb:"Nein."}]},
+  {frage:"Was war die „Reichsfluchtsteuer\"?",opt:[{t:"eine hohe Abgabe, die Auswanderer fast ihr Vermögen kostete",c:true,fb:"Richtig – Ausplünderung."},{t:"eine Belohnung fürs Bleiben",c:false,fb:"Nein."},{t:"eine Steuer für Autos",c:false,fb:"Nein."}]},
+  {frage:"Was zeigte die Évian-Konferenz 1938?",opt:[{t:"kaum ein Land war bereit, Flüchtlinge aufzunehmen",c:true,fb:"Richtig."},{t:"alle Länder halfen sofort",c:false,fb:"Nein, leider nicht."},{t:"der Krieg begann",c:false,fb:"Nein."}]},
+  {frage:"Warum konnten viele Juden nicht entkommen?",opt:[{t:"sie wurden ausgeplündert und kaum aufgenommen",c:true,fb:"Richtig – sie saßen in der Falle."},{t:"sie wollten nicht weg",c:false,fb:"Nein, viele wollten dringend auswandern."},{t:"die Grenzen waren offen",c:false,fb:"Nein."}]}]},
+ quelle:{
+  titel:"Nürnberger Gesetze, 15. September 1935",
+  einleitung:"NS-Gesetze zur Entrechtung mit menschenverachtender Sprache – ausschließlich kritisch zu lesen.",
+  text:["Reichsbürgergesetz, § 2 (1): Reichsbürger ist nur der Staatsangehörige deutschen oder artverwandten Blutes […]. (3) Der Reichsbürger ist der alleinige Träger der vollen politischen Rechte […].",
+   "Gesetz zum Schutze des deutschen Blutes und der deutschen Ehre, § 1 (1): Eheschließungen zwischen Juden und Staatsangehörigen deutschen oder artverwandten Blutes sind verboten.",
+   "§ 2: Außerehelicher Verkehr zwischen Juden und Staatsangehörigen deutschen oder artverwandten Blutes ist verboten."],
+  angabe:"Nürnberger Gesetze, 15.9.1935 (Auszüge). RGBl. 1935 I, S. 1146 f.",
+  art:"Textquelle · Primärquelle (Gesetzestext aus der Zeit).",
+  artCheck:(a,t)=>a==="Textquelle"&&t.indexOf("Primär")===0,
+  felder:{wer:"Die NS-Reichsregierung/„Reichstag\" (amtliche Gesetze).",wann:"15. September 1935.",wo:"Deutsches Reich (verkündet in Nürnberg).",fuerwen:"Für Behörden und Bevölkerung – rechtlich verbindlich.",warum:"Um Juden rechtlich zu entrechten und pseudobiologisch auszugrenzen."},
+  fragen:[
+   {q:"**Fasse** zusammen, was die Gesetze bestimmen.",muster:"Nur „Deutschblütige\" sind volle Bürger; Juden verlieren politische Rechte. Ehen und Beziehungen zwischen Juden und „Deutschblütigen\" werden verboten."},
+   {q:"**Benenne** die Verantwortlichen dieser Entrechtung.",muster:"Das NS-Regime (Staat/Partei), das die Gesetze erlässt und durchsetzt."},
+   {q:"**Erläutere** das Motiv hinter den Gesetzen.",muster:"Rassistische Ideologie: Juden sollen als „minderwertig\" ausgegrenzt und zu Bürgern „zweiter Klasse\" gemacht werden."},
+   {q:"**Charakterisiere** die Opfer. Warum werden sie entrechtet?",muster:"Opfer sind die jüdischen Menschen – nicht wegen einer Tat, sondern allein aufgrund der erfundenen „Rasse\". Das ist der Kern des Unrechts."}]},
+ bild:{ img:"a4_synagoge.jpg", w:430, h:314, unterschrift:"Brennende Synagoge während des Novemberpogroms, 9./10. November 1938.", quelle:"Zeitgenössische Fotografie (Projektmaterial).", auftrag:"Beschreibe, was zu sehen ist, und ordne das Bild dem Novemberpogrom zu." },
+ medien:[
+  ["Verfolgung der Juden im Nationalsozialismus","https://schule.zdf.de/video/verfolgung-der-juden-im-nationalsozialismus-creative-commons-clip-100","ZDF goes Schule · ca. 4 Min.","","⚠ belastend. **Arbeitsauftrag:** Achte auf die Schritte bis 1939 (Ausgrenzung, Entrechtung, Pogrom)."]],
+ lauf:"Ausgrenzung ordnen, Nürnberger Gesetze analysieren."
+});
+
+/* ===================== STATION 6 – Anschluss Österreichs ===================== */
+addStation({
+ id:"anschluss", nr:"6", ic:"🇦🇹", color:"#556270", status:"pflicht",
+ title:"Anschluss Österreichs 1938",
+ buch:"neu recherchiert · Anschluss-Gesetz",
+ komp:["SK","MK","UK"],
+ leit:"Wie kam Österreich 1938 zum Deutschen Reich – freiwillig oder erzwungen?",
+ kann:["Ich kann den Anschluss 1938 beschreiben.","Ich kann erklären, warum die „Volksabstimmung\" unfrei war.","Ich kann ein Gesetz als Quelle beurteilen."],
+ begriffe:["Anschluss","Volksabstimmung","Großdeutschland","Appeasement","Gleichschaltung"],
+ texte:{
+  n1:["1938 **wollte** **Hitler** **Österreich** zu **Deutschland** **holen**. Viele **Österreicher** **sprachen** **Deutsch** und **fühlten** sich als **Deutsche**.",
+      "Im **März 1938** **marschierten** deutsche **Soldaten** in **Österreich** ein. Es gab **keinen** militärischen **Widerstand**. Man **nennt** das den „**Anschluss**\".",
+      "Danach **gab** es eine **Abstimmung**. Fast alle **stimmten** mit **Ja** – aber die **Abstimmung** war **unfrei** (**Druck**, **Propaganda**, **Verfolgung** der **Gegner**). **Österreich** war nun **Teil** des **Reiches**."],
+  n2:["Schon lange wollte Hitler Österreich an das Deutsche Reich „anschließen\" (Großdeutschland). Viele – aber nicht alle – Österreicher unterstützten das.",
+      "Im März 1938 setzte Hitler die österreichische Regierung unter Druck; deutsche Truppen marschierten ein, ohne auf militärischen Widerstand zu stoßen. Der „Anschluss\" wurde vollzogen und begeistert inszeniert (Hitlers Rede am Wiener Heldenplatz).",
+      "Eine nachträgliche „Volksabstimmung\" ergab über 99 % Zustimmung – doch sie war unfrei: Gegner, Juden und viele andere waren ausgeschlossen oder wurden bereits verfolgt, dazu kam massive Propaganda. Das Ausland griff nicht ein (Appeasement). Österreich verschwand als eigener Staat."],
+  n3:["Der „Anschluss\" Österreichs im März 1938 war der erste offene Gebietszuwachs des NS-Staates. Nach massivem Druck auf die Regierung Schuschnigg marschierte die Wehrmacht ohne Gegenwehr ein; Hitler verkündete am Heldenplatz den „Eintritt\" Österreichs ins Reich.",
+      "Die inszenierte „Volksabstimmung\" (April 1938) mit über 99 % Zustimmung war propagandistisch überhöht und unfrei: Verfolgte, Juden und Regimegegner waren ausgeschlossen, Einschüchterung und Gleichschaltung prägten das Bild.",
+      "Die Westmächte reagierten nicht (Appeasement) – ein Signal, das Hitlers weitere Expansion (Sudetenland, Böhmen/Mähren) ermutigte. Der „Anschluss\" zeigt das Zusammenspiel von echter Zustimmung, Zwang und außenpolitischer Nachgiebigkeit."]},
+ wortspeicher:["Anschluss","Österreich","Abstimmung","Propaganda","Reich"],
+ levels:{
+  basis:[
+   {op:"Nennen",txt:"**Nenne**, wann und wie Österreich zum Deutschen Reich kam.",heft:true,heftNr:"1a",muster:"Im März 1938 durch den Einmarsch deutscher Truppen („Anschluss\")."},
+   {op:"Beschreiben",txt:"**Beschreibe** mit dem Wortspeicher, warum die Abstimmung unfrei war.",heft:true,heftNr:"1b",muster:"Es gab Druck und Propaganda; Gegner und Juden durften nicht mitstimmen."}],
+  mittel:[
+   {op:"Erklären",txt:"**Erkläre**, warum der Einmarsch ohne militärischen Widerstand gelang.",heft:true,heftNr:"1",muster:"Die österreichische Regierung war unter Druck gesetzt worden, und viele Österreicher begrüßten den Anschluss – so gab es keine Gegenwehr."},
+   {op:"Erläutern",txt:"**Erläutere**, warum die 99 %-Zustimmung nicht als echtes Ergebnis gelten kann.",heft:true,heftNr:"2",muster:"Die Abstimmung war unfrei: Gegner/Juden ausgeschlossen, Einschüchterung und Propaganda – das Ergebnis war inszeniert."}],
+  erweitert:[
+   {stufe:"AFB I",op:"Nennen",txt:"**Nenne**, was Artikel I des Anschluss-Gesetzes (Quellen-Tab) bestimmt.",heft:true,heftNr:"1",muster:"„Österreich ist ein Land des Deutschen Reiches.\""},
+   {stufe:"AFB II",op:"Erklären",txt:"**Erkläre** den Widerspruch zwischen „freier Volksabstimmung\" (Art. II) und der Wirklichkeit.",heft:true,heftNr:"2",muster:"Das Gesetz kündigt eine „freie\" Abstimmung an, doch Gegner/Juden waren ausgeschlossen und es herrschten Druck und Propaganda."},
+   {stufe:"AFB III",op:"Beurteilen",txt:"**Beurteile**, warum das Regime überhaupt eine Abstimmung durchführte, obwohl der Anschluss längst vollzogen war.",heft:true,heftNr:"3",muster:"Um den Anschluss nach außen als „Wunsch des Volkes\" erscheinen zu lassen (Legitimation durch Propaganda), obwohl er erzwungen war."}]},
+ sim:{type:"wahrfalsch",hint:"Wahr oder falsch? Beurteile die Aussagen zum Anschluss 1938.",items:[
+  {t:"Beim „Anschluss\" 1938 gab es heftigen militärischen Widerstand.",w:false},
+  {t:"Die „Volksabstimmung\" war frei und geheim.",w:false},
+  {t:"Viele Österreicher begrüßten den Anschluss.",w:true},
+  {t:"Das Ausland griff nicht ein (Appeasement).",w:true},
+  {t:"Österreich blieb ein eigener Staat.",w:false}]},
+ simTitle:"Anschluss – wahr oder falsch?",
+ quiz:{lw:"ANSCHLUSS",fragen:[
+  {frage:"Wann marschierten deutsche Truppen in Österreich ein?",opt:[{t:"im März 1938",c:true,fb:"Richtig."},{t:"1933",c:false,fb:"Nein."},{t:"1945",c:false,fb:"Nein."}]},
+  {frage:"Wie verlief der Einmarsch?",opt:[{t:"ohne militärischen Widerstand",c:true,fb:"Richtig."},{t:"nach langem Krieg",c:false,fb:"Nein."},{t:"gegen die Rote Armee",c:false,fb:"Nein."}]},
+  {frage:"Wie ist die „Volksabstimmung\" zu bewerten?",opt:[{t:"unfrei und propagandistisch inszeniert",c:true,fb:"Richtig."},{t:"völlig frei und fair",c:false,fb:"Nein."},{t:"vom Ausland überwacht",c:false,fb:"Nein."}]},
+  {frage:"Wie reagierten die Westmächte?",opt:[{t:"sie griffen nicht ein (Appeasement)",c:true,fb:"Richtig."},{t:"sie erklärten den Krieg",c:false,fb:"Nein."},{t:"sie besetzten Österreich",c:false,fb:"Nein."}]},
+  {frage:"Was geschah mit Österreich als Staat?",opt:[{t:"es wurde Teil des Deutschen Reiches",c:true,fb:"Richtig."},{t:"es blieb unabhängig",c:false,fb:"Nein."},{t:"es wurde eine Republik",c:false,fb:"Nein."}]}]},
+ quelle:{
+  titel:"Gesetz über die Wiedervereinigung Österreichs mit dem Deutschen Reich, 13. März 1938",
+  einleitung:"Das Gesetz macht den „Anschluss\" rechtlich – und kündigt eine „Volksabstimmung\" an.",
+  text:["Artikel I. Österreich ist ein Land des Deutschen Reiches.",
+   "Artikel II. […] Es wird [am 10. April 1938] eine freie und geheime Volksabstimmung […] durchgeführt.",
+   "(Tatsächlich war die Abstimmung nicht frei: Gegner und Juden waren ausgeschlossen, es herrschten Druck und Propaganda.)"],
+  angabe:"Gesetz über die Wiedervereinigung Österreichs mit dem Deutschen Reich, 13.3.1938 (Auszug). RGBl. 1938 I, S. 237.",
+  art:"Textquelle (Gesetz) · Primärquelle (aus der Zeit selbst).",
+  artCheck:(a,t)=>a==="Textquelle"&&t.indexOf("Primär")===0,
+  felder:{wer:"Die NS-Reichsregierung (Gesetz).",wann:"13. März 1938.",wo:"Österreich / Deutsches Reich.",fuerwen:"Amtlich für Behörden und Bevölkerung.",warum:"Um den Anschluss rechtlich festzuschreiben und mit einer „Abstimmung\" scheinbar zu legitimieren."},
+  fragen:[
+   {q:"**Fasse** zusammen, was das Gesetz bestimmt.",muster:"Österreich wird ein Land des Deutschen Reiches; eine „freie\" Volksabstimmung wird angekündigt."},
+   {q:"**Benenne**, wer das Gesetz erlässt und was es für Österreich bedeutet.",muster:"Die NS-Regierung; Österreich hört als eigener Staat auf zu existieren."},
+   {q:"**Erläutere** den Widerspruch zwischen „freier Volksabstimmung\" und der Wirklichkeit.",muster:"Die Abstimmung war nicht frei: Gegner/Juden ausgeschlossen, Druck und Propaganda – die 99 % waren inszeniert."},
+   {q:"**Beurteile**, warum das Regime überhaupt eine Abstimmung durchführte.",muster:"Um den Anschluss als „Wunsch des Volkes\" zu legitimieren (Propaganda), obwohl er erzwungen war."}]},
+ bild:{ platzhalter:"Jubelnde Menge / Einmarsch 1938; Hitler am Wiener Heldenplatz.", quelle:"LeMO (dhm.de/lemo) / Österreichische Mediathek", auftrag:"Beschreibe ein Bild vom März 1938 und überlege, welche Wirkung die Inszenierung haben sollte." },
+ lauf:"Anschluss beurteilen, Anschluss-Gesetz auswerten."
+});
+
+/* ===================== STATION 7 – Außenpolitik ===================== */
+addStation({
+ id:"aussenpolitik", nr:"7", ic:"🤝", color:"#6b6096", status:"pflicht",
+ title:"Außenpolitik & Bündnispolitik",
+ buch:"neu recherchiert · Hitler-Stalin-Pakt",
+ komp:["SK","MK","UK"],
+ leit:"Wie bereitete Hitler mit Bündnissen den Krieg vor?",
+ kann:["Ich kann Hitlers wichtigste Bündnisse nennen.","Ich kann erklären, warum der Hitler-Stalin-Pakt überraschte.","Ich kann einen Vertrag als Quelle beurteilen."],
+ begriffe:["Achse Berlin–Rom","Stahlpakt","Hitler-Stalin-Pakt","Nichtangriffspakt","Appeasement","Expansion"],
+ texte:{
+  n1:["**Hitler** **wollte** **Deutschland** groß und mächtig machen – und einen **Krieg** vorbereiten. Dafür **suchte** er **Verbündete**.",
+      "Mit **Italien** (unter **Mussolini**) **schloss** er ein **Bündnis**: die „**Achse Berlin–Rom**\", später den **Stahlpakt** (1939).",
+      "Im **August 1939** **schloss** **Hitler** überraschend einen **Vertrag** mit der **Sowjetunion**: den **Hitler-Stalin-Pakt**. Beide **versprachen**, sich nicht **anzugreifen**. **Geheim** **teilten** sie **Polen** unter sich **auf**. Kurz danach **begann** der **Krieg**."],
+  n2:["Hitlers Außenpolitik zielte auf Expansion und Krieg. Um freie Hand zu bekommen, suchte er Verbündete und schaltete Gegner aus.",
+      "Mit dem faschistischen Italien Mussolinis bildete er 1936 die „Achse Berlin–Rom\", 1939 den Stahlpakt (ein festes Militärbündnis). Zugleich nutzte er die Nachgiebigkeit der Westmächte (Appeasement).",
+      "Am 23. August 1939 schloss Hitler überraschend den Hitler-Stalin-Pakt mit der Sowjetunion – einen Nichtangriffsvertrag. Ein geheimes Zusatzprotokoll teilte Polen und Osteuropa in „Interessensphären\" auf. So sicherte Hitler sich den Rücken – nur eine Woche später überfiel Deutschland Polen; der Zweite Weltkrieg begann."],
+  n3:["Die nationalsozialistische Außenpolitik war von Beginn an auf die Revision des Versailler Vertrags und auf Expansion ausgerichtet. Bündnisse dienten der Kriegsvorbereitung.",
+      "Mit Italien entstand 1936 die „Achse Berlin–Rom\", 1939 der Stahlpakt; ideologisch verwandte, faschistische Regime rückten zusammen. Zugleich nutzte Hitler das Appeasement der Westmächte (München 1938).",
+      "Der Hitler-Stalin-Pakt (23.8.1939) war ein taktisches Zweckbündnis der ideologischen Feinde: Ein geheimes Zusatzprotokoll teilte Polen und das Baltikum auf. Er beseitigte für Hitler die Gefahr eines Zweifrontenkriegs und machte den Überfall auf Polen (1.9.1939) möglich – den unmittelbaren Auftakt zum Krieg."]},
+ wortspeicher:["Bündnis","Achse Berlin–Rom","Stahlpakt","Hitler-Stalin-Pakt","Sowjetunion","geheim"],
+ levels:{
+  basis:[
+   {op:"Nennen",txt:"**Nenne** zwei Länder, mit denen Hitler Bündnisse/Verträge schloss.",heft:true,heftNr:"1a",muster:"Italien (Achse/Stahlpakt) und die Sowjetunion (Hitler-Stalin-Pakt)."},
+   {op:"Beschreiben",txt:"**Beschreibe** mit dem Wortspeicher, was der Hitler-Stalin-Pakt bedeutete.",heft:true,heftNr:"1b",muster:"Deutschland und die Sowjetunion versprachen, sich nicht anzugreifen, und teilten geheim Polen auf."}],
+  mittel:[
+   {op:"Erklären",txt:"**Erkläre**, warum der Hitler-Stalin-Pakt so überraschend war.",heft:true,heftNr:"1",muster:"Nationalsozialisten und Kommunisten waren erbitterte Feinde – dass sie einen Vertrag schlossen, überraschte die Welt."},
+   {op:"Erläutern",txt:"**Erläutere**, welchen Vorteil der Pakt Hitler für den Krieg brachte.",heft:true,heftNr:"2",muster:"Er musste keinen Zweifrontenkrieg fürchten und konnte Polen angreifen – der Pakt machte den Kriegsbeginn möglich."}],
+  erweitert:[
+   {stufe:"AFB I",op:"Nennen",txt:"**Nenne** die beiden Vertragspartner des Pakts (Quellen-Tab).",heft:true,heftNr:"1",muster:"Das Deutsche Reich und die Sowjetunion."},
+   {stufe:"AFB II",op:"Erklären",txt:"**Erkläre**, was Artikel I und II des Vertrags regeln.",heft:true,heftNr:"2",muster:"Beide versprechen, sich nicht anzugreifen (Art. I) und einander nicht gegen Dritte zu unterstützen (Art. II)."},
+   {stufe:"AFB III",op:"Beurteilen",txt:"**Beurteile** die Bedeutung des geheimen Zusatzprotokolls für den Kriegsbeginn.",heft:true,heftNr:"3",muster:"Es plante die Aufteilung Polens/Osteuropas und machte den Überfall (1.9.1939) erst möglich – der Pakt ebnete den Weg in den Krieg."}]},
+ sim:{type:"zuordnen",hint:"Ordne jedem Partner/Begriff das Passende zu.",pairs:[
+  {t:"Italien (Mussolini)",d:"„Achse Berlin–Rom\" / Stahlpakt"},
+  {t:"Sowjetunion (Stalin)",d:"Hitler-Stalin-Pakt (Nichtangriff)"},
+  {t:"Geheimes Zusatzprotokoll",d:"Aufteilung Polens und Osteuropas"},
+  {t:"Westmächte (GB/Frankreich)",d:"Appeasement – Nachgeben (München 1938)"}]},
+ simTitle:"Bündnisse zuordnen",
+ quiz:{lw:"BUENDNIS",fragen:[
+  {frage:"Mit welchem Land bildete Hitler die „Achse Berlin–Rom\"?",opt:[{t:"mit Italien",c:true,fb:"Richtig (Mussolini)."},{t:"mit England",c:false,fb:"Nein."},{t:"mit den USA",c:false,fb:"Nein."}]},
+  {frage:"Was war der Hitler-Stalin-Pakt (1939)?",opt:[{t:"ein Nichtangriffsvertrag mit der Sowjetunion",c:true,fb:"Richtig."},{t:"ein Friedensvertrag mit Polen",c:false,fb:"Nein."},{t:"ein Handelsvertrag mit den USA",c:false,fb:"Nein."}]},
+  {frage:"Warum war der Pakt so überraschend?",opt:[{t:"Nazis und Kommunisten waren eigentlich Feinde",c:true,fb:"Richtig."},{t:"weil er öffentlich war",c:false,fb:"Nein."},{t:"weil er den Krieg beendete",c:false,fb:"Nein."}]},
+  {frage:"Was regelte das geheime Zusatzprotokoll?",opt:[{t:"die Aufteilung Polens und Osteuropas",c:true,fb:"Richtig."},{t:"den Handel mit Öl",c:false,fb:"Nein."},{t:"die Abrüstung",c:false,fb:"Nein."}]},
+  {frage:"Welchen Vorteil brachte der Pakt Hitler?",opt:[{t:"kein Zweifrontenkrieg – er konnte Polen angreifen",c:true,fb:"Richtig."},{t:"Frieden mit England",c:false,fb:"Nein."},{t:"mehr Kolonien",c:false,fb:"Nein."}]}]},
+ quelle:{
+  titel:"Hitler-Stalin-Pakt (Nichtangriffsvertrag), 23. August 1939",
+  einleitung:"Ein Vertrag der ideologischen Feinde – mit einem geheimen Zusatzprotokoll, das den Krieg vorbereitete.",
+  text:["Artikel I. Die beiden vertragschließenden Teile verpflichten sich, sich jeder Gewalttat, jeder aggressiven Handlung und jedes Angriffs gegeneinander […] zu enthalten.",
+   "Artikel II. Falls einer der vertragschließenden Teile […] kriegerischen Handlungen einer dritten Macht ausgesetzt sein sollte, wird der andere Teil diese Macht in keiner Form unterstützen.",
+   "(Ein geheimes Zusatzprotokoll teilte Polen und Osteuropa in deutsche und sowjetische „Interessensphären\" auf.)"],
+  angabe:"Vertrag über Nichtangriff zwischen Deutschland und der UdSSR, 23.8.1939 (Auszug); dazu das geheime Zusatzprotokoll.",
+  art:"Textquelle (Vertrag) · Primärquelle (aus der Zeit selbst).",
+  artCheck:(a,t)=>a==="Textquelle"&&t.indexOf("Primär")===0,
+  felder:{wer:"Das Deutsche Reich und die Sowjetunion (Ribbentrop und Molotow).",wann:"23. August 1939.",wo:"Moskau (mit Wirkung für ganz Osteuropa).",fuerwen:"Völkerrechtlicher Vertrag der beiden Staaten (das Zusatzprotokoll geheim).",warum:"Um sich gegenseitig den Rücken freizuhalten und Osteuropa aufzuteilen – Kriegsvorbereitung."},
+  fragen:[
+   {q:"**Fasse** den Vertrag in zwei Sätzen zusammen.",muster:"Deutschland und die Sowjetunion versprechen, sich nicht anzugreifen und einander nicht gegen Dritte zu helfen. Geheim teilen sie Osteuropa auf."},
+   {q:"**Benenne** die Vertragspartner.",muster:"Das Deutsche Reich und die Sowjetunion (ideologische Gegner)."},
+   {q:"**Erläutere**, welchen Vorteil der Pakt Hitler brachte.",muster:"Er musste keinen Zweifrontenkrieg fürchten und konnte Polen überfallen."},
+   {q:"**Beurteile** die Bedeutung des geheimen Zusatzprotokolls.",muster:"Es plante die Aufteilung Polens/Osteuropas und machte den Überfall (1.9.1939) erst möglich – der Pakt ebnete den Weg in den Krieg."}]},
+ bild:{ platzhalter:"Unterzeichnung des Hitler-Stalin-Pakts 1939 (Ribbentrop, Stalin, Molotow).", quelle:"LeMO (dhm.de/lemo) / Bundesarchiv", auftrag:"Beschreibe das Bild der Unterzeichnung und überlege, welche Botschaft es senden sollte." },
+ lauf:"Bündnisse zuordnen, Hitler-Stalin-Pakt auswerten."
+});
+
+/* ===================== GLOSSAR-STATION ===================== */
+addStation({
+ id:"glossar", nr:"📚", ic:"📚", color:"#6b4fa0", status:"arbeit",
+ title:"Glossar – alle Fachbegriffe",
+ buch:"Werkzeug",
+ komp:["MK"],
+ leit:"Kann ich alle Fachbegriffe der Lernreise erklären?",
+ kann:["Ich kann Fachbegriffe mit eigenen Worten erklären.","Ich kann Begriffe ihrer Fundstelle zuordnen.","Ich übertrage Begriffe sauber in mein Heft."],
+ begriffe:[],
+ texte:{
+  n1:["Hier findest du **alle** wichtigen **Fachbegriffe** der Lernreise.","Nutze die Übung „Alle Begriffe“, um sie zu wiederholen.","Tippe einen Begriff an, um seine Erklärung zu sehen."],
+  n2:["Dieses Glossar sammelt alle Fachbegriffe aller Stationen mit einer kurzen Erklärung und der Fundstelle.","Hover oder Tippen zeigt die Erklärung.","Hake ab, was du in dein Heft übertragen hast."],
+  n3:["Das Glossar bündelt die Fachsprache der gesamten Reihe. Wiederhole regelmäßig – Fachsprache ist der Schlüssel zu guten Antworten.","Prüfe: Kannst du jeden Begriff in einem eigenen Satz verwenden?","Ordne jedem Begriff seine Station zu."]},
+ wortspeicher:null,
+ levels:{
+  basis:[{op:"Üben",txt:"Öffne die Übung „Alle Begriffe“ und wiederhole die Erklärungen.",muster:"Selbstkontrolle über die Tooltips."}],
+  mittel:[{op:"Übertragen",txt:"Übertrage 8 Begriffe deiner Wahl mit Erklärung in dein Heft.",heft:true,heftNr:"G",muster:"Individuelle Auswahl; achte auf eigene, kurze Erklärungen."}],
+  erweitert:[
+   {stufe:"AFB I",op:"Nennen",txt:"**Nenne** fünf Fachbegriffe aus Teil A.",muster:"z. B. Gleichschaltung, Propaganda, Nürnberger Gesetze, Widerstand, Erinnerungskultur."},
+   {stufe:"AFB II",op:"Erklären",txt:"**Erkläre** drei Begriffe in je einem eigenen Satz.",heft:true,heftNr:"G2",muster:"Eigenständige, korrekte Kurzdefinitionen."},
+   {stufe:"AFB III",op:"In Beziehung setzen",txt:"**Setze** drei Begriffe zu einer kleinen Erklärung in Beziehung (z. B. „Gleichschaltung → Einparteienstaat → Diktatur“).",heft:true,heftNr:"G3",muster:"z. B.: Durch Gleichschaltung entstand der Einparteienstaat, der die Diktatur festigte."}]},
+ sim:{type:"glossaralle",hint:"Alle Fachbegriffe der Lernreise mit Fundstelle."},
+ simTitle:"Alle Begriffe",
+ lauf:"Fachbegriffe wiederholen und ins Heft übertragen."
+});
+
+/* __PUSH3__ */
+function boot(){ renderHome(); }
+document.addEventListener('DOMContentLoaded',boot);
+</script>
+</body>
+</html>
