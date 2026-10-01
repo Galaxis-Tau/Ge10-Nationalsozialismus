@@ -182,21 +182,32 @@ header.top{
 .muster{margin-top:10px; background:var(--pink); border-left:4px solid var(--maroon2); border-radius:10px; padding:12px 14px; font-size:.95rem; display:none}
 .muster.show{display:block; animation:fade .25s ease}
 .muster b{color:var(--maroon)}
-.mappe{margin-top:14px; background:#fbfaf7; border:1px dashed #cfc6b6; border-radius:12px; padding:14px 16px}
-.mappe .m-h{font-weight:650; margin-bottom:6px; display:flex; align-items:center; gap:8px}
+.tasklist{list-style:none; margin:0; padding:0; counter-reset:aa}
+.tasklist li{display:flex; gap:12px; align-items:flex-start; border:1px solid var(--line); border-radius:14px; padding:12px 14px; margin:10px 0; background:#fff}
+.tasklist .nr{flex:none; width:30px; height:30px; border-radius:50%; background:var(--maroon); color:#fff; display:grid; place-items:center; font-weight:700; font-size:.95rem}
+.tasklist .tx{flex:1}
+.tasklist .afb{display:inline-block; font-size:.7rem; font-weight:700; letter-spacing:.03em; padding:2px 8px; border-radius:6px; margin-right:8px; vertical-align:1px}
+.afb.a1{background:var(--green-l); color:var(--green)} .afb.a2{background:var(--yellow-l); color:var(--yellow)} .afb.a3{background:var(--blue-l); color:var(--blue)}
+.heft-hint{font-size:.88rem; color:var(--muted); margin:6px 0 0}
+.loesung{margin-top:6px; background:var(--pink); border:1px solid #d5dce8; border-radius:var(--r-s); overflow:hidden}
+.loesung>summary{cursor:pointer; list-style:none; padding:13px 16px; font-weight:650; color:var(--maroon); display:flex; align-items:center; gap:8px; user-select:none}
+.loesung>summary::-webkit-details-marker{display:none}
+.loesung>summary::after{content:"▸"; margin-left:auto; transition:transform .2s var(--ease)}
+.loesung[open]>summary::after{transform:rotate(90deg)}
+.loesung .l-body{padding:2px 16px 14px; border-top:1px solid #d5dce8; background:#fff}
+.loesung ol{margin:10px 0 4px; padding-left:22px}
+.loesung li{margin:8px 0}
+.loesung .l-note{font-size:.88rem; color:var(--muted); margin:10px 0 0}
+.wfragen{margin:6px 0 14px; padding-left:22px}
+.wfragen li{margin:6px 0}
 
 /* ---------- Quellenanalyse ---------- */
 .qtable{width:100%; border-collapse:collapse; margin-top:6px}
 .qtable td{border:1px solid var(--line); padding:10px 12px; vertical-align:top}
 .qtable td.q{width:34%; font-weight:600; background:#faf7f2}
-.qtable textarea, .qa-q textarea{width:100%; border:1px solid var(--line); border-radius:10px; padding:8px 10px; font-family:inherit; font-size:.95rem; resize:vertical; min-height:44px; background:#fff}
 .qsrc{background:#f5eef8; border-left:5px solid var(--purple); border-radius:12px; padding:14px 16px; margin:6px 0 16px}
 .qsrc p{margin:0 0 10px}
 .qsrc .angabe{font-size:.8rem; color:var(--muted)}
-.dropwrap{display:flex; gap:10px; flex-wrap:wrap}
-.dropwrap select{border:1px solid var(--line); border-radius:10px; padding:8px 10px; font-family:inherit; font-size:.92rem; background:#fff}
-.mini-muster{font-size:.86rem; color:var(--maroon); margin-top:6px; display:none}
-.mini-muster.show{display:block}
 .qa-q{margin:12px 0}
 .qa-q .qh{font-weight:600; margin-bottom:6px}
 
@@ -402,8 +413,6 @@ const TERM_DEFS = {
   "Wehrmacht":"Die Armee des NS-Staates."
 };
 
-const QUELLENARTEN = ["– bitte wählen –","Textquelle","Bildquelle","Gegenstand","Filmquelle","Audioquelle"];
-const QUELLENTYP = ["– bitte wählen –","Primärquelle (Verfasser war dabei)","Sekundärquelle (von Anderen gehört)","Darstellung (später geschrieben)"];
 
 const STATIONS = [];
 function addStation(o){ STATIONS.push(o); }
@@ -572,21 +581,25 @@ function afterPanelRender(){
 /* ---------- TEXT & Auftrag ---------- */
 function renderText(){
   return `
-  <div class="instruction">📌 <b>So arbeitest du:</b> ${esc(cur.leseanleitung||'Lies den Text aufmerksam, tippe die unterstrichenen Fachbegriffe für die Erklärung an und markiere sie mit der Lesehilfe.')}</div>
+  <div class="instruction">📌 <b>So arbeitest du:</b> ${esc(cur.leseanleitung||'Lies zuerst die Arbeitsaufträge. Lies dann den Text aufmerksam und tippe die unterstrichenen Fachbegriffe für die Erklärung an.')}</div>
   <div class="card">
     <div class="levels">
       <button class="lvl" data-l="basis" onclick="setLevel('basis')">🟢 Stufe 1 · leicht</button>
       <button class="lvl" data-l="mittel" onclick="setLevel('mittel')">🟡 Stufe 2 · mittel</button>
-      <button class="lvl" data-l="erweitert" onclick="setLevel('erweitert')">🔵 Stufe 3 · AFB I→II→III</button>
+      <button class="lvl" data-l="erweitert" onclick="setLevel('erweitert')">🔵 Stufe 3 · anspruchsvoll</button>
     </div>
+    <div id="auftragHost"></div>
+    <div id="wsHost"></div>
+  </div>
+  <div class="card">
+    <h3>📖 Text</h3>
     <div class="reading-aids">
       <label class="switch"><input type="checkbox" id="boldKeys" onchange="document.getElementById('textbody').classList.toggle('bold-keys',this.checked)"><span class="track"></span> Lesehilfe: Schlüsselwörter fett</label>
       <label class="switch"><input type="checkbox" id="showVerbs" onchange="document.getElementById('textbody').classList.toggle('show-verbs',this.checked)"><span class="track"></span> Verben zeigen</label>
     </div>
     <div class="textbody" id="textbody"></div>
-    <div id="wsHost"></div>
   </div>
-  <div class="card" id="auftragHost"></div>`;
+  <div class="card" id="loesungHost"></div>`;
 }
 function setLevel(l, silent){
   if(!cur) return;
@@ -602,64 +615,45 @@ function setLevel(l, silent){
   } else ws.innerHTML='';
   renderAuftrag(l);
 }
+const AFB_ROM={1:'I',2:'II',3:'III'};
+function afbBadge(n){ return `<span class="afb a${n}">AFB ${AFB_ROM[n]}</span>`; }
+function taskList(tasks,txtKey){
+  return `<ol class="tasklist">${tasks.map((t,i)=>`<li><span class="nr">${i+1}</span><div class="tx">${afbBadge(t.afb)}${annotate(t[txtKey])}</div></li>`).join('')}</ol>`;
+}
+function loesungBox(title,items,note){
+  return `<details class="loesung"><summary>💡 ${title}</summary><div class="l-body">
+    <ol>${items.map(m=>'<li>'+m+'</li>').join('')}</ol>${note?'<p class="l-note">'+note+'</p>':''}</div></details>`;
+}
 function renderAuftrag(l){
   const host=document.getElementById('auftragHost'); if(!host) return;
   const tasks=cur.levels[l]||[];
-  const rows=tasks.map((t,i)=>{
-    const afb=t.stufe?`<span class="op afb">${t.stufe}</span>`:'';
-    const op=t.op?`<span class="op">${esc(t.op)}</span>`:'';
-    const heft=t.heft?HEFT(t.heftNr||(i+1)):'';
-    return `<div class="task">${afb}${op}${annotate(t.txt)} ${heft}
-      ${t.muster?`<div><button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">💡 Musterlösung anzeigen/verbergen</button>
-      <div class="muster"><b>Gesichertes Ergebnis:</b> ${annotate(t.muster)}</div></div>`:''}</div>`;
-  }).join('');
-  const consolidated=tasks.filter(t=>t.muster).map((t,i)=>'• '+t.muster).join('<br>');
-  host.innerHTML=`<h3>✍️ Arbeitsauftrag – ${l==='basis'?'🟢 Stufe 1':l==='mittel'?'🟡 Stufe 2':'🔵 Stufe 3'}</h3>
-    ${rows}
-    <div class="mappe"><div class="m-h">📓 In die Mappe abschreiben</div>
-      <p style="margin:0 0 8px;color:var(--muted);font-size:.9rem">Vergleiche deine Antworten mit der Musterlösung. Schreibe anschließend das gesicherte Ergebnis sauber in deine Mappe.</p>
-      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">📄 Gesichertes Gesamtergebnis einblenden</button>
-      <div class="muster">${consolidated||'—'}</div>
-    </div>`;
+  const lab=l==='basis'?'🟢 Stufe 1':l==='mittel'?'🟡 Stufe 2':'🔵 Stufe 3';
+  host.innerHTML=`<h3 style="margin-top:14px">✍️ Arbeitsaufträge – ${lab}</h3>
+    ${taskList(tasks,'txt')}
+    <p class="heft-hint">📓 Lies zuerst die Aufträge, dann den Text. Bearbeite die Aufträge in deinem Heft.</p>`;
+  const lh=document.getElementById('loesungHost');
+  if(lh) lh.innerHTML=`<h3>✅ Lösungen – ${lab}</h3>
+    <p style="margin:0 0 10px;color:var(--muted);font-size:.92rem">Erst selbst bearbeiten, dann vergleichen. Übertrage das gesicherte Ergebnis sauber in deine Mappe.</p>
+    ${loesungBox('Musterlösungen anzeigen',tasks.map(t=>annotate(t.muster)))}`;
 }
 
 /* ---------- QUELLENANALYSE ---------- */
+const WFRAGEN=[['wer','Wer schreibt den Text?'],['wann','Wann wurde der Text geschrieben?'],['wo','Wo passierten die Ereignisse?'],['fuerwen','Wer sollte/soll diesen Text lesen?'],['warum','Warum schreibt der Autor über die Ereignisse?'],['art','Um welche Quellenart handelt es sich? (Gattung + Nähe zum Ereignis)']];
 function renderQuelle(){
   const q=cur.quelle;
-  const felder=[['wer','Wer schreibt den Text?'],['wann','Wann wurde der Text geschrieben?'],['wo','Wo passierten die Ereignisse?'],['fuerwen','Wer sollte/soll diesen Text lesen?'],['warum','Warum schreibt der Autor über die Ereignisse?']];
-  const felderRows=felder.map(f=>`<tr><td class="q">${f[1]}</td><td>
-      <textarea placeholder="Deine Antwort …"></textarea>
-      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">💡 Musterlösung</button>
-      <div class="muster">${esc(q.felder[f[0]]||'—')}</div></td></tr>`).join('');
-  const fragen=(q.fragen||[]).map((fr,i)=>`<div class="qa-q"><div class="qh">${i+1}) ${annotate(fr.q)} ${HEFT('Q'+(i+1))}</div>
-      <textarea placeholder="Deine Antwort …"></textarea>
-      <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">💡 Musterlösung</button>
-      <div class="muster">${annotate(fr.muster)}</div></div>`).join('');
+  const wAnt=WFRAGEN.map(f=>'<b>'+esc(f[1])+'</b><br>'+esc(f[0]==='art'?q.art:(q.felder[f[0]]||'—')));
   return `
-  <div class="instruction">🔎 <b>Quellenanalyse.</b> Lies zuerst die Quelle. Fülle dann das Analyse-Schema aus und beantworte die Fragen. Prüfe mit „Musterlösung“ und <b>schreibe das Ergebnis in deine Mappe</b>.</div>
+  <div class="instruction">🔎 <b>Quellenanalyse.</b> Lies zuerst die Quelle. Beantworte dann in deinem Heft die Fragen zur Quellenanalyse und bearbeite die Arbeitsaufträge 1–3. Vergleiche erst danach mit der Musterlösung.</div>
   <div class="card">
     <h3>${esc(q.titel)}</h3>
     <div class="qsrc">${q.einleitung?'<p style="color:var(--muted);font-style:italic">'+esc(q.einleitung)+'</p>':''}${q.text.map(p=>'<p>'+annotate(p)+'</p>').join('')}<p class="angabe">Quelle: ${esc(q.angabe)}</p></div>
-    <table class="qtable"><tbody>
-      ${felderRows}
-      <tr><td class="q">Um welche Quellenart handelt es sich? <br><small>(Gattung + Nähe zum Ereignis)</small></td>
-        <td><div class="dropwrap">
-          <select id="qa-art">${QUELLENARTEN.map(o=>'<option>'+o+'</option>').join('')}</select>
-          <select id="qa-typ">${QUELLENTYP.map(o=>'<option>'+o+'</option>').join('')}</select>
-          <button class="ghost" onclick="checkArt()">prüfen</button>
-        </div><div class="mini-muster" id="artFb"></div>
-        <button class="reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">💡 Musterlösung</button>
-        <div class="muster">${esc(q.art)}</div></td></tr>
-    </tbody></table>
-    <h3 style="margin-top:22px">Fragen zur Quelle</h3>
-    ${fragen}
+    <h3 style="margin-top:22px">🧾 Fragen zur Quellenanalyse</h3>
+    <ol class="wfragen">${WFRAGEN.map(f=>'<li>'+esc(f[1])+'</li>').join('')}</ol>
+    ${loesungBox('Musterlösung zur Quellenanalyse',wAnt)}
+    <h3 style="margin-top:26px">✍️ Arbeitsaufträge zur Quelle</h3>
+    ${taskList(q.auftraege,'q')}
+    ${loesungBox('Musterlösung zu den Arbeitsaufträgen',q.auftraege.map(a=>annotate(a.muster)))}
   </div>`;
-}
-function checkArt(){
-  const a=document.getElementById('qa-art').value, t=document.getElementById('qa-typ').value;
-  const fb=document.getElementById('artFb'); fb.classList.add('show');
-  const ok=cur.quelle.artCheck && cur.quelle.artCheck(a,t);
-  fb.innerHTML=ok?'<span class="ok-txt">✅ Richtig zugeordnet!</span>':'<span class="no-txt">❌ Schau noch einmal genau: Textsorte und Nähe zum Ereignis (siehe Musterlösung).</span>';
 }
 
 /* ---------- GLOSSAR (Station-Tab) ---------- */
@@ -694,7 +688,7 @@ function renderQuiz(){
   const fragen=cur.quiz.fragen;
   const body=fragen.map((f,qi)=>{
     const opts=shuffle(f.opt);
-    return `<div class="qq" id="qq-${qi}"><div class="qtxt">${qi+1}. ${annotate(f.frage)}</div>
+    return `<div class="qq" id="qq-${qi}"><div class="qtxt">${qi+1}. ${esc(f.frage)}</div>
       ${opts.map(o=>`<button class="opt" onclick="answer(${qi},this,${o.c?1:0},'${escAttr(o.fb||'')}')">${esc(o.t)}<span class="fb"></span></button>`).join('')}</div>`;
   }).join('');
   const solved=state.solved[cur.id];
@@ -902,7 +896,7 @@ addStation({
  leit:"Wie wurde aus der Demokratie in nur einem halben Jahr eine Diktatur?",
  kann:["Ich kann die Schritte von 1933 in der richtigen Reihenfolge nennen.","Ich kann erklären, wie „Recht“ und Gewalt zusammenwirkten.","Ich kann das Ermächtigungsgesetz als Quelle einordnen."],
  begriffe:["Reichskanzler","Reichstagsbrandverordnung","Grundrechte","Ermächtigungsgesetz","Gleichschaltung","Einparteienstaat","Pseudolegalität","Machtübertragung"],
- leseanleitung:"Lies den Text deiner Stufe. Tippe die unterstrichenen Fachbegriffe an. Markiere anschließend mit der Lesehilfe die Schlüsselwörter.",
+ leseanleitung:"Lies zuerst die Arbeitsaufträge, dann den Text deiner Stufe. Tippe die unterstrichenen Fachbegriffe an. Markiere anschließend mit der Lesehilfe die Schlüsselwörter.",
  texte:{
   n1:["Am 30. Januar 1933 **ernannte** **Hindenburg** **Hitler** zum **Reichskanzler**. Manche **Politiker** **glaubten**: „Wir können **Hitler** **kontrollieren**.\" Das war ein **Irrtum**.", "In nur einem halben **Jahr** **zerstörten** die **Nationalsozialisten** die **Demokratie**. Sie **benutzten** zwei **Mittel**: den **Schein** von **Recht** und **Gewalt** durch **SA** und **SS**.", "Am 27. Februar 1933 **brannte** der **Reichstag**. Danach **nahm** eine **Verordnung** wichtige **Grundrechte** weg. Die **Polizei** **verhaftete** nun **Gegner** ohne **Gericht**.", "Am 24. März 1933 **beschloss** der **Reichstag** das **Ermächtigungsgesetz**. Jetzt **durfte** die **Regierung** **Gesetze** allein **machen**. Nur die **SPD** **stimmte** dagegen. Dann **verbot** das **Regime** alle anderen **Parteien**. **Deutschland** **wurde** ein **Einparteienstaat**. 1934 **wurde** **Hitler** „**Führer** und **Reichskanzler**\"."],
   n2:["Am 30. Januar 1933 ernannte Reichspräsident Hindenburg Adolf Hitler zum Reichskanzler. Konservative Politiker glaubten, sie könnten Hitler kontrollieren. Das war ein Irrtum.", "In nur einem halben Jahr beseitigten die Nationalsozialisten die Demokratie. Sie nutzten dazu zwei Mittel: den Anschein von Legalität und offenen Terror durch SA und SS.", "Nach dem Reichstagsbrand am 27. Februar 1933 setzte die Reichstagsbrandverordnung wichtige Grundrechte außer Kraft. Die Polizei konnte nun Gegner ohne Gericht verhaften.", "Am 24. März 1933 beschloss der Reichstag das Ermächtigungsgesetz. Damit durfte die Regierung Gesetze ohne das Parlament und gegen die Verfassung erlassen; nur die SPD stimmte dagegen. In der Gleichschaltung wurden Parteien und Gewerkschaften verboten – Deutschland wurde ein Einparteienstaat. 1934 vereinigte Hitler nach Hindenburgs Tod die höchsten Ämter und ließ die Reichswehr auf sich vereidigen."],
@@ -910,15 +904,17 @@ addStation({
  wortspeicher:["Reichskanzler","Ermächtigungsgesetz","Grundrechte","Gleichschaltung","Einparteienstaat","Terror"],
  levels:{
   basis:[
-   {op:"Nennen",txt:"**Nenne** das Datum, an dem Hitler Reichskanzler wurde.",heft:true,heftNr:"1a",muster:"Am 30. Januar 1933."},
-   {op:"Beschreiben",txt:"**Beschreibe** mit dem Wortspeicher in zwei Sätzen, was „Gleichschaltung“ bedeutet.",heft:true,heftNr:"1b",muster:"Gleichschaltung heißt: Das Regime passte alle Bereiche mit Zwang an. Parteien und Gewerkschaften wurden verboten."}],
+   {afb:1,txt:"**Nenne** drei Schritte, mit denen die Nationalsozialisten 1933 die Demokratie zerstörten. Schreibe jeweils das Datum dazu.",muster:"30. Januar 1933: Hitler wird Reichskanzler. 27./28. Februar 1933: Reichstagsbrand und Verordnung gegen die Grundrechte. 24. März 1933: Ermächtigungsgesetz. Sommer 1933: Verbot der anderen Parteien."},
+   {afb:1,txt:"**Beschreibe** in zwei Sätzen, was die Regierung durch das Ermächtigungsgesetz tun durfte. Nutze den Wortspeicher.",muster:"Durch das Ermächtigungsgesetz durfte die Regierung Gesetze allein machen. Der Reichstag wurde dafür nicht mehr gebraucht."},
+   {afb:1,txt:"**Beschreibe** die zwei Mittel, mit denen die Nationalsozialisten die Demokratie zerstörten.",muster:"Sie nutzten den Schein von Recht: Sie machten Gesetze und Verordnungen. Gleichzeitig nutzten sie Gewalt: SA und SS verfolgten und verhafteten Gegner."}],
   mittel:[
-   {op:"Erklären",txt:"**Erkläre**, warum das Ermächtigungsgesetz so wichtig für das Ende der Demokratie war.",heft:true,heftNr:"1",muster:"Weil die Regierung nun ohne Reichstag und gegen die Verfassung Gesetze machen durfte – die Gewaltenteilung war damit beseitigt."},
-   {op:"Erläutern",txt:"**Erläutere** am Beispiel der Reichstagsbrandverordnung das Zusammenspiel von „Recht“ und Gewalt.",heft:true,heftNr:"2",muster:"Die Verordnung lieferte die scheinbar „legale“ Grundlage (Aufhebung der Grundrechte), SA und SS setzten den Terror gegen Gegner um – beides griff ineinander."}],
+   {afb:1,txt:"**Nenne** drei Schritte, mit denen die Nationalsozialisten 1933 die Demokratie beseitigten. Schreibe jeweils das Datum dazu.",muster:"30. Januar 1933: Hitler wird Reichskanzler. 28. Februar 1933: Reichstagsbrandverordnung. 24. März 1933: Ermächtigungsgesetz. Sommer 1933: Verbot der Parteien und Gewerkschaften (Gleichschaltung)."},
+   {afb:2,txt:"**Erkläre**, warum das Ermächtigungsgesetz das Ende der Demokratie bedeutete.",muster:"Die Regierung durfte nun Gesetze ohne das Parlament und sogar gegen die Verfassung erlassen. Damit war die Gewaltenteilung aufgehoben: Der Reichstag konnte die Regierung nicht mehr kontrollieren."},
+   {afb:2,txt:"**Erkläre** am Beispiel der Reichstagsbrandverordnung, wie „Recht“ und Gewalt zusammenwirkten.",muster:"Die Verordnung setzte die Grundrechte außer Kraft und lieferte so eine scheinbar „legale“ Grundlage. SA, SS und Polizei nutzten sie, um Gegner ohne Gericht zu verhaften. Das „Recht“ machte die Gewalt möglich."}],
   erweitert:[
-   {stufe:"AFB I",op:"Nennen",txt:"**Nenne** drei Schritte, mit denen das Regime 1933 die Demokratie beseitigte.",heft:true,heftNr:"1",muster:"z. B. Reichstagsbrandverordnung, Ermächtigungsgesetz, Verbot der Parteien/Gewerkschaften (Gleichschaltung)."},
-   {stufe:"AFB II",op:"Erklären",txt:"**Erkläre**, wie Pseudolegalität und Terror zusammenwirkten.",heft:true,heftNr:"2",muster:"Bestehende Gesetze/Notverordnungen wurden ausgenutzt (Schein von Recht), gleichzeitig schüchterten SA/SS Gegner mit Gewalt ein. So wirkte die Machtübernahme „legal“ und war doch erzwungen."},
-   {stufe:"AFB III",op:"Beurteilen",txt:"**Beurteile**, ob „Machtergreifung“ oder „Machtübertragung“ der bessere Begriff ist. **Begründe**.",heft:true,heftNr:"3",muster:"„Machtübertragung“ ist genauer, weil die Eliten Hitler ins Amt hoben und Terror mitwirkte; „Machtergreifung“ verschleiert dies. Ein begründetes Urteil nennt beide Sichtweisen."}]},
+   {afb:1,txt:"**Nenne** drei Schritte, mit denen das Regime 1933 die Demokratie beseitigte. Schreibe jeweils das Datum dazu.",muster:"28. Februar 1933: Reichstagsbrandverordnung. 24. März 1933: Ermächtigungsgesetz. Sommer 1933: Parteiverbote, Zerschlagung der Gewerkschaften, Einparteienstaat (Gleichschaltung)."},
+   {afb:2,txt:"**Erkläre**, warum das Ermächtigungsgesetz das Ende der Demokratie bedeutete.",muster:"Das Parlament entmachtete sich selbst: Die Regierung durfte Gesetze auch abweichend von der Verfassung erlassen. Die Gewaltenteilung war damit beseitigt, eine Kontrolle der Regierung gab es nicht mehr."},
+   {afb:3,txt:"**Beurteile** die Aussage: „Die Nationalsozialisten kamen 1933 legal an die Macht.“ Berücksichtige dabei das Zusammenspiel von Pseudolegalität und Terror.",muster:"Die Aussage trifft nur zum Teil zu. Formal nutzte das Regime Gesetze und Notverordnungen (Art. 48). Diese „Legalität“ war aber nur Schein: Grundrechte waren aufgehoben, Gegner verhaftet, SA und SS schüchterten ein. Ein begründetes Urteil: Die Machtsicherung war pseudolegal – sie wirkte rechtmäßig, war aber erzwungen."}]},
  sim:{type:"ordnen",hint:"Bringe die Ereignisse von 1933 in die richtige zeitliche Reihenfolge.",items:["Hitler wird Reichskanzler (30.1.1933)","Reichstagsbrand & Verordnung (27./28.2.1933)","Ermächtigungsgesetz (24.3.1933)","Verbot der Parteien / Einparteienstaat (Sommer 1933)"]},
  simTitle:"Zeitstrahl 1933",
  quiz:{lw:"DIKTATUR",fragen:[
@@ -935,13 +931,11 @@ addStation({
    "Artikel 5. Dieses Gesetz tritt mit dem Tage seiner Verkündung in Kraft. Es tritt ferner außer Kraft, wenn die gegenwärtige Reichsregierung durch eine andere abgelöst wird."],
   angabe:"Gesetz zur Behebung der Not von Volk und Reich, 24.3.1933 (Auszug). RGBl. 1933 I, S. 141.",
   art:"Textquelle · Primärquelle (der Gesetzestext stammt direkt aus der Zeit der Ereignisse).",
-  artCheck:(a,t)=>a==="Textquelle"&&t.indexOf("Primär")===0,
   felder:{wer:"Der Reichstag / die NS-geführte Reichsregierung (amtlicher Gesetzestext).",wann:"24. März 1933.",wo:"Im Deutschen Reich (Reichstag, Berlin).",fuerwen:"Für alle staatlichen Stellen und die Bevölkerung – rechtlich verbindlich.",warum:"Um der Regierung die Gesetzgebung zu übertragen und die Diktatur „legal“ abzusichern."},
-  fragen:[
-   {q:"**Fasse** die Quelle in zwei Sätzen zusammen.",muster:"Das Gesetz erlaubt der Regierung, Gesetze ohne den Reichstag und sogar gegen die Verfassung zu beschließen. Nur Reichstag/Reichsrat und die Rechte des Reichspräsidenten bleiben formal ausgenommen."},
-   {q:"**Benenne**, wer durch dieses Gesetz die Macht bekommt (Akteur).",muster:"Die Reichsregierung (mit Hitler an der Spitze) – sie erhält die Gesetzgebung."},
-   {q:"**Erläutere**, aus welchem Motiv das Gesetz beschlossen wurde.",muster:"Ziel war, die Diktatur mit einem Schein von Recht abzusichern und das Parlament auszuschalten (Pseudolegalität)."},
-   {q:"**Charakterisiere**, wer der „Verlierer“ dieses Gesetzes ist. Warum wird er entmachtet?",muster:"Verlierer sind der Reichstag und die Demokratie: Ihre Kontrolle über die Regierung entfällt, weil die Gewaltenteilung aufgehoben wird."}]},
+  auftraege:[
+   {afb:1,q:"**Fasse** den Inhalt der Artikel 1, 2 und 5 in eigenen Worten **zusammen**.",muster:"Die Reichsregierung darf Gesetze selbst beschließen, ohne den Reichstag. Diese Gesetze dürfen sogar von der Verfassung abweichen; nur Reichstag, Reichsrat und die Rechte des Reichspräsidenten bleiben formal bestehen. Das Gesetz gilt sofort und nur für die gegenwärtige Regierung."},
+   {afb:2,q:"**Erläutere**, warum das Gesetz die Gewaltenteilung aufhebt.",muster:"Normalerweise beschließt das Parlament die Gesetze (Legislative), die Regierung führt sie aus (Exekutive). Nach Artikel 1 und 2 macht die Regierung die Gesetze nun selbst – auch gegen die Verfassung. Damit liegen beide Gewalten in einer Hand, der Reichstag kann die Regierung nicht mehr kontrollieren."},
+   {afb:3,q:"**Beurteile**, ob man das Ermächtigungsgesetz als „legal“ bezeichnen kann.",muster:"Formal wurde es vom Reichstag mit Zweidrittelmehrheit beschlossen. Doch die Abstimmung war nicht frei: Die Grundrechte waren aufgehoben, KPD-Abgeordnete verhaftet oder geflohen, SA und SS standen im Saal. Das Gesetz war daher nur scheinbar legal (pseudolegal) – es diente dazu, die Diktatur mit einem Schein von Recht abzusichern."}]},
  medien:[
   ["Errichtung der NS-Diktatur","https://www.youtube.com/watch?v=CB7kYw60M1M","musstewissen Geschichte · ca. 10 Min.","0:00–5:00","**Arbeitsauftrag:** Notiere von 0:00 bis 5:00 drei Schritte der Machtsicherung."],
   ["Hitlers Aufstieg zur Macht","https://www.youtube.com/watch?v=bCmnrIiVq6g","Terra X (ZDF) · ca. 8 Min.","","Wie aus einem „Niemand“ ein Diktator wurde."]],
@@ -964,15 +958,17 @@ addStation({
  wortspeicher:["Propaganda","Volksgemeinschaft","Führerkult","Volksempfänger","Feindbild"],
  levels:{
   basis:[
-   {op:"Nennen",txt:"**Nenne** drei Medien, die die Propaganda nutzte.",heft:true,heftNr:"1a",muster:"z. B. Radio (Volksempfänger), Zeitung, Film."},
-   {op:"Beschreiben",txt:"**Beschreibe** mit dem Wortspeicher, was „Führerkult“ bedeutet.",heft:true,heftNr:"1b",muster:"Führerkult heißt: Hitler wurde übertrieben wie ein Retter verehrt."}],
+   {afb:1,txt:"**Nenne** drei Mittel, mit denen die NS-Propaganda die Menschen erreichte.",muster:"Zum Beispiel Radio (Volksempfänger), Zeitung, Film und große Aufmärsche."},
+   {afb:1,txt:"**Beschreibe**, wer zur „Volksgemeinschaft“ gehören sollte und wer nicht. Nutze den Wortspeicher.",muster:"Zur „Volksgemeinschaft“ sollten nur Menschen gehören, die die Nationalsozialisten als „Deutsche“ ansahen. Andere, zum Beispiel Juden, wurden ausgeschlossen."},
+   {afb:1,txt:"**Beschreibe**, wie die Propaganda ihre Botschaften gestaltete.",muster:"Die Botschaften waren einfach und wurden oft wiederholt. Große Aufmärsche machten Politik zum Erlebnis. Hitler wurde wie ein Retter gezeigt (Führerkult)."}],
   mittel:[
-   {op:"Erklären",txt:"**Erkläre** an einem Beispiel, wie Propaganda Gefühle und Feindbilder erzeugt.",heft:true,heftNr:"1",muster:"z. B. Massenaufmärsche und einfache, wiederholte Parolen erzeugen Begeisterung und ein klares Feindbild („die Anderen sind schuld“)."},
-   {op:"Erläutern",txt:"**Erläutere**, warum die „Volksgemeinschaft“ zugleich einbezog und ausschloss.",heft:true,heftNr:"2",muster:"„Volksgenossen“ fühlten sich zugehörig; „Gemeinschaftsfremde“ (z. B. Juden) wurden bewusst ausgeschlossen – Einschluss und Ausschluss gehören zusammen."}],
+   {afb:1,txt:"**Nenne** drei Mittel, mit denen die NS-Propaganda die Menschen erreichte.",muster:"Zum Beispiel Rundfunk (Volksempfänger), Presse, Film und Massenaufmärsche wie die Reichsparteitage."},
+   {afb:2,txt:"**Erkläre**, warum die „Volksgemeinschaft“ zugleich einschloss und ausschloss.",muster:"„Volksgenossen“ sollten sich zugehörig und aufgewertet fühlen. Gleichzeitig wurden „Gemeinschaftsfremde“ wie Juden bewusst ausgeschlossen. Das Gemeinschaftsgefühl entstand gerade durch die Abgrenzung von anderen."},
+   {afb:2,txt:"**Erkläre**, warum die Propaganda so viele Menschen beeinflussen konnte.",muster:"Sie nutzte einfache, ständig wiederholte Botschaften, starke Gefühle und klare Feindbilder. Durch den billigen Volksempfänger erreichte sie fast jeden Haushalt. Am besten wirkte sie, wo sie an vorhandene Meinungen anknüpfte."}],
   erweitert:[
-   {stufe:"AFB I",op:"Nennen",txt:"**Nenne** zwei Techniken der NS-Propaganda.",heft:true,heftNr:"1",muster:"z. B. Wiederholung einfacher Botschaften, Emotionalisierung, Feindbilder."},
-   {stufe:"AFB II",op:"Analysieren",txt:"**Analysiere** die Sportpalastrede (Quellen-Tab): Welche sprachlichen Mittel nutzt Goebbels?",heft:true,heftNr:"2",muster:"Rhetorische Fragen („Ich frage euch …“), Wiederholung, direkte Anrede „euch“, Steigerung – so wird Zustimmung erzeugt."},
-   {stufe:"AFB III",op:"Beurteilen",txt:"**Beurteile** die These, Propaganda habe die Menschen völlig „umerzogen“.",heft:true,heftNr:"3",muster:"Kritisch: Propaganda wirkte v. a. dort, wo sie an vorhandene Meinungen anknüpfte (Kershaw). Sie erzwang Zustimmung nicht allein, sondern verstärkte sie."}]},
+   {afb:1,txt:"**Nenne** drei Mittel, mit denen die NS-Propaganda die Menschen erreichte.",muster:"Zum Beispiel gleichgeschaltete Presse, Rundfunk (Volksempfänger), Film („Triumph des Willens“), Massenaufmärsche."},
+   {afb:2,txt:"**Erkläre**, warum die „Volksgemeinschaft“ zugleich eine Integrations- und eine Ausgrenzungsformel war.",muster:"Sie versprach allen „Volksgenossen“ Zugehörigkeit über Klassengrenzen hinweg. Zugleich definierte sie „Gemeinschaftsfremde“ heraus und schloss sie aus. Einschluss und Ausschluss bedingen sich gegenseitig."},
+   {afb:3,txt:"**Beurteile** die These: „Die Propaganda hat die Menschen völlig umerzogen.“",muster:"Die These ist zu einfach. Propaganda war nicht allmächtig: Sie verstärkte vor allem vorhandene Einstellungen und wirkte besonders bei außenpolitischen „Erfolgen“ (Kershaw: „Hitler-Mythos“). Viele stimmten zu, ohne die ganze Ideologie zu teilen. Propaganda erzeugte also Zustimmung mit – sie erzwang sie nicht allein."}]},
  sim:{type:"sortier",hint:"Ordne zu: Was ist ein Propagandamittel des Regimes – was nicht?",b0:"Propagandamittel des NS",b1:"KEIN Propagandamittel",items:[
   {t:"Volksempfänger (Radio)",b:0},{t:"Reichsparteitag / Massenaufmarsch",b:0},{t:"Propagandafilm",b:0},{t:"Plakate mit Parolen",b:0},{t:"freie, kritische Zeitungen",b:1},{t:"geheime Wahlen mit mehreren Parteien",b:1}]},
  simTitle:"Propaganda erkennen",
@@ -990,13 +986,11 @@ addStation({
    "Ich frage euch: Seid ihr bereit, wenn der Führer es befiehlt, zehn, zwölf und, wenn nötig, vierzehn und sechzehn Stunden täglich zu arbeiten und das Letzte herzugeben für den Sieg? […] Nun, Volk, steh auf, und Sturm, brich los!"],
   angabe:"Joseph Goebbels, Rede im Berliner Sportpalast, 18.2.1943 (Auszüge).",
   art:"Textquelle (Rede) · Primärquelle (aus der Zeit selbst).",
-  artCheck:(a,t)=>a==="Textquelle"&&t.indexOf("Primär")===0,
   felder:{wer:"Joseph Goebbels, NS-Propagandaminister.",wann:"18. Februar 1943 (nach Stalingrad).",wo:"Berliner Sportpalast, vor ausgewähltem Publikum.",fuerwen:"An das deutsche Volk (über Radio) – zur Mobilisierung.",warum:"Um trotz der Niederlage Durchhaltewillen und Zustimmung zum „totalen Krieg“ zu erzeugen."},
-  fragen:[
-   {q:"**Fasse** die Rede in zwei Sätzen zusammen.",muster:"Goebbels fragt das Publikum, ob es den „totalen Krieg“ und härteste Anstrengungen will. Er will damit trotz Stalingrad den Durchhaltewillen stärken."},
-   {q:"**Benenne**, wer hier spricht und wen er beeinflussen will.",muster:"Goebbels spricht; er will das deutsche Volk zur Kriegsbereitschaft bewegen."},
-   {q:"**Erläutere**, mit welchen Mitteln (Motiv/Absicht) die Rede wirkt.",muster:"Rhetorische Fragen, Wiederholung und die Anrede „euch“ erzeugen ein Gemeinschaftsgefühl und ein erwartetes „Ja“ – Ziel ist Manipulation zur Zustimmung."},
-   {q:"**Beurteile**: Warum antwortete das Publikum mit „Ja“?",muster:"Das Publikum war ausgewählt und aufgeheizt; die Fragen ließen kaum ein „Nein“ zu. Zustimmung wurde inszeniert, nicht frei gebildet."}]},
+  auftraege:[
+   {afb:1,q:"**Fasse** die Rede in zwei Sätzen **zusammen**.",muster:"Goebbels fragt das Publikum, ob es an den Sieg glaubt und den „totalen Krieg“ mit härtesten Anstrengungen will. Er ruft das Volk zum Aufstehen und zum Kampf auf."},
+   {afb:2,q:"**Erläutere**, mit welchen sprachlichen Mitteln Goebbels Zustimmung erzeugt.",muster:"Rhetorische Fragen („Ich frage euch …“) erzwingen ein „Ja“. Die Wiederholung desselben Satzanfangs steigert die Spannung. Die direkte Anrede „euch“ erzeugt Gemeinschaft, Steigerungen („totaler und radikaler“, „zehn, zwölf … sechzehn Stunden“) heizen die Stimmung an. Am Ende steht ein emotionaler Aufruf („Volk, steh auf“)."},
+   {afb:3,q:"**Beurteile**, ob das „Ja“ des Publikums die Meinung der Deutschen zeigte.",muster:"Nein. Das Publikum war ausgewählt und aufgeheizt; die Fragen ließen kaum ein „Nein“ zu, und offener Widerspruch war gefährlich. Die Zustimmung wurde inszeniert und über das Radio verbreitet, um Durchhaltewillen nach Stalingrad zu erzeugen. Über die tatsächliche Stimmung der Bevölkerung sagt sie wenig aus."}]},
  medien:[
   ["Wie die NS-Zeit die Medien verändert hat","https://www.youtube.com/watch?v=lUZm2OFGaq4","Terra X (ZDF) · ca. 12 Min.","","**Arbeitsauftrag:** Notiere drei Medien/Techniken der Propaganda."],
   ["Psychologie der Nazi-Mitläufer","https://www.youtube.com/watch?v=6sg5k08vCU0","Terra X (ZDF) · ca. 9 Min.","","Warum Menschen mitmachten – Bezug zum „Hitler-Mythos“."]],
@@ -1025,15 +1019,17 @@ addStation({
  wortspeicher:["Hitlerjugend","BDM","Gehorsam","Uniform","Pflicht","Gemeinschaft"],
  levels:{
   basis:[
-   {op:"Nennen",txt:"**Nenne** die beiden großen NS-Jugendorganisationen.",heft:true,heftNr:"1a",muster:"Hitlerjugend (HJ) für Jungen, BDM für Mädchen."},
-   {op:"Beschreiben",txt:"**Beschreibe** mit dem Wortspeicher, was Jungen in der HJ lernten.",heft:true,heftNr:"1b",muster:"Gehorsam und vormilitärische Übungen wie Marschieren, Geländespiele und Schießen."}],
+   {afb:1,txt:"**Nenne** die beiden NS-Jugendorganisationen. Schreibe dazu, wer jeweils Mitglied war.",muster:"Die Hitlerjugend (HJ) für Jungen und der Bund Deutscher Mädel (BDM) für Mädchen."},
+   {afb:1,txt:"**Beschreibe**, was Jungen in der HJ und Mädchen im BDM lernen sollten. Nutze den Wortspeicher.",muster:"Jungen lernten Gehorsam und übten für den Krieg: Marschieren, Geländespiele, Schießen. Mädchen sollten vor allem gute Mütter werden."},
+   {afb:1,txt:"**Beschreibe**, was viele Jugendliche an der HJ gut fanden und was dahinter stand.",muster:"Viele fanden Uniform, Fahrten und Gemeinschaft toll. Dahinter stand aber die Erziehung zum Gehorsam. Ab 1939 war die Mitgliedschaft Pflicht."}],
   mittel:[
-   {op:"Erklären",txt:"**Erkläre**, wie HJ und BDM Jungen und Mädchen unterschiedlich prägten.",heft:true,heftNr:"1",muster:"Jungen: Gehorsam und vormilitärische Ausbildung; Mädchen: Ausrichtung auf die „Mutterrolle\" und die „Volksgemeinschaft\"."},
-   {op:"Erläutern",txt:"**Erläutere**, warum man ab 1936/39 von Zwang sprechen kann.",heft:true,heftNr:"2",muster:"1936 wurde die HJ Staatsjugend, 1939 galt die Jugenddienstpflicht – die Mitgliedschaft war Pflicht; Elternhaus und Schule wurden zurückgedrängt."}],
+   {afb:1,txt:"**Nenne** die beiden NS-Jugendorganisationen. Schreibe dazu, wer jeweils Mitglied war.",muster:"Die Hitlerjugend (HJ) für Jungen und der Bund Deutscher Mädel (BDM) für Mädchen."},
+   {afb:2,txt:"**Erkläre**, wozu das Regime Jungen und Mädchen jeweils erzog.",muster:"Jungen wurden zu Gehorsam erzogen und vormilitärisch geschult – sie sollten später Soldaten werden. Mädchen wurden auf die „Mutterrolle“ und den Dienst an der „Volksgemeinschaft“ ausgerichtet. Beides diente den Zielen des Regimes."},
+   {afb:2,txt:"**Erkläre**, warum die HJ für viele Jugendliche anziehend war, obwohl die Mitgliedschaft ab 1939 Pflicht war.",muster:"Uniform, Fahrten und Gemeinschaft boten Abenteuer und das Gefühl, wichtig zu sein. So nahmen viele den Zwang (Staatsjugend 1936, Jugenddienstpflicht 1939) kaum wahr. Dahinter stand aber die Erziehung zu Gehorsam und Opferbereitschaft."}],
   erweitert:[
-   {stufe:"AFB I",op:"Nennen",txt:"**Nenne**, wer nach dem HJ-Gesetz zur Hitler-Jugend gehören soll.",heft:true,heftNr:"1",muster:"Die „gesamte deutsche Jugend\"."},
-   {stufe:"AFB II",op:"Erklären",txt:"**Erkläre** am Gesetz (Quellen-Tab), wie Elternhaus und Schule zurückgedrängt werden.",heft:true,heftNr:"2",muster:"Laut § 2 wird die Jugend „außer in Elternhaus und Schule\" in der HJ im NS-Geist erzogen – die HJ übernimmt die entscheidende Erziehung."},
-   {stufe:"AFB III",op:"Beurteilen",txt:"**Beurteile** die Aussage, die HJ sei „nur Zwang\" gewesen.",heft:true,heftNr:"3",muster:"Differenziert: Es gab Zwang (Pflicht), aber auch Faszination (Uniform, Gemeinschaft, Abenteuer). Beides erklärt den Erfolg der HJ."}]},
+   {afb:1,txt:"**Nenne** die beiden NS-Jugendorganisationen. Schreibe dazu, wer jeweils Mitglied war.",muster:"Die Hitlerjugend (HJ) für Jungen und der Bund Deutscher Mädel (BDM) für Mädchen; ab 1936 Staatsjugend, ab 1939 Pflicht."},
+   {afb:2,txt:"**Erkläre**, wozu das Regime Jungen und Mädchen jeweils erzog.",muster:"Jungen: Gehorsam und vormilitärische Ausbildung als Vorbereitung auf den Krieg. Mädchen: Ausrichtung auf die „Mutterrolle“ und die „Volksgemeinschaft“. Die HJ verdrängte dabei Elternhaus, Kirche und Schule."},
+   {afb:3,txt:"**Beurteile** die Aussage: „Die HJ war nur Zwang.“",muster:"Die Aussage ist zu einseitig. Es gab Zwang (Gesetz 1936, Jugenddienstpflicht 1939). Viele Jugendliche waren aber auch fasziniert von Uniform, Gemeinschaft und der Aufwertung der Jugend. Erst das Zusammenspiel von Faszination und Zwang erklärt den Erfolg der HJ."}]},
  sim:{type:"sortier",hint:"Wozu wurden Jungen (HJ) und Mädchen (BDM) vor allem erzogen? Ordne zu.",b0:"eher HJ (Jungen)",b1:"eher BDM (Mädchen)",items:[
   {t:"Geländespiele & Schießen",b:0},{t:"vormilitärische Ausbildung",b:0},{t:"Vorbereitung auf die „Mutterrolle\"",b:1},{t:"Haushalt & Kindererziehung",b:1},{t:"Gehorsam gegenüber Vorgesetzten",b:0},{t:"Gemeinschaftserlebnis (beide)",b:1}]},
  simTitle:"HJ & BDM zuordnen",
@@ -1051,13 +1047,11 @@ addStation({
    "§ 3. Die Erziehung wird dem Reichsjugendführer der NSDAP übertragen. Er ist dem Führer und Reichskanzler unmittelbar unterstellt."],
   angabe:"Gesetz über die Hitlerjugend, 1.12.1936 (§ 1–3). RGBl. 1936 I, S. 993.",
   art:"Textquelle · Primärquelle (Gesetzestext aus der Zeit).",
-  artCheck:(a,t)=>a==="Textquelle"&&t.indexOf("Primär")===0,
   felder:{wer:"Die NS-Reichsregierung (amtliches Gesetz).",wann:"1. Dezember 1936.",wo:"Deutsches Reich.",fuerwen:"Für die gesamte Jugend, Eltern, Schulen, Behörden.",warum:"Um die Jugend vollständig zu erfassen und im NS-Geist zu erziehen."},
-  fragen:[
-   {q:"**Fasse** das Gesetz in zwei Sätzen zusammen.",muster:"Das Gesetz fasst die gesamte deutsche Jugend in der HJ zusammen. Sie soll außerhalb von Elternhaus und Schule im Geiste des Nationalsozialismus erzogen werden."},
-   {q:"**Benenne**, wer für die Erziehung der Jugend zuständig wird.",muster:"Der Reichsjugendführer der NSDAP, direkt Hitler unterstellt."},
-   {q:"**Erläutere** das Motiv: Warum will das Regime „die gesamte Jugend\"?",muster:"Um alle Jugendlichen ideologisch zu formen, für Gehorsam und Krieg – ohne Ausnahmen durch Elternhaus oder Schule."},
-   {q:"**Charakterisiere**, welche Rolle Elternhaus und Schule laut § 2 noch spielen.",muster:"Sie werden zurückgedrängt: Die HJ tritt „außer\" Elternhaus und Schule und übernimmt die entscheidende Erziehung."}]},
+  auftraege:[
+   {afb:1,q:"**Fasse** die Paragraphen 1 bis 3 in eigenen Worten **zusammen**.",muster:"Die gesamte deutsche Jugend gehört zur Hitler-Jugend. Neben Elternhaus und Schule soll die HJ sie im Sinne des Nationalsozialismus erziehen. Zuständig ist der Reichsjugendführer, der direkt Hitler unterstellt ist."},
+   {afb:2,q:"**Erläutere**, welche Rolle Elternhaus und Schule laut § 2 noch spielen.",muster:"Sie werden nur noch nebenbei genannt („außer in Elternhaus und Schule“). Die entscheidende Erziehung „im Geiste des Nationalsozialismus“ übernimmt die HJ. Eltern und Lehrer verlieren damit an Einfluss; der Staat greift direkt auf die Jugend zu."},
+   {afb:3,q:"**Beurteile** die Aussage: „Mit diesem Gesetz gehörte die Jugend nicht mehr den Eltern, sondern dem Staat.“",muster:"Die Aussage trifft im Kern zu: Das Gesetz erfasst die „gesamte“ Jugend, stellt die Erziehung unter den Reichsjugendführer und damit unter Hitler. Ganz verschwand der Einfluss der Eltern zwar nicht, doch er wurde zurückgedrängt. Das Ziel war die lückenlose Formung der Jugend für Gehorsam, „Volksgemeinschaft“ und Krieg."}]},
  medien:[
   ["Hitlerjugend & BDM einfach erklärt","https://www.youtube.com/watch?v=Du7T6VDTJ_8","Erklärvideo · ca. 8 Min.","","**Arbeitsauftrag:** Nenne zwei Ziele der HJ und ein Ziel des BDM."]],
  lauf:"HJ/BDM zuordnen, HJ-Gesetz auswerten."
@@ -1085,15 +1079,17 @@ addStation({
  wortspeicher:["Autobahn","Arbeitsbeschaffung","Propaganda","Rüstung","Wehrpflicht","Vierjahresplan"],
  levels:{
   basis:[
-   {op:"Nennen",txt:"**Nenne**, wofür das meiste Geld ausgegeben wurde.",heft:true,heftNr:"1a",muster:"Für die Aufrüstung: Panzer, Flugzeuge, Soldaten (Wehrmacht)."},
-   {op:"Beschreiben",txt:"**Beschreibe** mit dem Wortspeicher, warum der Autobahnbau vor allem Propaganda war.",heft:true,heftNr:"1b",muster:"Die Nazis zeigten ihn als „Arbeit für alle\", doch er schuf nur wenige Arbeitsplätze – es war vor allem Werbung."}],
+   {afb:1,txt:"**Nenne**, wofür das NS-Regime das meiste Geld ausgab. Nenne außerdem zwei Maßnahmen der Aufrüstung mit Jahr.",muster:"Das meiste Geld floss in die Rüstung (Panzer, Flugzeuge, Soldaten). Maßnahmen: Wehrpflicht 1935, Vierjahresplan 1936."},
+   {afb:1,txt:"**Beschreibe**, wie die Nazis den Autobahnbau darstellten und was er wirklich brachte. Nutze den Wortspeicher.",muster:"Die Nazis zeigten den Autobahnbau als „Arbeit für alle“. In Wahrheit schuf er nur wenige Arbeitsplätze. Er war vor allem Werbung (Propaganda)."},
+   {afb:1,txt:"**Beschreibe**, was der Vierjahresplan erreichen sollte.",muster:"Der Vierjahresplan von 1936 sollte die Wirtschaft in vier Jahren kriegsbereit machen."}],
   mittel:[
-   {op:"Erklären",txt:"**Erkläre**, warum die Arbeitslosigkeit vor allem durch die Aufrüstung sank.",heft:true,heftNr:"1",muster:"Die Rüstung (Wehrmacht, Waffenfabriken, Wehrpflicht) schuf sehr viele Arbeitsplätze und verschlang das meiste Geld – die Autobahn nur wenige."},
-   {op:"Erläutern",txt:"**Erläutere** am Diagramm und am Vierjahresplan, dass das eigentliche Ziel der Krieg war.",heft:true,heftNr:"2",muster:"Die Wehrmachtausgaben stiegen stark; der Vierjahresplan forderte „in vier Jahren kriegsfähig\" – Wirtschaftspolitik war Kriegsvorbereitung."}],
+   {afb:1,txt:"**Nenne**, wofür das NS-Regime das meiste Geld ausgab. Nenne außerdem zwei Maßnahmen der Aufrüstung mit Jahr.",muster:"Für die Aufrüstung (Panzer, Flugzeuge, Wehrmacht). Maßnahmen: Wiedereinführung der Wehrpflicht 1935, Vierjahresplan 1936."},
+   {afb:2,txt:"**Erkläre**, warum der Autobahnbau vor allem Propaganda war.",muster:"Die Propaganda zeigte die Autobahn als „Arbeit für alle“. Tatsächlich schuf sie nur relativ wenige Arbeitsplätze. Sie diente vor allem dem Prestige des Regimes – der eigentliche Motor gegen die Arbeitslosigkeit war die Aufrüstung."},
+   {afb:2,txt:"**Erkläre**, warum die „Arbeitsbeschaffung“ zugleich Kriegsvorbereitung war.",muster:"Die meisten neuen Arbeitsplätze entstanden in der Rüstung und in der Wehrmacht. Der Vierjahresplan richtete die Wirtschaft auf Autarkie und Krieg aus („in vier Jahren kriegsfähig“). Wer Arbeit schuf, rüstete also gleichzeitig für den Krieg."}],
   erweitert:[
-   {stufe:"AFB I",op:"Nennen",txt:"**Nenne**, was der Vierjahresplan (Quellen-Tab) in vier Jahren erreichen sollte.",heft:true,heftNr:"1",muster:"Die Armee sollte einsatzfähig, die Wirtschaft kriegsfähig sein."},
-   {stufe:"AFB II",op:"Erklären",txt:"**Erkläre** am Diagramm, wie sich die Wehrmachtausgaben entwickelten und was das bedeutet.",heft:true,heftNr:"2",muster:"Sie stiegen ab 1933 stark an – ein immer größerer Teil des Haushalts floss in die Rüstung, also in die Kriegsvorbereitung."},
-   {stufe:"AFB III",op:"Beurteilen",txt:"**Beurteile** die NS-Behauptung „Wir haben mit der Autobahn Arbeit für alle geschaffen\".",heft:true,heftNr:"3",muster:"Kritisch: Die Autobahn war v. a. Propaganda mit wenigen Jobs. Der große Beschäftigungs- und Ausgabenschub kam aus der Rüstung – die „Erfolge\" dienten dem Krieg, nicht dem Wohlstand."}]},
+   {afb:1,txt:"**Nenne**, wofür das NS-Regime das meiste Geld ausgab. Nenne außerdem zwei Maßnahmen der Aufrüstung mit Jahr.",muster:"Für die Rüstung. Maßnahmen: Wehrpflicht 1935, Rheinlandbesetzung 1936, Vierjahresplan 1936."},
+   {afb:2,txt:"**Erkläre**, warum der Autobahnbau vor allem Propaganda war.",muster:"Er wurde als „Arbeit für alle“ inszeniert, sein Beschäftigungseffekt blieb aber begrenzt und sein Nutzen ist umstritten. Er diente vor allem dem Prestige; der eigentliche Ausgaben- und Beschäftigungsschub kam aus der Rüstung."},
+   {afb:3,txt:"**Beurteile** die NS-Behauptung: „Unsere Wirtschaftspolitik hat Arbeit für alle geschaffen.“",muster:"Die Behauptung verschleiert das eigentliche Ziel. Die Arbeitslosigkeit sank zwar, aber vor allem durch die Aufrüstung. Der Vierjahresplan zeigt: Wirtschaft und Armee sollten kriegsfähig werden. „Arbeitsbeschaffung“ war kein Selbstzweck, sondern Teil einer auf Krieg ausgerichteten Politik."}]},
  sim:{type:"wahrfalsch",hint:"Wahr oder falsch? Beurteile die Aussagen zur Wirtschaft und Aufrüstung.",items:[
   {t:"Der Autobahnbau schuf die meisten Arbeitsplätze im NS-Staat.",w:false},
   {t:"Der größte Teil der Staatsausgaben floss in die Aufrüstung.",w:true},
@@ -1115,13 +1111,11 @@ addStation({
    "(Hitler ordnet alle anderen Ziele der Aufrüstung unter und begründet dies mit einer angeblichen Bedrohung.)"],
   angabe:"Denkschrift Adolf Hitlers zum Vierjahresplan, 1936 (Auszug). Edition: IfZ / VfZ 1955.",
   art:"Textquelle (Denkschrift) · Primärquelle (geheimes Papier aus der Zeit).",
-  artCheck:(a,t)=>a==="Textquelle"&&t.indexOf("Primär")===0,
   felder:{wer:"Adolf Hitler (geheime Denkschrift).",wann:"1936.",wo:"Deutsches Reich (interne Regierungsplanung).",fuerwen:"Für Göring und die Wirtschaftsführung – nicht für die Öffentlichkeit.",warum:"Um Wirtschaft und Armee gezielt auf einen Krieg vorzubereiten."},
-  fragen:[
-   {q:"**Fasse** die Kernforderung in zwei Sätzen zusammen.",muster:"Armee und Wirtschaft sollen in vier Jahren kriegsfähig sein. Alles andere wird der Aufrüstung untergeordnet."},
-   {q:"**Benenne**, wer das Papier verfasst und für wen es bestimmt ist.",muster:"Hitler; bestimmt für die Wirtschaftsführung (Göring), geheim – nicht für die Öffentlichkeit."},
-   {q:"**Erläutere**, was das Ziel „in vier Jahren kriegsfähig\" über die Wirtschaftspolitik verrät.",muster:"Die Wirtschaft – auch die „Arbeitsbeschaffung\" – diente vor allem der Kriegsvorbereitung, nicht dem Wohlstand."},
-   {q:"**Beurteile** mithilfe von Diagramm und Quelle: War der Autobahnbau der eigentliche Grund für weniger Arbeitslosigkeit?",muster:"Nein. Die Autobahn war v. a. Propaganda mit wenigen Jobs; der große Ausgaben- und Beschäftigungsschub kam aus der Rüstung (Vierjahresplan)."}]},
+  auftraege:[
+   {afb:1,q:"**Fasse** die beiden Kernforderungen der Denkschrift **zusammen**.",muster:"Die deutsche Armee soll in vier Jahren einsatzfähig sein. Die deutsche Wirtschaft soll in vier Jahren kriegsfähig sein."},
+   {afb:2,q:"**Erläutere**, was das Ziel „in vier Jahren kriegsfähig“ über die NS-Wirtschaftspolitik verrät.",muster:"Die Wirtschaft sollte nicht vor allem Wohlstand schaffen, sondern einen Krieg ermöglichen. Alle anderen Ziele wurden der Aufrüstung untergeordnet. Auch die „Arbeitsbeschaffung“ war damit Teil der Kriegsvorbereitung."},
+   {afb:3,q:"**Beurteile** mithilfe der Quelle die NS-Behauptung, die Wirtschaftspolitik habe vor allem „Arbeit für alle“ schaffen sollen.",muster:"Die Quelle widerlegt die Behauptung: In dem geheimen Papier, das nicht für die Öffentlichkeit bestimmt war, nennt Hitler offen den Krieg als Ziel. „Arbeit für alle“ war die Propaganda nach außen; tatsächlich sank die Arbeitslosigkeit vor allem durch die Rüstung."}]},
  bild:{ img:"a3_chart.png", w:470, h:242, unterschrift:"Ausgaben im Staatshaushalt 1928–1938: die Wehrmachtausgaben steigen ab 1933 stark.", quelle:"Schaubild nach Haushaltsdaten (Projektmaterial).", auftrag:"Beschreibe die Entwicklung der Wehrmachtausgaben und erkläre, was sie über das eigentliche Ziel verrät." },
  bild2:{ img:"a3_rad.jpg", w:250, h:355, unterschrift:"Plakat „Der Reichsarbeitsdienst ruft!\" – Arbeit als NS-Propaganda.", quelle:"NS-Werbeplakat (Projektmaterial)." },
  lauf:"Autobahn-Mythos prüfen, Vierjahresplan auswerten."
@@ -1150,15 +1144,17 @@ addStation({
  wortspeicher:["Ausgrenzung","Boykott","Nürnberger Gesetze","Novemberpogrom","Auswanderung","Reichsfluchtsteuer"],
  levels:{
   basis:[
-   {op:"Nennen",txt:"**Nenne** drei Schritte der Ausgrenzung von 1933 bis 1938.",heft:true,heftNr:"1a",muster:"z. B. Boykott 1933, Nürnberger Gesetze 1935, Novemberpogrom 1938."},
-   {op:"Beschreiben",txt:"**Beschreibe** mit dem Wortspeicher, warum viele Juden nicht auswandern konnten.",heft:true,heftNr:"1b",muster:"Der Staat nahm ihnen fast ihr Geld (Reichsfluchtsteuer), und kaum ein Land nahm sie auf."}],
+   {afb:1,txt:"**Nenne** drei Schritte der Ausgrenzung der Juden von 1933 bis 1938. Schreibe jeweils das Jahr dazu.",muster:"1933: Boykott jüdischer Geschäfte und Berufsverbote. 1935: Nürnberger Gesetze. 1938: Novemberpogrom."},
+   {afb:1,txt:"**Beschreibe**, wie die Ausgrenzung von 1933 bis 1938 immer schlimmer wurde. Nutze den Wortspeicher.",muster:"Zuerst wurden jüdische Geschäfte boykottiert und Juden durften manche Berufe nicht mehr ausüben. 1935 nahmen die Nürnberger Gesetze ihnen viele Rechte. 1938 brannten beim Novemberpogrom die Synagogen."},
+   {afb:1,txt:"**Beschreibe**, warum viele Juden nicht auswandern konnten.",muster:"Der Staat nahm ihnen fast ihr ganzes Geld (Reichsfluchtsteuer). Andere Länder nahmen kaum jemanden auf. So saßen viele in der Falle."}],
   mittel:[
-   {op:"Erklären",txt:"**Erkläre**, warum der Novemberpogrom 1938 eine Verschärfung war.",heft:true,heftNr:"1",muster:"Erstmals offene, staatlich gelenkte Gewalt gegen Leben und Eigentum – ein Bruch mit der bis dahin v. a. rechtlichen Ausgrenzung."},
-   {op:"Erläutern",txt:"**Erläutere** den Widerspruch: Man wollte Juden loswerden, machte die Ausreise aber fast unmöglich.",heft:true,heftNr:"2",muster:"Das Regime drängte zur Auswanderung, beraubte die Ausreisenden aber (Reichsfluchtsteuer) und kaum ein Land nahm sie auf (Évian) – viele saßen in der Falle."}],
+   {afb:1,txt:"**Nenne** drei Schritte der Ausgrenzung der Juden von 1933 bis 1938. Schreibe jeweils das Jahr dazu.",muster:"1933: Boykott und „Arierparagraph“ (Berufsverbote). 1935: Nürnberger Gesetze. 1938: Novemberpogrom und „Arisierung“."},
+   {afb:2,txt:"**Erkläre**, warum der Novemberpogrom 1938 eine Verschärfung der Verfolgung war.",muster:"Bis dahin wurden Juden vor allem durch Gesetze ausgegrenzt. 1938 kam offene, gelenkte Gewalt gegen Menschen und Eigentum hinzu: Synagogen und Geschäfte wurden zerstört, viele Menschen verhaftet. Danach wurden Juden aus dem Wirtschaftsleben gedrängt."},
+   {afb:2,txt:"**Erkläre** den Widerspruch: Das Regime wollte die Juden loswerden, machte die Ausreise aber fast unmöglich.",muster:"Das Regime drängte die Juden zur Auswanderung. Gleichzeitig plünderte es die Auswanderer durch Sonderabgaben wie die Reichsfluchtsteuer aus. Und kaum ein Land nahm Flüchtlinge auf (Évian-Konferenz 1938). Viele saßen deshalb in der Falle."}],
   erweitert:[
-   {stufe:"AFB I",op:"Nennen",txt:"**Nenne**, was die Nürnberger Gesetze 1935 bewirkten.",heft:true,heftNr:"1",muster:"Sie entrechteten Juden (kein volles Bürgerrecht) und verboten Ehen zwischen Juden und „Deutschblütigen\"."},
-   {stufe:"AFB II",op:"Erklären",txt:"**Erkläre** an der Quelle, warum die Einteilung nach „Blut\" unwissenschaftlich ist.",heft:true,heftNr:"2",muster:"„Rasse/Blut\" ist keine biologische Kategorie; die Gesetze erfanden eine pseudobiologische Einteilung, um Menschen willkürlich zu entrechten."},
-   {stufe:"AFB III",op:"Beurteilen",txt:"**Beurteile** die Aussage: „Wer verfolgt wurde, hätte doch einfach auswandern können.\"",heft:true,heftNr:"3",muster:"Kritisch: Auswanderung war gewollt, aber fast unmöglich gemacht (Beraubung, kaum Aufnahmeländer, Bürokratie). Der Vorwurf verkennt die Falle, in der die Menschen saßen."}]},
+   {afb:1,txt:"**Nenne** drei Schritte der Ausgrenzung der Juden von 1933 bis 1938. Schreibe jeweils das Jahr dazu.",muster:"1933: Boykott und „Arierparagraph“. 1935: Nürnberger Gesetze. 1938: Novemberpogrom und „Arisierung“."},
+   {afb:2,txt:"**Erkläre**, wie sich die Judenverfolgung von 1933 bis 1938 radikalisierte.",muster:"Sie verschärfte sich in Stufen: von der Ausgrenzung aus Wirtschaft und Berufen (1933) über die rechtliche Entrechtung durch die Nürnberger Gesetze (1935) bis zu offener Gewalt und Beraubung (Pogrom und „Arisierung“ 1938)."},
+   {afb:3,txt:"**Beurteile** die Aussage: „Wer verfolgt wurde, hätte doch einfach auswandern können.“",muster:"Die Aussage ist falsch und verkennt die Lage. Auswanderung war zwar gewollt, wurde aber fast unmöglich gemacht: Die Ausreisenden wurden beraubt (Reichsfluchtsteuer, „Judenvermögensabgabe“), und kaum ein Land nahm sie auf (Évian 1938). Ab 1941 war die Ausreise ganz verboten. Viele saßen in einer Falle, für die sie nicht verantwortlich waren."}]},
  sim:{type:"ordnen",hint:"Bringe die Ereignisse der Ausgrenzung 1933–1939 in die richtige Reihenfolge.",items:["Boykott jüdischer Geschäfte (April 1933)","Nürnberger Gesetze (1935)","Évian-Konferenz – kaum Aufnahme (Juli 1938)","Novemberpogrom (November 1938)","„Arisierung\" – Enteignung (ab Ende 1938)"]},
  simTitle:"Ausgrenzung 1933–1939 ordnen",
  quiz:{lw:"AUSGRENZUNG",fragen:[
@@ -1175,13 +1171,11 @@ addStation({
    "§ 2: Außerehelicher Verkehr zwischen Juden und Staatsangehörigen deutschen oder artverwandten Blutes ist verboten."],
   angabe:"Nürnberger Gesetze, 15.9.1935 (Auszüge). RGBl. 1935 I, S. 1146 f.",
   art:"Textquelle · Primärquelle (Gesetzestext aus der Zeit).",
-  artCheck:(a,t)=>a==="Textquelle"&&t.indexOf("Primär")===0,
   felder:{wer:"Die NS-Reichsregierung/„Reichstag\" (amtliche Gesetze).",wann:"15. September 1935.",wo:"Deutsches Reich (verkündet in Nürnberg).",fuerwen:"Für Behörden und Bevölkerung – rechtlich verbindlich.",warum:"Um Juden rechtlich zu entrechten und pseudobiologisch auszugrenzen."},
-  fragen:[
-   {q:"**Fasse** zusammen, was die Gesetze bestimmen.",muster:"Nur „Deutschblütige\" sind volle Bürger; Juden verlieren politische Rechte. Ehen und Beziehungen zwischen Juden und „Deutschblütigen\" werden verboten."},
-   {q:"**Benenne** die Verantwortlichen dieser Entrechtung.",muster:"Das NS-Regime (Staat/Partei), das die Gesetze erlässt und durchsetzt."},
-   {q:"**Erläutere** das Motiv hinter den Gesetzen.",muster:"Rassistische Ideologie: Juden sollen als „minderwertig\" ausgegrenzt und zu Bürgern „zweiter Klasse\" gemacht werden."},
-   {q:"**Charakterisiere** die Opfer. Warum werden sie entrechtet?",muster:"Opfer sind die jüdischen Menschen – nicht wegen einer Tat, sondern allein aufgrund der erfundenen „Rasse\". Das ist der Kern des Unrechts."}]},
+  auftraege:[
+   {afb:1,q:"**Fasse** zusammen, was die beiden Gesetze bestimmen.",muster:"Nur Staatsangehörige „deutschen oder artverwandten Blutes“ sind Reichsbürger mit vollen politischen Rechten. Ehen und Beziehungen zwischen Juden und „Deutschblütigen“ werden verboten."},
+   {afb:2,q:"**Erläutere**, warum die Einteilung der Menschen nach „Blut“ unwissenschaftlich und willkürlich ist.",muster:"„Blut“ oder „Rasse“ sind keine biologischen Kategorien, mit denen man Menschen einteilen kann. Die Gesetze erfanden eine pseudobiologische Unterscheidung. Sie diente allein dazu, Juden auszugrenzen und zu Bürgern „zweiter Klasse“ zu machen."},
+   {afb:3,q:"**Beurteile**, warum diese Gesetze Unrecht waren, obwohl sie als „Gesetze“ beschlossen wurden.",muster:"Die Gesetze hatten zwar eine rechtliche Form, verletzten aber die Gleichheit und Würde aller Menschen. Juden wurden nicht wegen einer Tat, sondern allein wegen einer erfundenen „Rasse“ entrechtet. Ein Gesetz, das Menschen ihre Grundrechte nimmt, ist Unrecht – auch wenn ein Staat es beschließt."}]},
  bild:{ img:"a4_synagoge.jpg", w:430, h:314, unterschrift:"Brennende Synagoge während des Novemberpogroms, 9./10. November 1938.", quelle:"Zeitgenössische Fotografie (Projektmaterial).", auftrag:"Beschreibe, was zu sehen ist, und ordne das Bild dem Novemberpogrom zu." },
  medien:[
   ["Verfolgung der Juden im Nationalsozialismus","https://schule.zdf.de/video/verfolgung-der-juden-im-nationalsozialismus-creative-commons-clip-100","ZDF goes Schule · ca. 4 Min.","","⚠ belastend. **Arbeitsauftrag:** Achte auf die Schritte bis 1939 (Ausgrenzung, Entrechtung, Pogrom)."]],
@@ -1210,15 +1204,17 @@ addStation({
  wortspeicher:["Anschluss","Österreich","Abstimmung","Propaganda","Reich"],
  levels:{
   basis:[
-   {op:"Nennen",txt:"**Nenne**, wann und wie Österreich zum Deutschen Reich kam.",heft:true,heftNr:"1a",muster:"Im März 1938 durch den Einmarsch deutscher Truppen („Anschluss\")."},
-   {op:"Beschreiben",txt:"**Beschreibe** mit dem Wortspeicher, warum die Abstimmung unfrei war.",heft:true,heftNr:"1b",muster:"Es gab Druck und Propaganda; Gegner und Juden durften nicht mitstimmen."}],
+   {afb:1,txt:"**Nenne**, wann und wie Österreich zum Deutschen Reich kam.",muster:"Im März 1938 marschierten deutsche Soldaten in Österreich ein („Anschluss“)."},
+   {afb:1,txt:"**Beschreibe**, wie der Einmarsch ablief und wie viele Österreicher dazu standen. Nutze den Wortspeicher.",muster:"Es gab keinen militärischen Widerstand. Viele Österreicher sprachen Deutsch und fühlten sich als Deutsche."},
+   {afb:1,txt:"**Beschreibe**, warum die Abstimmung nach dem Anschluss unfrei war.",muster:"Fast alle stimmten mit Ja. Aber es gab Druck und Propaganda, und Gegner wurden verfolgt."}],
   mittel:[
-   {op:"Erklären",txt:"**Erkläre**, warum der Einmarsch ohne militärischen Widerstand gelang.",heft:true,heftNr:"1",muster:"Die österreichische Regierung war unter Druck gesetzt worden, und viele Österreicher begrüßten den Anschluss – so gab es keine Gegenwehr."},
-   {op:"Erläutern",txt:"**Erläutere**, warum die 99 %-Zustimmung nicht als echtes Ergebnis gelten kann.",heft:true,heftNr:"2",muster:"Die Abstimmung war unfrei: Gegner/Juden ausgeschlossen, Einschüchterung und Propaganda – das Ergebnis war inszeniert."}],
+   {afb:1,txt:"**Nenne**, wann und wie Österreich zum Deutschen Reich kam.",muster:"Im März 1938 durch Druck auf die Regierung und den Einmarsch deutscher Truppen („Anschluss“)."},
+   {afb:2,txt:"**Erkläre**, warum der Einmarsch ohne militärischen Widerstand gelang.",muster:"Hitler hatte die österreichische Regierung unter Druck gesetzt. Außerdem unterstützten viele – aber nicht alle – Österreicher den Anschluss. Deshalb gab es keine Gegenwehr."},
+   {afb:2,txt:"**Erkläre**, warum die 99-%-Zustimmung kein echtes Ergebnis war.",muster:"Die Abstimmung war unfrei: Gegner und Juden waren ausgeschlossen oder wurden schon verfolgt, dazu kam massive Propaganda. Das Ergebnis war inszeniert."}],
   erweitert:[
-   {stufe:"AFB I",op:"Nennen",txt:"**Nenne**, was Artikel I des Anschluss-Gesetzes (Quellen-Tab) bestimmt.",heft:true,heftNr:"1",muster:"„Österreich ist ein Land des Deutschen Reiches.\""},
-   {stufe:"AFB II",op:"Erklären",txt:"**Erkläre** den Widerspruch zwischen „freier Volksabstimmung\" (Art. II) und der Wirklichkeit.",heft:true,heftNr:"2",muster:"Das Gesetz kündigt eine „freie\" Abstimmung an, doch Gegner/Juden waren ausgeschlossen und es herrschten Druck und Propaganda."},
-   {stufe:"AFB III",op:"Beurteilen",txt:"**Beurteile**, warum das Regime überhaupt eine Abstimmung durchführte, obwohl der Anschluss längst vollzogen war.",heft:true,heftNr:"3",muster:"Um den Anschluss nach außen als „Wunsch des Volkes\" erscheinen zu lassen (Legitimation durch Propaganda), obwohl er erzwungen war."}]},
+   {afb:1,txt:"**Nenne**, wann und wie Österreich zum Deutschen Reich kam.",muster:"Im März 1938: Nach Druck auf die Regierung Schuschnigg marschierte die Wehrmacht ohne Gegenwehr ein („Anschluss“)."},
+   {afb:2,txt:"**Erkläre**, warum der Einmarsch ohne militärischen Widerstand gelang.",muster:"Die Regierung Schuschnigg war massiv unter Druck gesetzt worden; viele Österreicher begrüßten den Anschluss. Zudem griffen die Westmächte nicht ein (Appeasement)."},
+   {afb:3,txt:"**Beurteile**, ob der Anschluss Österreichs freiwillig oder erzwungen war.",muster:"Ein begründetes Urteil wägt ab: Es gab echte Zustimmung bei vielen Österreichern. Gleichzeitig wurde der Anschluss durch Druck und Einmarsch erzwungen, und die „Volksabstimmung“ war unfrei (Ausschluss von Gegnern und Juden, Einschüchterung). Der Anschluss war daher kein freier Entschluss, sondern ein Zusammenspiel von Zustimmung, Zwang und außenpolitischer Nachgiebigkeit."}]},
  sim:{type:"wahrfalsch",hint:"Wahr oder falsch? Beurteile die Aussagen zum Anschluss 1938.",items:[
   {t:"Beim „Anschluss\" 1938 gab es heftigen militärischen Widerstand.",w:false},
   {t:"Die „Volksabstimmung\" war frei und geheim.",w:false},
@@ -1240,13 +1236,11 @@ addStation({
    "(Tatsächlich war die Abstimmung nicht frei: Gegner und Juden waren ausgeschlossen, es herrschten Druck und Propaganda.)"],
   angabe:"Gesetz über die Wiedervereinigung Österreichs mit dem Deutschen Reich, 13.3.1938 (Auszug). RGBl. 1938 I, S. 237.",
   art:"Textquelle (Gesetz) · Primärquelle (aus der Zeit selbst).",
-  artCheck:(a,t)=>a==="Textquelle"&&t.indexOf("Primär")===0,
   felder:{wer:"Die NS-Reichsregierung (Gesetz).",wann:"13. März 1938.",wo:"Österreich / Deutsches Reich.",fuerwen:"Amtlich für Behörden und Bevölkerung.",warum:"Um den Anschluss rechtlich festzuschreiben und mit einer „Abstimmung\" scheinbar zu legitimieren."},
-  fragen:[
-   {q:"**Fasse** zusammen, was das Gesetz bestimmt.",muster:"Österreich wird ein Land des Deutschen Reiches; eine „freie\" Volksabstimmung wird angekündigt."},
-   {q:"**Benenne**, wer das Gesetz erlässt und was es für Österreich bedeutet.",muster:"Die NS-Regierung; Österreich hört als eigener Staat auf zu existieren."},
-   {q:"**Erläutere** den Widerspruch zwischen „freier Volksabstimmung\" und der Wirklichkeit.",muster:"Die Abstimmung war nicht frei: Gegner/Juden ausgeschlossen, Druck und Propaganda – die 99 % waren inszeniert."},
-   {q:"**Beurteile**, warum das Regime überhaupt eine Abstimmung durchführte.",muster:"Um den Anschluss als „Wunsch des Volkes\" zu legitimieren (Propaganda), obwohl er erzwungen war."}]},
+  auftraege:[
+   {afb:1,q:"**Fasse** zusammen, was das Gesetz bestimmt.",muster:"Österreich wird ein Land des Deutschen Reiches. Am 10. April 1938 soll eine „freie und geheime“ Volksabstimmung stattfinden."},
+   {afb:2,q:"**Erläutere** den Widerspruch zwischen der angekündigten „freien und geheimen Volksabstimmung“ und der Wirklichkeit.",muster:"Das Gesetz verspricht eine freie Abstimmung, doch der Anschluss war schon vollzogen. Gegner und Juden waren ausgeschlossen, es herrschten Druck, Einschüchterung und Propaganda. Die 99 % Zustimmung waren daher inszeniert."},
+   {afb:3,q:"**Beurteile**, warum das Regime überhaupt eine Abstimmung durchführte, obwohl der Anschluss schon vollzogen war.",muster:"Die Abstimmung sollte den Anschluss nachträglich als „Wunsch des Volkes“ erscheinen lassen – nach innen und gegenüber dem Ausland. Sie diente der Legitimation durch Propaganda. Dass das Ergebnis vorher feststand, zeigt: Es ging nicht um eine echte Entscheidung."}]},
  bild:{ platzhalter:"Jubelnde Menge / Einmarsch 1938; Hitler am Wiener Heldenplatz.", quelle:"LeMO (dhm.de/lemo) / Österreichische Mediathek", auftrag:"Beschreibe ein Bild vom März 1938 und überlege, welche Wirkung die Inszenierung haben sollte." },
  lauf:"Anschluss beurteilen, Anschluss-Gesetz auswerten."
 });
@@ -1273,15 +1267,17 @@ addStation({
  wortspeicher:["Bündnis","Achse Berlin–Rom","Stahlpakt","Hitler-Stalin-Pakt","Sowjetunion","geheim"],
  levels:{
   basis:[
-   {op:"Nennen",txt:"**Nenne** zwei Länder, mit denen Hitler Bündnisse/Verträge schloss.",heft:true,heftNr:"1a",muster:"Italien (Achse/Stahlpakt) und die Sowjetunion (Hitler-Stalin-Pakt)."},
-   {op:"Beschreiben",txt:"**Beschreibe** mit dem Wortspeicher, was der Hitler-Stalin-Pakt bedeutete.",heft:true,heftNr:"1b",muster:"Deutschland und die Sowjetunion versprachen, sich nicht anzugreifen, und teilten geheim Polen auf."}],
+   {afb:1,txt:"**Nenne** die zwei Länder, mit denen Hitler Bündnisse oder Verträge schloss. Schreibe den Namen des Vertrags dazu.",muster:"Italien: „Achse Berlin–Rom“ und Stahlpakt. Sowjetunion: Hitler-Stalin-Pakt."},
+   {afb:1,txt:"**Beschreibe**, was Hitler und Stalin im August 1939 vereinbarten. Nutze den Wortspeicher.",muster:"Deutschland und die Sowjetunion versprachen, sich nicht anzugreifen. Geheim teilten sie Polen unter sich auf."},
+   {afb:1,txt:"**Beschreibe**, wie Hitler mit Bündnissen einen Krieg vorbereitete.",muster:"Hitler suchte Verbündete: Italien und die Sowjetunion. Mit Stalin teilte er geheim Polen auf. Kurz danach begann der Krieg."}],
   mittel:[
-   {op:"Erklären",txt:"**Erkläre**, warum der Hitler-Stalin-Pakt so überraschend war.",heft:true,heftNr:"1",muster:"Nationalsozialisten und Kommunisten waren erbitterte Feinde – dass sie einen Vertrag schlossen, überraschte die Welt."},
-   {op:"Erläutern",txt:"**Erläutere**, welchen Vorteil der Pakt Hitler für den Krieg brachte.",heft:true,heftNr:"2",muster:"Er musste keinen Zweifrontenkrieg fürchten und konnte Polen angreifen – der Pakt machte den Kriegsbeginn möglich."}],
+   {afb:1,txt:"**Nenne** die zwei Länder, mit denen Hitler Bündnisse oder Verträge schloss. Schreibe den Namen des Vertrags dazu.",muster:"Italien: „Achse Berlin–Rom“ (1936) und Stahlpakt (1939). Sowjetunion: Hitler-Stalin-Pakt (1939)."},
+   {afb:2,txt:"**Erkläre**, welchen Vorteil der Hitler-Stalin-Pakt Hitler brachte.",muster:"Hitler sicherte sich im Osten den Rücken: Die Sowjetunion würde ihn nicht angreifen. Im geheimen Zusatzprotokoll wurde Polen aufgeteilt. So konnte er Polen überfallen."},
+   {afb:2,txt:"**Erkläre**, wie Hitlers Bündnispolitik den Krieg vorbereitete.",muster:"Mit Italien gewann er einen festen Militärpartner, die Nachgiebigkeit der Westmächte (Appeasement) nutzte er aus. Der Hitler-Stalin-Pakt sicherte ihn gegen die Sowjetunion ab. Eine Woche später überfiel Deutschland Polen."}],
   erweitert:[
-   {stufe:"AFB I",op:"Nennen",txt:"**Nenne** die beiden Vertragspartner des Pakts (Quellen-Tab).",heft:true,heftNr:"1",muster:"Das Deutsche Reich und die Sowjetunion."},
-   {stufe:"AFB II",op:"Erklären",txt:"**Erkläre**, was Artikel I und II des Vertrags regeln.",heft:true,heftNr:"2",muster:"Beide versprechen, sich nicht anzugreifen (Art. I) und einander nicht gegen Dritte zu unterstützen (Art. II)."},
-   {stufe:"AFB III",op:"Beurteilen",txt:"**Beurteile** die Bedeutung des geheimen Zusatzprotokolls für den Kriegsbeginn.",heft:true,heftNr:"3",muster:"Es plante die Aufteilung Polens/Osteuropas und machte den Überfall (1.9.1939) erst möglich – der Pakt ebnete den Weg in den Krieg."}]},
+   {afb:1,txt:"**Nenne** die zwei Länder, mit denen Hitler Bündnisse oder Verträge schloss. Schreibe den Namen des Vertrags dazu.",muster:"Italien: „Achse Berlin–Rom“ (1936), Stahlpakt (1939). Sowjetunion: Hitler-Stalin-Pakt (23.8.1939)."},
+   {afb:2,txt:"**Erkläre**, welchen Vorteil der Hitler-Stalin-Pakt Hitler brachte.",muster:"Der Pakt beseitigte die Gefahr eines Zweifrontenkriegs. Das geheime Zusatzprotokoll teilte Polen und das Baltikum in Interessensphären auf. So wurde der Überfall auf Polen möglich."},
+   {afb:3,txt:"**Beurteile** die Bedeutung des Hitler-Stalin-Pakts für den Beginn des Zweiten Weltkriegs.",muster:"Der Pakt war ein taktisches Zweckbündnis ideologischer Feinde und hatte große Bedeutung: Er sicherte Hitler gegen die Sowjetunion ab und plante geheim die Aufteilung Polens. Nur eine Woche später begann mit dem Überfall auf Polen der Krieg. Der Pakt war nicht die Ursache des Krieges – die lag in Hitlers Expansionszielen –, aber er war der unmittelbare Auftakt."}]},
  sim:{type:"zuordnen",hint:"Ordne jedem Partner/Begriff das Passende zu.",pairs:[
   {t:"Italien (Mussolini)",d:"„Achse Berlin–Rom\" / Stahlpakt"},
   {t:"Sowjetunion (Stalin)",d:"Hitler-Stalin-Pakt (Nichtangriff)"},
@@ -1302,13 +1298,11 @@ addStation({
    "(Ein geheimes Zusatzprotokoll teilte Polen und Osteuropa in deutsche und sowjetische „Interessensphären\" auf.)"],
   angabe:"Vertrag über Nichtangriff zwischen Deutschland und der UdSSR, 23.8.1939 (Auszug); dazu das geheime Zusatzprotokoll.",
   art:"Textquelle (Vertrag) · Primärquelle (aus der Zeit selbst).",
-  artCheck:(a,t)=>a==="Textquelle"&&t.indexOf("Primär")===0,
   felder:{wer:"Das Deutsche Reich und die Sowjetunion (Ribbentrop und Molotow).",wann:"23. August 1939.",wo:"Moskau (mit Wirkung für ganz Osteuropa).",fuerwen:"Völkerrechtlicher Vertrag der beiden Staaten (das Zusatzprotokoll geheim).",warum:"Um sich gegenseitig den Rücken freizuhalten und Osteuropa aufzuteilen – Kriegsvorbereitung."},
-  fragen:[
-   {q:"**Fasse** den Vertrag in zwei Sätzen zusammen.",muster:"Deutschland und die Sowjetunion versprechen, sich nicht anzugreifen und einander nicht gegen Dritte zu helfen. Geheim teilen sie Osteuropa auf."},
-   {q:"**Benenne** die Vertragspartner.",muster:"Das Deutsche Reich und die Sowjetunion (ideologische Gegner)."},
-   {q:"**Erläutere**, welchen Vorteil der Pakt Hitler brachte.",muster:"Er musste keinen Zweifrontenkrieg fürchten und konnte Polen überfallen."},
-   {q:"**Beurteile** die Bedeutung des geheimen Zusatzprotokolls.",muster:"Es plante die Aufteilung Polens/Osteuropas und machte den Überfall (1.9.1939) erst möglich – der Pakt ebnete den Weg in den Krieg."}]},
+  auftraege:[
+   {afb:1,q:"**Fasse** den Inhalt von Artikel I und II **zusammen**.",muster:"Deutschland und die Sowjetunion verpflichten sich, einander nicht anzugreifen. Wird einer von beiden von einer dritten Macht angegriffen, unterstützt der andere diese Macht nicht."},
+   {afb:2,q:"**Erläutere**, welchen Vorteil der Vertrag Hitler brachte.",muster:"Hitler musste keinen Angriff der Sowjetunion und damit keinen Zweifrontenkrieg fürchten. Durch das geheime Zusatzprotokoll war Polen bereits aufgeteilt. So konnte er Polen überfallen, ohne einen Gegner im Osten fürchten zu müssen."},
+   {afb:3,q:"**Beurteile** die Bedeutung des geheimen Zusatzprotokolls für den Beginn des Krieges.",muster:"Das Zusatzprotokoll zeigt, dass es nicht nur um Frieden zwischen zwei Staaten ging: Beide planten die Aufteilung Polens und Osteuropas. Es machte den Überfall auf Polen am 1.9.1939 erst möglich. Der Vertrag war damit ein unmittelbarer Schritt in den Zweiten Weltkrieg."}]},
  bild:{ platzhalter:"Unterzeichnung des Hitler-Stalin-Pakts 1939 (Ribbentrop, Stalin, Molotow).", quelle:"LeMO (dhm.de/lemo) / Bundesarchiv", auftrag:"Beschreibe das Bild der Unterzeichnung und überlege, welche Botschaft es senden sollte." },
  lauf:"Bündnisse zuordnen, Hitler-Stalin-Pakt auswerten."
 });
@@ -1328,12 +1322,18 @@ addStation({
   n3:["Das Glossar bündelt die Fachsprache der gesamten Reihe. Wiederhole regelmäßig – Fachsprache ist der Schlüssel zu guten Antworten.","Prüfe: Kannst du jeden Begriff in einem eigenen Satz verwenden?","Ordne jedem Begriff seine Station zu."]},
  wortspeicher:null,
  levels:{
-  basis:[{op:"Üben",txt:"Öffne die Übung „Alle Begriffe“ und wiederhole die Erklärungen.",muster:"Selbstkontrolle über die Tooltips."}],
-  mittel:[{op:"Übertragen",txt:"Übertrage 8 Begriffe deiner Wahl mit Erklärung in dein Heft.",heft:true,heftNr:"G",muster:"Individuelle Auswahl; achte auf eigene, kurze Erklärungen."}],
+  basis:[
+   {afb:1,txt:"**Nenne** fünf Fachbegriffe aus der Lernreise. Schreibe die Station dazu.",muster:"Zum Beispiel: Gleichschaltung (Station 1), Propaganda (Station 2), Hitlerjugend (Station 3), Vierjahresplan (Station 4), Nürnberger Gesetze (Station 5)."},
+   {afb:1,txt:"**Beschreibe** drei Fachbegriffe in je einem eigenen Satz.",muster:"Eigene, kurze Erklärungen – vergleiche mit den Erklärungen im Glossar."},
+   {afb:1,txt:"**Beschreibe** mit den Begriffen Gleichschaltung, Einparteienstaat und Diktatur, wie die Demokratie 1933 endete.",muster:"Zum Beispiel: Durch die Gleichschaltung wurden alle Parteien außer der NSDAP verboten. So entstand ein Einparteienstaat. Deutschland war nun eine Diktatur."}],
+  mittel:[
+   {afb:1,txt:"**Nenne** fünf Fachbegriffe aus der Lernreise. Schreibe die Station dazu.",muster:"Zum Beispiel: Gleichschaltung (1), Volksgemeinschaft (2), Jugenddienstpflicht (3), Autarkie (4), Novemberpogrom (5)."},
+   {afb:2,txt:"**Erkläre** drei Fachbegriffe in je einem eigenen Satz mit einem Beispiel.",muster:"Eigenständige, korrekte Erklärungen mit Beispiel – vergleiche mit dem Glossar."},
+   {afb:2,txt:"**Erkläre** den Zusammenhang zwischen Gleichschaltung, Einparteienstaat und Diktatur.",muster:"Durch die Gleichschaltung wurden Parteien und Gewerkschaften verboten. Es blieb nur die NSDAP – ein Einparteienstaat. Ohne Opposition und Kontrolle konnte das Regime die Diktatur festigen."}],
   erweitert:[
-   {stufe:"AFB I",op:"Nennen",txt:"**Nenne** fünf Fachbegriffe aus Teil A.",muster:"z. B. Gleichschaltung, Propaganda, Nürnberger Gesetze, Widerstand, Erinnerungskultur."},
-   {stufe:"AFB II",op:"Erklären",txt:"**Erkläre** drei Begriffe in je einem eigenen Satz.",heft:true,heftNr:"G2",muster:"Eigenständige, korrekte Kurzdefinitionen."},
-   {stufe:"AFB III",op:"In Beziehung setzen",txt:"**Setze** drei Begriffe zu einer kleinen Erklärung in Beziehung (z. B. „Gleichschaltung → Einparteienstaat → Diktatur“).",heft:true,heftNr:"G3",muster:"z. B.: Durch Gleichschaltung entstand der Einparteienstaat, der die Diktatur festigte."}]},
+   {afb:1,txt:"**Nenne** fünf Fachbegriffe aus der Lernreise. Schreibe die Station dazu.",muster:"Zum Beispiel: Pseudolegalität (1), Hitler-Mythos (2), Jugenddienstpflicht (3), Autarkie (4), Reichsfluchtsteuer (5)."},
+   {afb:2,txt:"**Erkläre** drei Fachbegriffe in je einem eigenen Satz mit einem Beispiel.",muster:"Eigenständige, fachlich korrekte Erklärungen mit Beispiel."},
+   {afb:3,txt:"**Beurteile**, welcher Fachbegriff für das Verständnis der NS-Herrschaft am wichtigsten ist. Begründe dein Urteil.",muster:"Individuelles Urteil mit Begründung, z. B.: „Volksgemeinschaft“, weil der Begriff zeigt, wie Zustimmung (Einschluss) und Verfolgung (Ausschluss) zusammenhingen."}]},
  sim:{type:"glossaralle",hint:"Alle Fachbegriffe der Lernreise mit Fundstelle."},
  simTitle:"Alle Begriffe",
  lauf:"Fachbegriffe wiederholen und ins Heft übertragen."
